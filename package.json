@@ -9,12 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@fortawesome/fontawesome-pro": "^5.15.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/pro-duotone-svg-icons": "^5.15.3",
+    "@fortawesome/pro-light-svg-icons": "^5.15.3",
+    "@fortawesome/pro-regular-svg-icons": "^5.15.3",
+    "@fortawesome/pro-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "add": "^2.0.6",
     "classnames": "^2.3.1",
     "date-fns": "^2.22.1",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "sass": "^1.35.2"
+    "sass": "^1.35.2",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@types/react": "17.0.14",
