@@ -1,0 +1,1 @@
+export const SAVE_LINK_REQUEST = "SAVE_LINK_REQUEST";
