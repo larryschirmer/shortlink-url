@@ -7,7 +7,7 @@ export const initialState: State = {
       name: "Google",
       slug: "google",
       url: "https://google.com",
-      opens: ["2021-07-16T23:36:25.941Z"],
+      opens: ["2021-03-16T23:36:25.941Z"],
       isListed: false,
     },
     {
@@ -16,6 +16,14 @@ export const initialState: State = {
       slug: "github",
       url: "https://github.com",
       opens: ["2021-06-15T23:36:25.941Z", "2021-07-16T23:36:25.941Z"],
+      isListed: true,
+    },
+    {
+      _id: "789",
+      name: "Twitter",
+      slug: "twitter",
+      url: "https://twitter.com",
+      opens: [],
       isListed: true,
     },
   ],
