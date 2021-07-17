@@ -16,7 +16,7 @@ export const initialState: State = {
       slug: "github",
       url: "https://github.com",
       opens: ["2021-06-15T23:36:25.941Z", "2021-07-16T23:36:25.941Z"],
-      isListed: false,
+      isListed: true,
     },
   ],
 };
