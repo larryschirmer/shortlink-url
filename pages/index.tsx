@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import Head from "next/head";
 
-import UrlList from "@components/UrlList";
+import UrlManager from "@components/UrlManager";
 
 import { Provider } from "@context/index";
 import reducer, { initialState } from "@context/urls";
@@ -13,7 +13,7 @@ const Home = () => {
       <Head>
         <title>URL Shortened List</title>
       </Head>
-      <UrlList />
+      <UrlManager />
     </Provider>
   );
 };
