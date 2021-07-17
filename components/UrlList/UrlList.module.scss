@@ -1,4 +1,55 @@
+@import '@styles/vars';
+
 .url-list {
   display: flex;
   flex-direction: column;
+  .short-link-card {
+    border-bottom: 0.1rem solid $black;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    .card-name {
+      display: flex;
+      align-items: center;
+      h1 {
+        font-size: 2rem;
+        font-weight: 400;
+      }
+      .card-listed-badge {
+        margin-left: 2rem;
+        display: none;
+        &:global(.active) {
+          width: 5rem;
+          height: 2.5rem;
+          border-radius: 0.5rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: $black;
+          color: white;
+        }
+      }
+    }
+    .card-details {
+      display: flex;
+      justify-content: space-between;
+      .card-detail {
+        display: flex;
+        flex-direction: column;
+        &:last-child {
+          > div {
+            text-align: right;
+          }
+        }
+        .card-detail-title {
+          margin-bottom: 0.5rem;
+          font-size: 1.4rem;
+        }
+        .card-detail-subtitle {
+          font-size: 1.2rem;
+          color: $gray;
+        }
+      }
+    }
+  }
 }
