@@ -3,8 +3,7 @@ import classNames from "classnames";
 import format from "date-fns/format";
 import formatDistance from "date-fns/formatDistance";
 
-import useStateContext, { Context } from "@context/index";
-import { State, Actions } from "@context/urls/types";
+import useStateContext from "@context/index";
 
 import styles from "./UrlList.module.scss";
 
@@ -37,7 +36,7 @@ const opensDateCopy = (openDate: string) => {
 };
 
 const UrlList = () => {
-  const { state } = useStateContext<Context<State, Actions>>();
+  const { state } = useStateContext();
 
   const cardListedBadgeClasses = (isListed: boolean) =>
     classNames(cardListedBadgeClass, { active: isListed });
