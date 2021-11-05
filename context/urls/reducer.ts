@@ -1,36 +1,31 @@
-import { State } from "./types";
+import { State, Actions } from './types';
+import * as constants from './constants';
 
 export const initialState: State = {
-  data: [
-    {
-      _id: "123",
-      name: "Google",
-      slug: "google",
-      url: "https://google.com",
-      opens: ["2021-03-16T23:36:25.941Z"],
-      isListed: false,
-    },
-    {
-      _id: "456",
-      name: "Github",
-      slug: "github",
-      url: "https://github.com",
-      opens: ["2021-06-15T23:36:25.941Z", "2021-07-16T23:36:25.941Z"],
-      isListed: true,
-    },
-    {
-      _id: "789",
-      name: "Twitter",
-      slug: "twitter",
-      url: "https://twitter.com",
-      opens: [],
-      isListed: true,
-    },
-  ],
+  data: [],
+  loading: false,
+  error: null,
 };
 
-const reducer = (state = initialState, action: boolean) => {
-  switch (action) {
+const reducer = (state = initialState, action: Actions) => {
+  switch (action.type) {
+    case constants.GET_LINKS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case constants.GET_LINKS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+      };
+    case constants.GET_LINKS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
     default:
       return state;
   }

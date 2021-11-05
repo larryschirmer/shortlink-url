@@ -1,18 +1,51 @@
-import * as types from "./constants";
+import * as types from './constants';
+
+// Reducer
 
 export type Url = {
   _id: string;
   name: string;
   slug: string;
   url: string;
-  opens: string[];
   isListed: boolean;
+  tags: string[];
+  opens: string[];
 };
 
 export type State = {
   data?: Url[];
+  loading: boolean;
+  error?: string | null;
 };
 
-export type Actions = {
-  type: typeof types.SAVE_LINK_REQUEST;
+// Opperations
+
+type SaveLink = {
+  name?: string;
+  slug?: string;
+  url?: string;
+  isListed?: boolean;
 };
+
+type UpdateLink = {
+  _id: string;
+  name?: string;
+  slug?: string;
+  url?: string;
+  isListed?: boolean;
+};
+
+// Actions
+
+export type Actions =
+  | {
+      type: typeof types.GET_LINKS_REQUEST;
+    }
+  | {
+      type: typeof types.GET_LINKS_SUCCESS;
+      payload: Url[];
+    }
+  | {
+      type: typeof types.GET_LINKS_FAILURE;
+      payload: string;
+    };
