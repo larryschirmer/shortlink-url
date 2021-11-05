@@ -12,8 +12,14 @@ export type Url = {
   opens: string[];
 };
 
+export type TagLink = { tag: string; links: Url[] };
+
 export type State = {
-  data?: Url[];
+  data: {
+    list?: Url[];
+    tags?: string[];
+    groups?: TagLink[];
+  };
   loading: boolean;
   error?: string | null;
 };
