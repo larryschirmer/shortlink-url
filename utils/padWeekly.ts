@@ -3,7 +3,7 @@ import add from "date-fns/add";
 import format from "date-fns/format";
 
 const padWeekly = (dataset: { [key: string]: number }) => {
-  const dateStart = sub(new Date(), { days: 7 });
+  const dateStart = sub(new Date(), { days: 6 });
   return Array(7)
     .fill(0)
     .map((_, i) => {
