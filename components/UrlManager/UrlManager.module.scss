@@ -6,12 +6,12 @@
   padding: 0 2rem;
   display: flex;
   flex-direction: column;
-  button {
+  > button {
     width: 12rem;
     height: 4rem;
     border: none;
     border-radius: 0.5rem;
-    background: $black;
+    background: $grey-8;
     display: inline-block;
     font-size: 1.4rem;
     color: white;
