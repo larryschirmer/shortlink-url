@@ -6,20 +6,30 @@ type TagLink = { tag: string; links: Url[] };
 const sortLinks = (links: Url[]) => {
   // reduce over links and collect tags
 
-  let tagLinks = links.reduce<TagLink[]>((acc, link) => {
-    const tags = link.tags.map<TagLink>((tag) => ({ tag, links: [] }));
-    return [...acc, ...tags];
-  }, []);
+  let tagLinks = links.reduce<TagLink[]>(
+    (acc, link) => {
+      const tags = link.tags.map<TagLink>((tag) => ({ tag, links: [] }));
+      return [...acc, ...tags];
+    },
+    [],
+  );
+
+  let untaggedLinks = { tag: '#untagged', links: [] as Url[] };
 
   // map over tags and add link to tag
   links.forEach((link) => {
-    link.tags.forEach((tag) => {
-      const tagLink = tagLinks.find((t) => t.tag === tag);
-      if (tagLink) tagLink.links.push(link);
-    });
+    const tags = link.tags;
+    if (!tags.length) {
+      untaggedLinks.links.push(link);
+    } else {
+      link.tags.forEach((tag) => {
+        const tagLink = tagLinks.find((t) => t.tag === tag);
+        if (tagLink) tagLink.links.push(link);
+      });
+    }
   });
 
-  return tagLinks;
+  return [...tagLinks, untaggedLinks];
 };
 
 export default sortLinks;
