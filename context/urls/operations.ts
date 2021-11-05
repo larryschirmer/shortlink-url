@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import * as actions from './actions';
 import { Actions, Url } from './types';
-import { handleAxiosError, handleUnexpectedError } from '../../utils/error';
+import { handle } from '@utils/index';
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
 
@@ -17,9 +17,9 @@ export const getLinks = () => async (dispatch: Dispatch<Actions>) => {
     dispatch(actions.getLinksSuccess(links));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      dispatch(actions.getLinksFailure(handleAxiosError(error)));
+      dispatch(actions.getLinksFailure(handle.axiosError(error)));
     } else {
-      dispatch(actions.getLinksFailure(handleUnexpectedError(error)));
+      dispatch(actions.getLinksFailure(handle.unexpectedError(error)));
     }
   }
 };

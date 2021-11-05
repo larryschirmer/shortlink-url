@@ -1,0 +1,31 @@
+@import '@styles/vars';
+
+.accoridian-list {
+  display: flex;
+  flex-direction: column;
+  .title {
+    background: none;
+    border: none;
+    border-bottom: 0.1rem solid $grey-4;
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: flex-start;
+    font-weight: bold;
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+  .list {
+    max-height: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s ease;
+  }
+  &.open-list {
+    .list {
+      max-height: 20rem;
+      visibility: visible;
+      opacity: 1;
+      transition: 0.5s ease;
+    }
+  }
+}

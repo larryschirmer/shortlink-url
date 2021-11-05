@@ -5,6 +5,15 @@ html {
   body {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 1.4rem;
-    color: $black;
+  }
+  body,
+  a,
+  button,
+  p,
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    color: $grey-9;
   }
 }
