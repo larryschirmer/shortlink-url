@@ -1,18 +1,14 @@
-import { Url } from '@context/urls/types';
-
-type TagLink = { tag: string; links: Url[] };
+import uniq from 'lodash/uniq';
+import { Url, TagLink } from '@context/urls/types';
 
 // generate array of array for each tag
 const sortLinks = (links: Url[]) => {
   // reduce over links and collect tags
-
-  let tagLinks = links.reduce<TagLink[]>(
-    (acc, link) => {
-      const tags = link.tags.map<TagLink>((tag) => ({ tag, links: [] }));
-      return [...acc, ...tags];
-    },
-    [],
-  );
+  const tagLinks = uniq(
+    links.reduce<string[]>((acc, link) => {
+      return [...acc, ...link.tags];
+    }, []),
+  ).map<TagLink>((tag) => ({ tag, links: [] }));
 
   let untaggedLinks = { tag: '#untagged', links: [] as Url[] };
 
