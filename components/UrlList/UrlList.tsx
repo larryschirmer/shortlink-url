@@ -25,16 +25,6 @@ const opensCopy = (opens: number) => {
   return `${opens} Opens`;
 };
 
-const opensDateCopy = (openDate: string) => {
-  const formattedDistance = formatDistance(new Date(openDate), new Date(), {
-    addSuffix: true,
-  })
-    .replace('about', '')
-    .trim();
-
-  return formattedDistance;
-};
-
 const UrlList = () => {
   const { state, dispatch } = useStateContext();
 
@@ -52,22 +42,15 @@ const UrlList = () => {
           initialOpen
           key={link.tag}
           title={link.tag}
-          list={link.links.map(({ _id, name, opens }) => {
-            const lastOpened = opens[opens.length - 1];
-            return (
-              <div key={_id} className={listItemClass}>
-                <div className={itemNameClass}>{name}</div>
-                <div className={itemDetailsClass}>
-                  <p>
-                    {!!opens.length
-                      ? `${opensCopy(opens.length)} - ${opensDateCopy(lastOpened)}`
-                      : 'Unopened'}
-                  </p>
-                  <InlineFreqGraph color="black" data={opens} />
-                </div>
+          list={link.links.map(({ _id, name, opens }) => (
+            <button key={_id} className={listItemClass}>
+              <div className={itemNameClass}>{name}</div>
+              <div className={itemDetailsClass}>
+                <p>{!!opens.length ? opensCopy(opens.length) : 'Unopened'}</p>
+                <InlineFreqGraph color="black" data={opens} />
               </div>
-            );
-          })}
+            </button>
+          ))}
         />
       ))}
     </div>
