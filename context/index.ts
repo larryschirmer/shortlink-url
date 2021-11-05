@@ -1,9 +1,9 @@
-import { createContext, useContext, Dispatch } from "react";
+import { createContext, useContext, Dispatch } from 'react';
 
-import { State, Actions } from "./urls/types";
+import { State, Actions } from './urls/types';
 
 export const StateContext = createContext(undefined as any);
-StateContext.displayName = "State";
+StateContext.displayName = 'State';
 
 export const Provider = StateContext.Provider;
 
@@ -12,15 +12,15 @@ export type Context = {
   dispatch: Dispatch<Actions>;
 };
 
-function useStateContext() {
-  const state = useContext<Context>(StateContext);
+const useStateContext = () => {
+  const { state, dispatch } = useContext<Context>(StateContext);
 
-  if (!state)
-    console.warn(
-      "context is undefined, pleace verify parent has implemented Provider"
-    );
+  if (!state) console.warn('context is undefined, pleace verify parent has implemented Provider');
 
-  return state;
-}
+  type Opperation = (dispatch: Dispatch<Actions>) => Promise<void>
+  const dispatcher = (fnc: Opperation) => fnc(dispatch);
+
+  return { state, dispatch: dispatcher };
+};
 
 export default useStateContext;
