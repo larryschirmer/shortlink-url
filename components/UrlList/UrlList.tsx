@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import classNames from 'classnames';
-import formatDistance from 'date-fns/formatDistance';
 
 import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
@@ -28,7 +26,7 @@ const opensCopy = (opens: number) => {
 const UrlList = () => {
   const { state, dispatch } = useStateContext();
 
-  const links = sortLinks(state.data || []);
+  const links = state.data.groups || [];
 
   // Fetch links on mount
   useEffect(() => {
