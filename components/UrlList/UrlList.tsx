@@ -1,75 +1,75 @@
-import React from "react";
-import classNames from "classnames";
-import format from "date-fns/format";
-import formatDistance from "date-fns/formatDistance";
+import React, { useEffect } from 'react';
+import classNames from 'classnames';
+import formatDistance from 'date-fns/formatDistance';
 
-import useStateContext from "@context/index";
+import AccordianList from '@components/AccordianList';
+import InlineFreqGraph from '@components/InlineFreqGraph';
 
-import styles from "./UrlList.module.scss";
+import sortLinks from '@utils/sortLinks';
+
+import useStateContext from '@context/index';
+import { getLinks } from '@context/urls/operations';
+
+import styles from './UrlList.module.scss';
 
 const {
-  "url-list": urlListClass,
-  "short-link-card": shortLinkCardClass,
-  "card-name": cardNameClass,
-  "card-listed-badge": cardListedBadgeClass,
-  "card-details": cardDetailsClass,
-  "card-detail": cardDetailClass,
-  "card-detail-title": cardDetailTitleClass,
-  "card-detail-subtitle": cardDetailSubtitleClass,
+  'url-list': urlListClass,
+  'list-item': listItemClass,
+  'item-name': itemNameClass,
+  'item-details': itemDetailsClass,
 } = styles;
 
 const opensCopy = (opens: number) => {
-  if (!opens) return "Unopened";
-  if (opens === 1) return "1 Open";
+  if (!opens) return 'Unopened';
+  if (opens === 1) return '1 Open';
   return `${opens} Opens`;
 };
 
 const opensDateCopy = (openDate: string) => {
-  const formattedDate = format(new Date(openDate), "MMM, dd, yyyy");
   const formattedDistance = formatDistance(new Date(openDate), new Date(), {
     addSuffix: true,
   })
-    .replace("about", "")
+    .replace('about', '')
     .trim();
 
-  return `${formattedDate} - ${formattedDistance}`;
+  return formattedDistance;
 };
 
 const UrlList = () => {
-  const { state } = useStateContext();
+  const { state, dispatch } = useStateContext();
 
-  const cardListedBadgeClasses = (isListed: boolean) =>
-    classNames(cardListedBadgeClass, { active: isListed });
+  const links = sortLinks(state.data || []);
+
+  // Fetch links on mount
+  useEffect(() => {
+    dispatch(getLinks());
+  }, [dispatch]);
 
   return (
     <div className={urlListClass}>
-      {state.data?.map(({ _id, name, slug, url, opens, isListed }) => {
-        const opensAmt = opens.length;
-        return (
-          <div key={_id} className={shortLinkCardClass}>
-            <div className={cardNameClass}>
-              <h1>{name}</h1>
-              <div className={cardListedBadgeClasses(isListed)}>listed</div>
-            </div>
-            <div className={cardDetailsClass}>
-              <div className={cardDetailClass}>
-                <div className={cardDetailTitleClass}>
-                  domain.com/<strong>{slug}</strong>
-                </div>
-                <div className={cardDetailSubtitleClass}>{url}</div>
-              </div>
-              <div className={cardDetailClass}>
-                <div className={cardDetailTitleClass}>
-                  {opensCopy(opensAmt)}
-                </div>
-                <div className={cardDetailSubtitleClass}>
-                  {!!opensAmt && opensDateCopy(opens[opensAmt - 1])}
+      {links.map((link) => (
+        <AccordianList
+          initialOpen
+          key={link.tag}
+          title={link.tag}
+          list={link.links.map(({ _id, name, opens }) => {
+            const lastOpened = opens[opens.length - 1];
+            return (
+              <div key={_id} className={listItemClass}>
+                <div className={itemNameClass}>{name}</div>
+                <div className={itemDetailsClass}>
+                  <p>
+                    {!!opens.length
+                      ? `${opensCopy(opens.length)} - ${opensDateCopy(lastOpened)}`
+                      : 'Unopened'}
+                  </p>
+                  <InlineFreqGraph color="black" data={opens} />
                 </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        />
+      ))}
     </div>
   );
 };
