@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 
 import Button from '@components/Button';
@@ -47,10 +47,14 @@ const EditForm = () => {
   });
 
   // set values from selected link
+  const prevSelectedLink = useRef('');
   useEffect(() => {
-    const link = list.find(({ _id }) => _id === selectedLink);
-    const { name = '', isListed = false, slug = '', url = '' } = link || {};
-    setValues({ name, isListed: isListed.toString(), slug, url });
+    if (prevSelectedLink.current !== selectedLink) {
+      const link = list.find(({ _id }) => _id === selectedLink);
+      const { name = '', isListed = false, slug = '', url = '' } = link || {};
+      setValues({ name, isListed: isListed.toString(), slug, url });
+      prevSelectedLink.current = selectedLink;
+    }
   }, [list, selectedLink, setValues]);
 
   return (
