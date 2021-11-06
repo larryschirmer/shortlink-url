@@ -22,7 +22,7 @@ const reducer = (state = initialState, action: Actions) => {
         loading: false,
         data: {
           list: action.payload,
-          ...sortLinks(action.payload),
+          tagGroups: sortLinks(action.payload),
         },
       };
     case constants.GET_LINKS_FAILURE:

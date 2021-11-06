@@ -17,7 +17,6 @@ export type TagLink = { tag: string; links: Url[] };
 export type State = {
   data: {
     list?: Url[];
-    tags?: string[];
     tagGroups?: TagLink[];
   };
   loading: boolean;

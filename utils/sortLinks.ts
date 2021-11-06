@@ -4,8 +4,9 @@ import { Url, TagLink } from '@context/urls/types';
 // generate array of array for each tag
 const sortLinks = (links: Url[]) => {
   // reduce over links and collect tags
-  const tags = uniq(links.reduce<string[]>((acc, link) => [...acc, ...link.tags], []));
-  const tagLinks = tags.map<TagLink>((tag) => ({ tag, links: [] }));
+  const tagLinks = uniq(
+    links.reduce<string[]>((acc, link) => [...acc, ...link.tags], []),
+  ).map<TagLink>((tag) => ({ tag, links: [] }));
 
   let untaggedLinks = { tag: '#untagged', links: [] as Url[] };
 
@@ -22,10 +23,7 @@ const sortLinks = (links: Url[]) => {
     }
   });
 
-  return {
-    tags,
-    tagGroups: [...tagLinks, untaggedLinks],
-  };
+  return [...tagLinks, untaggedLinks];
 };
 
 export default sortLinks;
