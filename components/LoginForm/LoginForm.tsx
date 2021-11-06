@@ -2,6 +2,7 @@ import React, {useEffect, FormEvent} from 'react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router'
 
+import PageHeader from '@components/PageHeader';
 import Button from '@components/Button';
 import Input from '@components/Input';
 
@@ -40,6 +41,7 @@ const LoginForm = () => {
 
   return (
     <div className={loginFormClass}>
+      <PageHeader />
       <form
         onSubmit={handleSubmit}
       >

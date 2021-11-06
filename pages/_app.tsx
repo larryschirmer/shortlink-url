@@ -1,16 +1,9 @@
-import React from 'react';
-import type { AppProps } from 'next/app';
+import React from "react";
+import type { AppProps } from "next/app";
 
-import PageHeader from '@components/PageHeader';
-
-import '@styles/global.scss';
+import "@styles/global.scss";
 
 const App = ({ Component, pageProps }: AppProps) => {
-  return (
-    <>
-      <PageHeader />
-      <Component {...pageProps} />
-    </>
-  );
+  return <Component {...pageProps} />;
 };
 export default App;
