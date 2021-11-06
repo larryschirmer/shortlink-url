@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
 
-import sortLinks from '@utils/sortLinks';
-
 import useStateContext from '@context/index';
 import { getLinks } from '@context/urls/operations';
 
@@ -26,7 +24,7 @@ const opensCopy = (opens: number) => {
 const UrlList = () => {
   const { state, dispatch } = useStateContext();
 
-  const links = state.data.groups || [];
+  const { tagGroups = [] } = state.data;
 
   // Fetch links on mount
   useEffect(() => {
@@ -35,7 +33,7 @@ const UrlList = () => {
 
   return (
     <div className={urlListClass}>
-      {links.map((link) => (
+      {tagGroups.map((link) => (
         <AccordianList
           initialOpen
           key={link.tag}
