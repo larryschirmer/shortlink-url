@@ -1,1 +1,1 @@
-export { default as WordCloud } from './WordCloud';
+export { default } from './WordCloud';

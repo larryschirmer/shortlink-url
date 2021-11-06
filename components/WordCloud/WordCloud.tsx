@@ -10,7 +10,7 @@ const WordCloud = ({ words, size = [600, 400] }: Props) => {
   const callbacks: Cloud['callbacks'] = { onWordClick: console.log };
   const options: Cloud['options'] = { rotations: 2, rotationAngles: [-90, 0] };
 
-  return <ReactWordcloud {...{ words, callbacks, options, size }} />;
+  return process.browser ? <ReactWordcloud {...{ words, callbacks, options, size }} /> : null;
 };
 
 export default WordCloud;
