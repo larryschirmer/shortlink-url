@@ -50,3 +50,19 @@
     }
   }
 }
+
+@media (min-width: $screen-desktop) {
+  .url-list {
+    width: 36rem;
+    
+    .list-item {
+      flex-direction: row;
+      .item-name {
+        
+      }
+      .item-details {
+        
+      }
+    }
+  }
+}

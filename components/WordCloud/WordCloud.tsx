@@ -8,7 +8,7 @@ export type Props = {
 
 const WordCloud = ({ words, size = [600, 400] }: Props) => {
   const callbacks: Cloud['callbacks'] = { onWordClick: console.log };
-  const options: Cloud['options'] = { rotations: 2, rotationAngles: [-90, 0] };
+  const options: Cloud['options'] = { rotations: 2, rotationAngles: [-90, 0], scale: 'sqrt' };
 
   return process.browser ? <ReactWordcloud {...{ words, callbacks, options, size }} /> : null;
 };

@@ -4,6 +4,10 @@ import WordCloud from '@components/WordCloud';
 
 import useStateContext from '@context/index';
 
+import styles from './Menu.module.scss';
+
+const { menu: menuClass } = styles;
+
 const Menu = () => {
   const { state } = useStateContext();
 
@@ -16,8 +20,8 @@ const Menu = () => {
   }, [state.data]);
 
   return (
-    <div>
-      <WordCloud {...{ words }} size={[200, 600]} />
+    <div className={menuClass}>
+      <WordCloud {...{ words }} size={[300, 600]} />
     </div>
   );
 };

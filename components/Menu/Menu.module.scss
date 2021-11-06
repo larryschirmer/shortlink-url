@@ -1,8 +1,14 @@
-@import "@styles/vars";
+@import '@styles/vars';
 
 .menu {
   position: fixed;
   top: 0;
   right: 0;
-  display: flex;
+  display: none;
+}
+
+@media (min-width: $screen-tablet) {
+  .menu {
+    display: block;
+  }
 }
