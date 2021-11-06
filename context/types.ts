@@ -20,6 +20,7 @@ export type State = {
     tagGroups?: TagLink[];
   };
   loading: boolean;
+  isLoggedIn: boolean;
   error?: string | null;
 };
 
@@ -42,7 +43,19 @@ type UpdateLink = {
 
 // Actions
 
-export type Actions =
+type Login =
+  | {
+      type: typeof types.LOGIN_REQUEST;
+    }
+  | {
+      type: typeof types.LOGIN_SUCCESS;
+    }
+  | {
+      type: typeof types.LOGIN_FAILURE;
+      payload: string;
+    };
+
+type GetLinks =
   | {
       type: typeof types.GET_LINKS_REQUEST;
     }
@@ -54,3 +67,5 @@ export type Actions =
       type: typeof types.GET_LINKS_FAILURE;
       payload: string;
     };
+
+export type Actions = Login | GetLinks;
