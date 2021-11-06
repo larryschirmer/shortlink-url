@@ -1,11 +1,13 @@
 @import "@styles/vars";
 
 .url-manager {
-  margin: 2rem auto;
+  height: calc(100vh - 1rem);
+  margin: 0 auto;
   padding: 0 2rem;
   display: flex;
-  flex-direction: column;
-  position: relative;
+  justify-content: center;
+  border: 1px solid black;
+  overflow: scroll;
   > button {
     width: 12rem;
     height: 4rem;
@@ -23,6 +25,6 @@
 
 @media (min-width: $screen-tablet) {
   .url-manager {
-    max-width: 80rem;
+    // max-width: 80rem;
   }
 }

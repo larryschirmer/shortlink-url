@@ -12,12 +12,6 @@ const { 'url-manager': urlManagerClass } = styles;
 const UrlManager = () => {
   return (
     <div className={urlManagerClass}>
-      <button>
-        New{' '}
-        <span>
-          <FontAwesomeIcon icon={faLink} />
-        </span>
-      </button>
       <UrlList />
       <Menu />
     </div>
