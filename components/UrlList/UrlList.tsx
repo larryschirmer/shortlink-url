@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import classNames from 'classnames';
 
 import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
@@ -10,6 +11,7 @@ import styles from './UrlList.module.scss';
 
 const {
   'url-list': urlListClass,
+  condensed: condensedClass,
   'list-item': listItemClass,
   'item-name': itemNameClass,
   'item-details': itemDetailsClass,
@@ -28,15 +30,19 @@ const UrlList = () => {
 
   const handleSelect = (link: string) => {
     dispatch(selectLink(link));
-  }
+  };
 
   // Fetch links on mount
   useEffect(() => {
     dispatch(getLinks());
   }, [dispatch]);
 
+  const urlListClasses = classNames(urlListClass, {
+    [condensedClass]: !!state.selectedLink,
+  });
+
   return (
-    <div className={urlListClass}>
+    <div className={urlListClasses}>
       {tagGroups.map((link) => (
         <AccordianList
           initialOpen

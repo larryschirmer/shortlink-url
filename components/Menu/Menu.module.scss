@@ -1,13 +1,21 @@
 @import '@styles/vars';
 
 .menu {
-  position: sticky;
+  position: fixed;
   top: 0;
-  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: $grey-1;
+  &.hidden {
+    display: none;
+  }
 }
 
 @media (min-width: $screen-tablet) {
   .menu {
+    position: sticky;
+    width: unset;
+    height: unset;
     display: block;
   }
 }

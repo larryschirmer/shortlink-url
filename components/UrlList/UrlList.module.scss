@@ -35,16 +35,19 @@
 
 @media (min-width: $screen-tablet) {
   .url-list {
-    width: 18rem;
-    margin: 0;
-    .list-item {
-      flex-direction: column;
-      align-items: flex-start;
-      .item-name {
-        width: 100%;
-      }
-      .item-details {
+    &.condensed {
+      width: 40%;
+      max-width: 18rem;
+      margin: 0;
+      .list-item {
+        flex-direction: column;
         align-items: flex-start;
+        .item-name {
+          width: 100%;
+        }
+        .item-details {
+          align-items: flex-start;
+        }
       }
     }
   }
@@ -52,15 +55,11 @@
 
 @media (min-width: $screen-desktop) {
   .url-list {
-    width: 36rem;
-    
-    .list-item {
-      flex-direction: row;
-      .item-name {
-        
-      }
-      .item-details {
-        
+    &.condensed {
+      width: 100%;
+      max-width: 36rem;
+      .list-item {
+        flex-direction: row;
       }
     }
   }

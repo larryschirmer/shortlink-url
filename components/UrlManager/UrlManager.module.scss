@@ -1,4 +1,4 @@
-@import "@styles/vars";
+@import '@styles/vars';
 
 .url-manager {
   height: calc(100vh - 1rem);
@@ -20,11 +20,5 @@
     span {
       margin-left: 1rem;
     }
-  }
-}
-
-@media (min-width: $screen-tablet) {
-  .url-manager {
-    // max-width: 80rem;
   }
 }
