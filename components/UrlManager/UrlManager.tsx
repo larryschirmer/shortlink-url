@@ -19,9 +19,6 @@ const UrlManager = () => {
     <div className={urlManagerClass}>
       <div className={headerClass}>
         <div>
-          <h1>URL Shortener - larryschirmer</h1>
-        </div>
-        <div>
           <Button>
             <FontAwesomeIcon icon={faFilePlus} />
           </Button>
