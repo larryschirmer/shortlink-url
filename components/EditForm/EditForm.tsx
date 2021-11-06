@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 
 import Button from '@components/Button';
@@ -10,11 +10,7 @@ import { selectLink } from '@context/operations';
 
 import styles from './EditForm.module.scss';
 
-const {
-  'edit-form': editFormClass,
-  'form-row': formRowClass,
-  ctas: ctasClass,
-} = styles;
+const { 'edit-form': editFormClass, 'form-row': formRowClass, ctas: ctasClass } = styles;
 
 const domainName = process.env.NEXT_PUBLIC_DOMAIN ?? '';
 
@@ -26,13 +22,19 @@ type Inputs = {
 };
 
 const EditForm = () => {
-  const { dispatch } = useStateContext();
+  const {
+    dispatch,
+    state: {
+      data: { list = [] },
+      selectedLink,
+    },
+  } = useStateContext();
 
   const handleClose = () => {
     dispatch(selectLink());
   };
 
-  const { handleChange, values } = useFormik<Inputs>({
+  const { handleChange, values, setValues } = useFormik<Inputs>({
     initialValues: {
       name: '',
       isListed: 'false',
@@ -43,6 +45,13 @@ const EditForm = () => {
       // dispatch new values
     },
   });
+
+  // set values from selected link
+  useEffect(() => {
+    const link = list.find(({ _id }) => _id === selectedLink);
+    const { name = '', isListed = false, slug = '', url = '' } = link || {};
+    setValues({ name, isListed: isListed.toString(), slug, url });
+  }, [list, selectedLink, setValues]);
 
   return (
     <div className={editFormClass}>
