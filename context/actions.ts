@@ -32,6 +32,9 @@ export const getLinksFailure = (error: string): Actions => ({
   payload: error,
 });
 
-// export const saveLinkRequest = (): Actions => ({
-//   type: types.SAVE_LINK_REQUEST,
-// });
+// Application State
+
+export const selectLinkAction = (linkId: string): Actions => ({
+  type: types.SELECT_LINK,
+  payload: linkId,
+});

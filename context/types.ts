@@ -21,6 +21,7 @@ export type State = {
   };
   loading: boolean;
   isLoggedIn: boolean;
+  selectedLink: string;
   error?: string | null;
 };
 
@@ -68,4 +69,9 @@ type GetLinks =
       payload: string;
     };
 
-export type Actions = Login | GetLinks;
+type ApplicationState = {
+  type: typeof types.SELECT_LINK;
+  payload: string;
+};
+
+export type Actions = Login | GetLinks | ApplicationState;

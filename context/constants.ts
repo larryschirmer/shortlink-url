@@ -9,3 +9,5 @@ export const GET_LINKS_SUCCESS = 'GET_LINKS_SUCCESS';
 
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const GET_LINKS_FAILURE = 'GET_LINKS_FAILURE';
+
+export const SELECT_LINK = 'SELECT_LINK';

@@ -43,6 +43,10 @@ export const getLinks = () => async (dispatch: Dispatch<Actions>) => {
   }
 };
 
+export const selectLink = (linkId?: string) => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.selectLinkAction(linkId || ''));
+};
+
 // export const saveLink =
 //   ({ _id, slug, url, isListed }: SaveLink) =>
 //   (dispatch: Dispatch<Actions>) => {

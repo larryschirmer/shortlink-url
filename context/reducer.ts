@@ -7,6 +7,7 @@ export const initialState: State = {
   data: {},
   loading: false,
   isLoggedIn: false,
+  selectedLink: '',
   error: null,
 };
 
@@ -42,6 +43,11 @@ const reducer = (state = initialState, action: Actions) => {
         loading: false,
         error: action.payload,
       };
+    case constants.SELECT_LINK:
+      return {
+        ...state,
+        selectedLink: action.payload,
+      }
     default:
       return state;
   }
