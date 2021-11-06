@@ -1,0 +1,21 @@
+@import "@styles/vars";
+
+.input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  label {
+    margin-bottom: 1rem;
+    color: $grey-9;
+  }
+  input {
+    border: 0.1rem solid $grey-5;
+    border-radius: 0.4rem;
+    padding: 0.6rem 1.2rem;
+    color: $grey-9;
+    font-size: 1.4rem;
+    &::placeholder {
+      color: $grey-6;
+    }
+  }
+}

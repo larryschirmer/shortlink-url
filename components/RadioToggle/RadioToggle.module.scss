@@ -1,0 +1,26 @@
+@import "@styles/vars";
+
+.radio-toggle {
+  width: fit-content;
+  overflow: hidden;
+  border: 0.1rem solid $grey-9;
+  border-radius: 0.5rem;
+  display: flex;
+  label {
+    padding: 0.5rem 2rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  input[type="radio"] {
+    display: none;
+    &:checked + label {
+      background-color: $grey-9;
+      color: $grey-1;
+    }
+  }
+  .horizontal-break {
+    width: 0.1rem;
+    background-color: $grey-9;
+    flex: 1;
+  }
+}

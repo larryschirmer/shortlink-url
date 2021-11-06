@@ -1,0 +1,25 @@
+@import '@styles/vars';
+
+.button {
+  width: fit-content;
+  background-color: $primary-default;
+  border: 0.1rem solid $primary-default;
+  border-radius: 0.4rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.6rem;
+  color: $grey-1;
+  cursor: pointer;
+  &.secondary {
+    border: 0.1rem solid $grey-5;
+    background-color: $primary-light-bg;
+    color: $grey-8;
+    &:hover {
+      background-color: $grey-4;
+      border-color: $grey-6;
+    }
+  }
+  &:hover {
+    background-color: $grey-8;
+    border-color: $grey-8;
+  }
+}
