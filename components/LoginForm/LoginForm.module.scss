@@ -1,0 +1,64 @@
+@import '@styles/vars';
+
+.login-form {
+  max-width: 53rem;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  form {
+    display: grid;
+    column-gap: 2rem;
+    row-gap: 1rem;
+    grid-template-areas:
+      'name'
+      'password'
+      'ctas';
+    :global(.grid-name) {
+      grid-area: name;
+    }
+    :global(.grid-password) {
+      grid-area: password;
+    }
+    .form-row {
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: flex-end;
+      p {
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+      }
+    }
+    :global(.grid-ctas) {
+      grid-area: ctas;
+      .ctas {
+        display: flex;
+        > * {
+          margin-right: 2rem;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $screen-tablet) {
+  .login-form {
+    form {
+      align-items: flex-start;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas:
+        'name password'
+        'ctas ctas';
+      :global(.grid-ctas) {
+        .ctas {
+          width: 100%;
+          justify-content: flex-end;
+          > * {
+            margin-right: 0;
+            margin-left: 2rem;
+          }
+        }
+      }
+    }
+  }
+}
