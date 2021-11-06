@@ -1,6 +1,8 @@
 import { createContext, useContext, Dispatch, useCallback } from 'react';
 
-import { State, Actions } from './urls/types';
+import { State, Actions } from './types';
+
+export { default as reducer, initialState } from "./reducer";
 
 export const StateContext = createContext(undefined as any);
 StateContext.displayName = 'State';

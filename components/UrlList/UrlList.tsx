@@ -4,7 +4,7 @@ import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
 
 import useStateContext from '@context/index';
-import { getLinks } from '@context/urls/operations';
+import { getLinks } from '@context/operations';
 
 import styles from './UrlList.module.scss';
 

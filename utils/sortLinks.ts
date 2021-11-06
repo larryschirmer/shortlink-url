@@ -1,5 +1,5 @@
 import uniq from 'lodash/uniq';
-import { Url, TagLink } from '@context/urls/types';
+import { Url, TagLink } from '@context/types';
 
 // generate array of array for each tag
 const sortLinks = (links: Url[]) => {

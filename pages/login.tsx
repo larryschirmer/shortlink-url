@@ -3,8 +3,7 @@ import Head from "next/head";
 
 import LoginForm from "@components/LoginForm";
 
-import { Provider } from "@context/index";
-import reducer, { initialState } from "@context/urls";
+import { Provider, reducer, initialState } from "@context/index";
 
 const Home = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
