@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <Provider value={{ state, dispatch }}>
       <Head>
-        <title>URL Shortened List</title>
+        <title>URL Shortener - larryschirmer</title>
       </Head>
       <UrlManager />
     </Provider>

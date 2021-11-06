@@ -19,3 +19,9 @@
     display: block;
   }
 }
+
+@media (min-width: $screen-desktop) {
+  .menu {
+    margin-left: 4rem;
+  }
+}
