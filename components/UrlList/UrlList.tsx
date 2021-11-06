@@ -4,7 +4,7 @@ import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
 
 import useStateContext from '@context/index';
-import { getLinks } from '@context/operations';
+import { getLinks, selectLink } from '@context/operations';
 
 import styles from './UrlList.module.scss';
 
@@ -26,6 +26,10 @@ const UrlList = () => {
 
   const { tagGroups = [] } = state.data;
 
+  const handleSelect = (link: string) => {
+    dispatch(selectLink(link));
+  }
+
   // Fetch links on mount
   useEffect(() => {
     dispatch(getLinks());
@@ -39,7 +43,7 @@ const UrlList = () => {
           key={link.tag}
           title={link.tag}
           list={link.links.map(({ _id, name, opens }) => (
-            <button key={_id} className={listItemClass}>
+            <button key={_id} className={listItemClass} onClick={() => handleSelect(_id)}>
               <div className={itemNameClass}>{name}</div>
               <div className={itemDetailsClass}>
                 <p>{!!opens.length ? opensCopy(opens.length) : 'Unopened'}</p>
