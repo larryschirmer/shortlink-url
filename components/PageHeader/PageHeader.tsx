@@ -14,7 +14,7 @@ const { 'page-header': pageHeaderClass, header: headerClass } = styles;
 
 const PageHeader = () => {
   const router = useRouter();
-  const { dispatch, state } = useStateContext();
+  const { dispatch, state: {isLoggedIn} } = useStateContext();
 
   const handleCreateLink = () => {
     dispatch(createLink());
@@ -33,13 +33,13 @@ const PageHeader = () => {
       <h1>URL Shortener - larryschirmer</h1>
       <div className={headerClass}>
         <div>
-          <Button onClick={handleCreateLink}>
+          <Button disabled={!isLoggedIn} onClick={handleCreateLink}>
             <FontAwesomeIcon icon={faFilePlus} />
           </Button>
-          <Button onClick={handleToggleDeleteMode}>
+          <Button disabled={!isLoggedIn} onClick={handleToggleDeleteMode}>
             <FontAwesomeIcon icon={faTrash} />
           </Button>
-          {!state.isLoggedIn && (
+          {!isLoggedIn && (
             <Button onClick={handleLogin}>
               <FontAwesomeIcon icon={faSignInAlt} />
             </Button>
