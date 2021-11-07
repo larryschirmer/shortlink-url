@@ -11,3 +11,6 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const GET_LINKS_FAILURE = 'GET_LINKS_FAILURE';
 
 export const SELECT_LINK = 'SELECT_LINK';
+export const CREATE_LINK = 'CREATE_LINK';
+export const RESET_LINK = 'RESET_LINK';
+export const TOGGLE_DELETE_MODE = 'TOGGLE_DELETE_MODE';

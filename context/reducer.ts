@@ -8,6 +8,8 @@ export const initialState: State = {
   loading: false,
   isLoggedIn: false,
   selectedLink: '',
+  createLink: false,
+  deleteMode: false,
   error: null,
 };
 
@@ -47,7 +49,27 @@ const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         selectedLink: action.payload,
-      }
+      };
+    case constants.CREATE_LINK:
+      return {
+        ...state,
+        selectedLink: '',
+        deleteMode: false,
+        createLink: true,
+      };
+    case constants.RESET_LINK:
+      return {
+        ...state,
+        selectedLink: '',
+        createLink: false,
+      };
+    case constants.TOGGLE_DELETE_MODE:
+      return {
+        ...state,
+        deleteMode: !state.deleteMode,
+        selectedLink: '',
+        createLink: false,
+      };
     default:
       return state;
   }

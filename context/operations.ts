@@ -43,8 +43,20 @@ export const getLinks = () => async (dispatch: Dispatch<Actions>) => {
   }
 };
 
-export const selectLink = (linkId?: string) => async (dispatch: Dispatch<Actions>) => {
-  dispatch(actions.selectLinkAction(linkId || ''));
+export const selectLink = (linkId: string) => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.selectLinkAction(linkId));
+};
+
+export const createLink = () => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.createLinkAction());
+};
+
+export const resetLink = () => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.resetLinkAction());
+};
+
+export const toggleDeleteMode = () => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.toggleDeleteModeAction());
 };
 
 // export const saveLink =

@@ -6,7 +6,7 @@ import Input from '@components/Input';
 import RadioToggle from '@components/RadioToggle';
 
 import useStateContext from '@context/index';
-import { selectLink } from '@context/operations';
+import { resetLink } from '@context/operations';
 
 import styles from './EditForm.module.scss';
 
@@ -31,7 +31,7 @@ const EditForm = () => {
   } = useStateContext();
 
   const handleClose = () => {
-    dispatch(selectLink());
+    dispatch(resetLink());
   };
 
   const { handleChange, values, setValues } = useFormik<Inputs>({

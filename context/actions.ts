@@ -38,3 +38,15 @@ export const selectLinkAction = (linkId: string): Actions => ({
   type: types.SELECT_LINK,
   payload: linkId,
 });
+
+export const createLinkAction = (): Actions => ({
+  type: types.CREATE_LINK,
+});
+
+export const resetLinkAction = (): Actions => ({
+  type: types.RESET_LINK,
+});
+
+export const toggleDeleteModeAction = (): Actions => ({
+  type: types.TOGGLE_DELETE_MODE,
+});

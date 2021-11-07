@@ -1,20 +1,10 @@
 @import '@styles/vars';
 
 .url-manager {
-  height: 100vh;
-  margin: 2rem auto 0;
+  height: calc(100vh - 15rem);
+  margin: 15rem auto 0;
   padding: 0 2rem;
+  display: flex;
+  justify-content: center;
   overflow: scroll;
-  .header {
-    max-width: 82rem;
-    margin: 0 auto;
-    button {
-      margin-right: 1rem;
-      margin-bottom: 2rem;
-    }
-  }
-  .link-management {
-    display: flex;
-    justify-content: center;
-  }
 }

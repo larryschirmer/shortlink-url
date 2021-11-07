@@ -10,10 +10,10 @@ import styles from './Menu.module.scss';
 const { menu: menuClass, hidden: hiddenClass } = styles;
 
 const Menu = () => {
-  const { state } = useStateContext();
+  const { state: {selectedLink, createLink} } = useStateContext();
 
   const menuClasses = classNames(menuClass, {
-    [hiddenClass]: !state.selectedLink,
+    [hiddenClass]: !selectedLink && !createLink,
   });
 
   return (
