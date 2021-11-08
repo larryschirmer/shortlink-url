@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
-import router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
@@ -31,12 +31,19 @@ const opensCopy = (opens: number) => {
 };
 
 const UrlList = () => {
+  const router = useRouter();
   const {
     state: { data, selectedLink, createLink, deleteMode, loading },
     dispatch,
   } = useStateContext();
 
   const { tagGroups = [] } = data;
+
+  const selectedTag = useMemo(() => {
+    const tag = router.asPath.match(/(#[\w-]*)/)?.[0] ?? '';
+    const firstTag = tagGroups[0]?.tag;
+    return tag || firstTag;
+  }, [router.asPath, tagGroups]);
 
   const handleSelect = (link: string) => {
     dispatch(selectLink(link));
@@ -65,6 +72,7 @@ const UrlList = () => {
     <div className={urlListClasses}>
       {tagGroups.map((link) => (
         <AccordianList
+          initialOpen={selectedTag === link.tag}
           id={link.tag}
           key={link.tag}
           title={link.tag}
