@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, FormEvent } from 'react';
 import { useFormik } from 'formik';
 
 import Button from '@components/Button';
@@ -6,7 +6,8 @@ import Input from '@components/Input';
 import RadioToggle from '@components/RadioToggle';
 
 import useStateContext from '@context/index';
-import { resetLink } from '@context/operations';
+import { resetLink, saveLink } from '@context/operations';
+import { SaveLink } from '@context/types';
 
 import styles from './EditForm.module.scss';
 
@@ -30,11 +31,15 @@ const EditForm = () => {
     },
   } = useStateContext();
 
+  const handleCreateLink = (values: SaveLink) => {
+    dispatch(saveLink(values));
+  };
+
   const handleClose = () => {
     dispatch(resetLink());
   };
 
-  const { handleChange, values, setValues } = useFormik<Inputs>({
+  const { handleChange, values, setValues, submitForm } = useFormik<Inputs>({
     initialValues: {
       name: '',
       isListed: 'false',
@@ -42,9 +47,15 @@ const EditForm = () => {
       url: '',
     },
     onSubmit: (values) => {
-      // dispatch new values
+      const isListed = values.isListed === 'true';
+      if (!selectedLink) handleCreateLink({ ...values, isListed });
     },
   });
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    submitForm();
+  };
 
   // set values from selected link
   const prevSelectedLink = useRef('');
@@ -59,7 +70,7 @@ const EditForm = () => {
 
   return (
     <div className={editFormClass}>
-      <form onSubmit={handleChange}>
+      <form onSubmit={handleSubmit}>
         <div className={`${formRowClass} grid-name`}>
           <Input
             id="name"
@@ -97,7 +108,7 @@ const EditForm = () => {
             id="url"
             label="Forwards To"
             name="url"
-            value={values.slug}
+            value={values.url}
             placeholder="Url"
             onChange={handleChange}
           />

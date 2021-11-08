@@ -15,12 +15,15 @@ export const initialState: State = {
 
 const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
+    // REQUEST
     case constants.LOGIN_REQUEST:
     case constants.GET_LINKS_REQUEST:
+    case constants.CREATE_LINK_REQUEST:
       return {
         ...state,
         loading: true,
       };
+    // SUCCESS
     case constants.LOGIN_SUCCESS:
       return {
         ...state,
@@ -38,13 +41,31 @@ const reducer = (state = initialState, action: Actions) => {
           tagGroups: sortLinks(action.payload),
         },
       };
+    case constants.CREATE_LINK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        data: {
+          list: [...(state.data.list || []), action.payload],
+          tagGroups: sortLinks([...(state.data.list || []), action.payload]),
+        },
+      };
+    // FAILURE
     case constants.LOGIN_FAILURE:
     case constants.GET_LINKS_FAILURE:
+    case constants.CREATE_LINK_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
+    // APPLICATION STATE
+    case constants.SET_LOGGED_IN:
+      return {
+        ...state,
+        isLoggedIn: true,
+      }
     case constants.SELECT_LINK:
       return {
         ...state,

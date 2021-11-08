@@ -2,7 +2,7 @@ import { Dispatch } from 'react';
 import axios from 'axios';
 
 import * as actions from './actions';
-import { Actions, Url } from './types';
+import { Actions, Url, SaveLink } from './types';
 import { handle } from '@utils/index';
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
@@ -15,7 +15,7 @@ export const login =
     dispatch(actions.loginRequest());
 
     try {
-      await instance.post('/auth', { user, password });
+      await instance.post('/auth', { user, password }, { withCredentials: true });
       dispatch(actions.loginSuccess());
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -30,9 +30,7 @@ export const getLinks = () => async (dispatch: Dispatch<Actions>) => {
   dispatch(actions.getLinksRequest());
 
   try {
-    const { data } = await instance.get('/url');
-    const links: Url[] = data;
-
+    const { data: links } = await instance.get<Url[]>('/url');
     dispatch(actions.getLinksSuccess(links));
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -41,6 +39,25 @@ export const getLinks = () => async (dispatch: Dispatch<Actions>) => {
       dispatch(actions.getLinksFailure(handle.unexpectedError(error)));
     }
   }
+};
+
+export const saveLink = (link: SaveLink) => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.createLinkRequest());
+
+  try {
+    const { data: newLink } = await instance.post<Url>('/url', link, { withCredentials: true });
+    dispatch(actions.createLinkSuccess(newLink));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      dispatch(actions.createLinkFailure(handle.axiosError(error)));
+    } else {
+      dispatch(actions.createLinkFailure(handle.unexpectedError(error)));
+    }
+  }
+};
+
+export const setLoggedIn = () => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.setLoggedInAction());
 };
 
 export const selectLink = (linkId: string) => async (dispatch: Dispatch<Actions>) => {
@@ -58,12 +75,6 @@ export const resetLink = () => async (dispatch: Dispatch<Actions>) => {
 export const toggleDeleteMode = () => async (dispatch: Dispatch<Actions>) => {
   dispatch(actions.toggleDeleteModeAction());
 };
-
-// export const saveLink =
-//   ({ _id, slug, url, isListed }: SaveLink) =>
-//   (dispatch: Dispatch<Actions>) => {
-//     dispatch(saveLinkRequest());
-//   };
 
 //   export const updateLink =
 //   ({ _id, slug, url, isListed }: SaveLink) =>

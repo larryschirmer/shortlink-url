@@ -32,7 +32,27 @@ export const getLinksFailure = (error: string): Actions => ({
   payload: error,
 });
 
+// Save Link
+
+export const createLinkRequest = (): Actions => ({
+  type: types.CREATE_LINK_REQUEST,
+});
+
+export const createLinkSuccess = (link: Url): Actions => ({
+  type: types.CREATE_LINK_SUCCESS,
+  payload: link,
+});
+
+export const createLinkFailure = (error: string): Actions => ({
+  type: types.CREATE_LINK_FAILURE,
+  payload: error,
+});
+
 // Application State
+
+export const setLoggedInAction = (): Actions => ({
+  type: types.SET_LOGGED_IN,
+})
 
 export const selectLinkAction = (linkId: string): Actions => ({
   type: types.SELECT_LINK,

@@ -29,14 +29,14 @@ export type State = {
 
 // Opperations
 
-type SaveLink = {
+export type SaveLink = {
   name?: string;
   slug?: string;
   url?: string;
   isListed?: boolean;
 };
 
-type UpdateLink = {
+export type UpdateLink = {
   _id: string;
   name?: string;
   slug?: string;
@@ -71,7 +71,23 @@ type GetLinks =
       payload: string;
     };
 
+type CreateLinks =
+  | {
+      type: typeof types.CREATE_LINK_REQUEST;
+    }
+  | {
+      type: typeof types.CREATE_LINK_SUCCESS;
+      payload: Url;
+    }
+  | {
+      type: typeof types.CREATE_LINK_FAILURE;
+      payload: string;
+    };
+
 type ApplicationState =
+  | {
+      type: typeof types.SET_LOGGED_IN;
+    }
   | {
       type: typeof types.SELECT_LINK;
       payload: string;
@@ -86,4 +102,4 @@ type ApplicationState =
       type: typeof types.TOGGLE_DELETE_MODE;
     };
 
-export type Actions = Login | GetLinks | ApplicationState;
+export type Actions = Login | GetLinks | CreateLinks | ApplicationState;
