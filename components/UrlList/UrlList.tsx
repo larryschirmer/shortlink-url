@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle } from '@fortawesome/pro-regular-svg-icons';
+import { faTimesCircle, faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
 
 import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
 import Button from '@components/Button';
 
 import useStateContext from '@context/index';
-import { getLinks, selectLink } from '@context/operations';
+import { getLinks, selectLink, deleteLink } from '@context/operations';
 
 import styles from './UrlList.module.scss';
 
@@ -30,7 +30,7 @@ const opensCopy = (opens: number) => {
 
 const UrlList = () => {
   const {
-    state: { data, selectedLink, createLink, deleteMode },
+    state: { data, selectedLink, createLink, deleteMode, loading },
     dispatch,
   } = useStateContext();
 
@@ -38,6 +38,10 @@ const UrlList = () => {
 
   const handleSelect = (link: string) => {
     dispatch(selectLink(link));
+  };
+
+  const handleDelete = (link: string) => {
+    dispatch(deleteLink(link));
   };
 
   // Fetch links on mount
@@ -59,7 +63,11 @@ const UrlList = () => {
           title={link.tag}
           list={link.links.map(({ _id, name, opens }) => (
             <div key={_id} className={listGroupClass}>
-              <button disabled={deleteMode} className={listItemClass} onClick={() => handleSelect(_id)}>
+              <button
+                disabled={deleteMode}
+                className={listItemClass}
+                onClick={() => handleSelect(_id)}
+              >
                 <div className={itemNameClass}>{name}</div>
                 <div className={itemDetailsClass}>
                   {!deleteMode && (
@@ -71,8 +79,12 @@ const UrlList = () => {
                 </div>
               </button>
               {deleteMode && (
-                <Button isSecondary>
-                  <FontAwesomeIcon icon={faTimesCircle} />
+                <Button isSecondary onClick={() => handleDelete(_id)}>
+                  {loading ? (
+                    <FontAwesomeIcon spin icon={faSpinnerThird} />
+                  ) : (
+                    <FontAwesomeIcon icon={faTimesCircle} />
+                  )}
                 </Button>
               )}
             </div>

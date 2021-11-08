@@ -21,6 +21,7 @@ const reducer = (state = initialState, action: Actions) => {
     case constants.GET_LINKS_REQUEST:
     case constants.CREATE_LINK_REQUEST:
     case constants.UPDATE_LINK_REQUEST:
+    case constants.DELETE_LINK_REQUEST:
       return {
         ...state,
         loading: true,
@@ -74,11 +75,24 @@ const reducer = (state = initialState, action: Actions) => {
         saveSuccess: true,
       };
     }
+    case constants.DELETE_LINK_SUCCESS: {
+      const updatedList = (state.data.list || []).filter((link) => link._id !== action.payload);
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        data: {
+          list: updatedList,
+          tagGroups: sortLinks(updatedList),
+        },
+      };
+    }
     // FAILURE
     case constants.LOGIN_FAILURE:
     case constants.GET_LINKS_FAILURE:
     case constants.CREATE_LINK_FAILURE:
     case constants.UPDATE_LINK_FAILURE:
+    case constants.DELETE_LINK_FAILURE:
       return {
         ...state,
         loading: false,

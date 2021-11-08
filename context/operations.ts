@@ -71,6 +71,21 @@ export const updateLink = (link: SaveLink) => async (dispatch: Dispatch<Actions>
   }
 };
 
+export const deleteLink = (id: string) => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.deleteLinkRequest());
+
+  try {
+    await instance.delete(`/url`, { withCredentials: true, data: { _id: id } });
+    dispatch(actions.deleteLinkSuccess(id));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      dispatch(actions.deleteLinkFailure(handle.axiosError(error)));
+    } else {
+      dispatch(actions.deleteLinkFailure(handle.unexpectedError(error)));
+    }
+  }
+};
+
 export const setLoggedIn = () => async (dispatch: Dispatch<Actions>) => {
   dispatch(actions.setLoggedInAction());
 };

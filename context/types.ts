@@ -90,6 +90,19 @@ type ModifyLink =
       payload: string;
     };
 
+type DeleteLink =
+  | {
+      type: typeof types.DELETE_LINK_REQUEST;
+    }
+  | {
+      type: typeof types.DELETE_LINK_SUCCESS;
+      payload: string;
+    }
+  | {
+      type: typeof types.DELETE_LINK_FAILURE;
+      payload: string;
+    };
+
 type ApplicationState =
   | {
       type: typeof types.SET_LOGGED_IN;
@@ -108,4 +121,4 @@ type ApplicationState =
       type: typeof types.TOGGLE_DELETE_MODE;
     };
 
-export type Actions = Login | GetLinks | CreateLink | ModifyLink | ApplicationState;
+export type Actions = Login | GetLinks | CreateLink | ModifyLink | DeleteLink | ApplicationState;

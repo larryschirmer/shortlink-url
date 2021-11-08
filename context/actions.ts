@@ -48,6 +48,8 @@ export const createLinkFailure = (error: string): Actions => ({
   payload: error,
 });
 
+// Update Link
+
 export const updateLinkRequest = (): Actions => ({
   type: types.UPDATE_LINK_REQUEST,
 });
@@ -59,6 +61,22 @@ export const updateLinkSuccess = (link: Url): Actions => ({
 
 export const updateLinkFailure = (error: string): Actions => ({
   type: types.UPDATE_LINK_FAILURE,
+  payload: error,
+});
+
+// Delete Link
+
+export const deleteLinkRequest = (): Actions => ({
+  type: types.DELETE_LINK_REQUEST,
+});
+
+export const deleteLinkSuccess = (linkId: string): Actions => ({
+  type: types.DELETE_LINK_SUCCESS,
+  payload: linkId,
+});
+
+export const deleteLinkFailure = (error: string): Actions => ({
+  type: types.DELETE_LINK_FAILURE,
   payload: error,
 });
 
