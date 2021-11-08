@@ -1,7 +1,7 @@
 @import '@styles/vars';
 
 .url-manager {
-  height: calc(100vh - 15rem);
+  height: calc(100vh - $header-margin);
   margin: $header-margin auto 0;
   padding: 0 2rem;
   display: flex;
