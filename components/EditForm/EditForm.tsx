@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, FormEvent } from 'react';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import Button from '@components/Button';
 import Input from '@components/Input';
@@ -39,18 +40,30 @@ const EditForm = () => {
     dispatch(resetLink());
   };
 
-  const { handleChange, values, setValues, submitForm } = useFormik<Inputs>({
-    initialValues: {
-      name: '',
-      isListed: 'false',
-      slug: '',
-      url: '',
-    },
-    onSubmit: (values) => {
-      const isListed = values.isListed === 'true';
-      if (!selectedLink) handleCreateLink({ ...values, isListed });
-    },
+  const initialValues = {
+    name: '',
+    isListed: 'false',
+    slug: '',
+    url: '',
+  };
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string(),
+    isListed: Yup.string(),
+    slug: Yup.string(),
+    url: Yup.string().required('URL is required'),
   });
+
+  const { handleChange, values, setValues, submitForm, errors, touched, setFieldTouched, isValid } =
+    useFormik<Inputs>({
+      initialValues,
+      validationSchema,
+      onSubmit: (values) => {
+        const isListed = values.isListed === 'true';
+        if (!selectedLink) handleCreateLink({ ...values, isListed });
+      },
+      validateOnMount: true,
+    });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,7 +91,9 @@ const EditForm = () => {
             name="name"
             value={values.name}
             placeholder="Name"
+            error={touched.name ? errors.name : ''}
             onChange={handleChange}
+            onBlur={() => setFieldTouched('name', true)}
           />
         </div>
         <div className={`${formRowClass} grid-listed`}>
@@ -100,7 +115,9 @@ const EditForm = () => {
             name="slug"
             value={values.slug}
             placeholder="Slug"
+            error={touched.slug ? errors.slug : ''}
             onChange={handleChange}
+            onBlur={() => setFieldTouched('slug', true)}
           />
         </div>
         <div className={`${formRowClass} grid-url`}>
@@ -110,7 +127,9 @@ const EditForm = () => {
             name="url"
             value={values.url}
             placeholder="Url"
+            error={touched.url ? errors.url : ''}
             onChange={handleChange}
+            onBlur={() => setFieldTouched('url', true)}
           />
         </div>
         <div className={`${formRowClass} grid-ctas`}>
@@ -118,7 +137,9 @@ const EditForm = () => {
             <Button isSecondary type="button" onClick={handleClose}>
               Close
             </Button>
-            <Button type="submit">Save</Button>
+            <Button disabled={!isValid} type="submit">
+              Save
+            </Button>
           </div>
         </div>
       </form>

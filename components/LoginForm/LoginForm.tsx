@@ -1,6 +1,7 @@
-import React, {useEffect, FormEvent} from 'react';
+import React, { useEffect, FormEvent } from 'react';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import * as Yup from 'yup';
 
 import PageHeader from '@components/PageHeader';
 import Button from '@components/Button';
@@ -22,15 +23,24 @@ const LoginForm = () => {
   const router = useRouter();
   const { state, dispatch } = useStateContext();
 
-  const { handleChange, values, submitForm } = useFormik<Inputs>({
-    initialValues: { user: '', password: '' },
-    onSubmit: (values) => dispatch(login(values)),
+  const initialValues = { user: '', password: '' };
+  const validationSchema = Yup.object({
+    user: Yup.string().required('Username is required'),
+    password: Yup.string().required('Password is required'),
   });
-  
+
+  const { handleChange, values, submitForm, errors, touched, setFieldTouched, isValid } =
+    useFormik<Inputs>({
+      initialValues,
+      validationSchema,
+      onSubmit: (values) => dispatch(login(values)),
+      validateOnMount: true,
+    });
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     submitForm();
-  }
+  };
 
   const handleClose = () => router.push('/');
 
@@ -42,9 +52,7 @@ const LoginForm = () => {
   return (
     <div className={loginFormClass}>
       <PageHeader />
-      <form
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit}>
         <div className={`${formRowClass} grid-name`}>
           <Input
             id="name"
@@ -52,7 +60,9 @@ const LoginForm = () => {
             name="user"
             value={values.user}
             placeholder="Name"
+            error={touched.user ? errors.user : ''}
             onChange={handleChange}
+            onBlur={() => setFieldTouched('user', true)}
           />
         </div>
         <div className={`${formRowClass} grid-password`}>
@@ -62,7 +72,9 @@ const LoginForm = () => {
             name="password"
             value={values.password}
             placeholder="Password"
+            error={touched.password ? errors.password : ''}
             onChange={handleChange}
+            onBlur={() => setFieldTouched('password', true)}
           />
         </div>
         <div className={`${formRowClass} grid-ctas`}>
@@ -70,7 +82,9 @@ const LoginForm = () => {
             <Button isSecondary type="button" onClick={handleClose}>
               Close
             </Button>
-            <Button type="submit">Save</Button>
+            <Button disabled={!isValid} type="submit">
+              Save
+            </Button>
           </div>
         </div>
       </form>

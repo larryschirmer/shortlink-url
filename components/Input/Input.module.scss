@@ -1,6 +1,7 @@
 @import "@styles/vars";
 
 .input {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -17,5 +18,10 @@
     &::placeholder {
       color: $grey-6;
     }
+  }
+  .error {
+    position: absolute;
+    bottom: -3rem;
+    color: $grey-8;
   }
 }
