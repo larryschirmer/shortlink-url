@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, FormEvent } from 'react';
+import React, { useEffect, useRef, FormEvent, useCallback } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,6 +32,7 @@ const EditForm = () => {
       data: { list = [] },
       selectedLink,
       loading,
+      saveSuccess,
     },
   } = useStateContext();
 
@@ -39,9 +40,9 @@ const EditForm = () => {
     dispatch(saveLink(values));
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     dispatch(resetLink());
-  };
+  }, [dispatch]);
 
   const initialValues = {
     name: '',
@@ -83,6 +84,11 @@ const EditForm = () => {
       prevSelectedLink.current = selectedLink;
     }
   }, [list, selectedLink, setValues]);
+
+  // exit form on success
+  useEffect(() => {
+    if (saveSuccess) handleClose();
+  }, [handleClose, saveSuccess]);
 
   return (
     <div className={editFormClass}>

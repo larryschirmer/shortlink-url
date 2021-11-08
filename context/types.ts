@@ -24,6 +24,7 @@ export type State = {
   selectedLink: string;
   createLink: boolean;
   deleteMode: boolean;
+  saveSuccess: boolean;
   error?: string | null;
 };
 

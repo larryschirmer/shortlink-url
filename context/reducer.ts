@@ -10,6 +10,7 @@ export const initialState: State = {
   selectedLink: '',
   createLink: false,
   deleteMode: false,
+  saveSuccess: false,
   error: null,
 };
 
@@ -50,6 +51,7 @@ const reducer = (state = initialState, action: Actions) => {
           list: [...(state.data.list || []), action.payload],
           tagGroups: sortLinks([...(state.data.list || []), action.payload]),
         },
+        saveSuccess: true,
       };
     // FAILURE
     case constants.LOGIN_FAILURE:
@@ -83,6 +85,7 @@ const reducer = (state = initialState, action: Actions) => {
         ...state,
         selectedLink: '',
         createLink: false,
+        saveSuccess: false,
       };
     case constants.TOGGLE_DELETE_MODE:
       return {
