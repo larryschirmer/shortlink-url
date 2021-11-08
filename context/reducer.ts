@@ -41,7 +41,7 @@ const reducer = (state = initialState, action: Actions) => {
         error: '',
         data: {
           list: action.payload,
-          tagGroups: sortLinks(action.payload),
+          tagGroups: sortLinks(action.payload, state.isLoggedIn),
         },
       };
     case constants.CREATE_LINK_SUCCESS: {
@@ -52,7 +52,7 @@ const reducer = (state = initialState, action: Actions) => {
         error: '',
         data: {
           list: updatedList,
-          tagGroups: sortLinks(updatedList),
+          tagGroups: sortLinks(updatedList, state.isLoggedIn),
         },
         saveSuccess: true,
       };
@@ -70,7 +70,7 @@ const reducer = (state = initialState, action: Actions) => {
         error: '',
         data: {
           list: updatedList,
-          tagGroups: sortLinks(updatedList),
+          tagGroups: sortLinks(updatedList, state.isLoggedIn),
         },
         saveSuccess: true,
       };
@@ -83,7 +83,7 @@ const reducer = (state = initialState, action: Actions) => {
         error: '',
         data: {
           list: updatedList,
-          tagGroups: sortLinks(updatedList),
+          tagGroups: sortLinks(updatedList, state.isLoggedIn),
         },
       };
     }
