@@ -1,13 +1,17 @@
 import { Dispatch } from 'react';
 import axios from 'axios';
+import omit from 'lodash/omit';
 
 import * as actions from './actions';
-import { Actions, Url, SaveLink } from './types';
-import { handle } from '@utils/index';
+import { Actions, Url, SaveLink, AuthedURL } from './types';
+import { handle, getCookie } from '@utils/index';
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
 
 const instance = axios.create({ baseURL: domain });
+
+const newToken = (token: string) =>
+  `token=${token}; expires=${new Date(Date.now() + 1000 * 60 * 60 * 24)}; path=/`;
 
 export const login =
   ({ user, password }: { user: string; password: string }) =>
@@ -15,7 +19,13 @@ export const login =
     dispatch(actions.loginRequest());
 
     try {
-      await instance.post('/auth', { user, password }, { withCredentials: true });
+      const {
+        data: { token },
+      } = await instance.post<{ token: string }>('/auth', {
+        user,
+        password,
+      });
+      document.cookie = newToken(token);
       dispatch(actions.loginSuccess());
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -45,8 +55,10 @@ export const saveLink = (link: SaveLink) => async (dispatch: Dispatch<Actions>) 
   dispatch(actions.createLinkRequest());
 
   try {
-    const { data: newLink } = await instance.post<Url>('/url', link, { withCredentials: true });
-    dispatch(actions.createLinkSuccess(newLink));
+    const token = getCookie(document.cookie, 'token');
+    const { data } = await instance.post<AuthedURL>('/url', { ...link, token });
+    document.cookie = newToken(data.token);
+    dispatch(actions.createLinkSuccess(omit(data, ['token'])));
   } catch (error) {
     if (axios.isAxiosError(error)) {
       dispatch(actions.createLinkFailure(handle.axiosError(error)));
@@ -60,8 +72,10 @@ export const updateLink = (link: SaveLink) => async (dispatch: Dispatch<Actions>
   dispatch(actions.updateLinkRequest());
 
   try {
-    const { data: updatedLink } = await instance.put<Url>(`/url`, link, { withCredentials: true });
-    dispatch(actions.updateLinkSuccess(updatedLink));
+    const token = getCookie(document.cookie, 'token');
+    const { data } = await instance.put<AuthedURL>(`/url`, { ...link, token });
+    document.cookie = newToken(data.token);
+    dispatch(actions.updateLinkSuccess(omit(data, ['token'])));
   } catch (error) {
     if (axios.isAxiosError(error)) {
       dispatch(actions.updateLinkFailure(handle.axiosError(error)));
@@ -75,7 +89,9 @@ export const deleteLink = (id: string) => async (dispatch: Dispatch<Actions>) =>
   dispatch(actions.deleteLinkRequest());
 
   try {
-    await instance.delete(`/url`, { withCredentials: true, data: { _id: id } });
+    const token = getCookie(document.cookie, 'token');
+    const { data } = await instance.delete<{ token: string }>(`/url`, { data: { _id: id, token } });
+    document.cookie = newToken(data.token);
     dispatch(actions.deleteLinkSuccess(id));
   } catch (error) {
     if (axios.isAxiosError(error)) {

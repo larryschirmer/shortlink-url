@@ -12,7 +12,7 @@ type Props = { cookies: { [cookie: string]: string } };
 const Home = ({ cookies }: Props) => {
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
-    isLoggedIn: !!cookies['charming-smile'],
+    isLoggedIn: !!cookies['token'],
   });
 
   return (

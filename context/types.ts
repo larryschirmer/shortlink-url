@@ -30,6 +30,8 @@ export type State = {
 
 // Opperations
 
+export type AuthedURL = Url & { token: string }
+
 export type SaveLink = {
   name?: string;
   slug?: string;
