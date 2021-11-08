@@ -9,7 +9,7 @@ import Input from '@components/Input';
 import RadioToggle from '@components/RadioToggle';
 
 import useStateContext from '@context/index';
-import { resetLink, saveLink } from '@context/operations';
+import { resetLink, saveLink, updateLink } from '@context/operations';
 import { SaveLink } from '@context/types';
 
 import styles from './EditForm.module.scss';
@@ -40,6 +40,11 @@ const EditForm = () => {
     dispatch(saveLink(values));
   };
 
+  const handleUpdateLink = (values: SaveLink) => {
+    const prevLink = list.find((link) => link._id === selectedLink);
+    dispatch(updateLink({ ...prevLink, ...values }));
+  };
+
   const handleClose = useCallback(() => {
     dispatch(resetLink());
   }, [dispatch]);
@@ -64,7 +69,8 @@ const EditForm = () => {
       validationSchema,
       onSubmit: (values) => {
         const isListed = values.isListed === 'true';
-        if (!selectedLink) handleCreateLink({ ...values, isListed });
+        if (selectedLink) handleUpdateLink({ ...values, isListed });
+        else handleCreateLink({ ...values, isListed });
       },
       validateOnMount: true,
     });

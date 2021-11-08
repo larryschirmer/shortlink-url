@@ -56,6 +56,21 @@ export const saveLink = (link: SaveLink) => async (dispatch: Dispatch<Actions>) 
   }
 };
 
+export const updateLink = (link: SaveLink) => async (dispatch: Dispatch<Actions>) => {
+  dispatch(actions.updateLinkRequest());
+
+  try {
+    const { data: updatedLink } = await instance.put<Url>(`/url`, link, { withCredentials: true });
+    dispatch(actions.updateLinkSuccess(updatedLink));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      dispatch(actions.updateLinkFailure(handle.axiosError(error)));
+    } else {
+      dispatch(actions.updateLinkFailure(handle.unexpectedError(error)));
+    }
+  }
+};
+
 export const setLoggedIn = () => async (dispatch: Dispatch<Actions>) => {
   dispatch(actions.setLoggedInAction());
 };
@@ -75,9 +90,3 @@ export const resetLink = () => async (dispatch: Dispatch<Actions>) => {
 export const toggleDeleteMode = () => async (dispatch: Dispatch<Actions>) => {
   dispatch(actions.toggleDeleteModeAction());
 };
-
-//   export const updateLink =
-//   ({ _id, slug, url, isListed }: SaveLink) =>
-//   (dispatch: Dispatch<Actions>) => {
-//     dispatch(saveLinkRequest());
-//   };

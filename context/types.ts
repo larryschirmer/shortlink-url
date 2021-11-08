@@ -33,15 +33,7 @@ export type State = {
 export type SaveLink = {
   name?: string;
   slug?: string;
-  url?: string;
-  isListed?: boolean;
-};
-
-export type UpdateLink = {
-  _id: string;
-  name?: string;
-  slug?: string;
-  url?: string;
+  url: string;
   isListed?: boolean;
 };
 
@@ -72,7 +64,7 @@ type GetLinks =
       payload: string;
     };
 
-type CreateLinks =
+type CreateLink =
   | {
       type: typeof types.CREATE_LINK_REQUEST;
     }
@@ -82,6 +74,19 @@ type CreateLinks =
     }
   | {
       type: typeof types.CREATE_LINK_FAILURE;
+      payload: string;
+    };
+
+type ModifyLink =
+  | {
+      type: typeof types.UPDATE_LINK_REQUEST;
+    }
+  | {
+      type: typeof types.UPDATE_LINK_SUCCESS;
+      payload: Url;
+    }
+  | {
+      type: typeof types.UPDATE_LINK_FAILURE;
       payload: string;
     };
 
@@ -103,4 +108,4 @@ type ApplicationState =
       type: typeof types.TOGGLE_DELETE_MODE;
     };
 
-export type Actions = Login | GetLinks | CreateLinks | ApplicationState;
+export type Actions = Login | GetLinks | CreateLink | ModifyLink | ApplicationState;

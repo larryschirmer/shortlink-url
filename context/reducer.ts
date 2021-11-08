@@ -20,6 +20,7 @@ const reducer = (state = initialState, action: Actions) => {
     case constants.LOGIN_REQUEST:
     case constants.GET_LINKS_REQUEST:
     case constants.CREATE_LINK_REQUEST:
+    case constants.UPDATE_LINK_REQUEST:
       return {
         ...state,
         loading: true,
@@ -42,21 +43,42 @@ const reducer = (state = initialState, action: Actions) => {
           tagGroups: sortLinks(action.payload),
         },
       };
-    case constants.CREATE_LINK_SUCCESS:
+    case constants.CREATE_LINK_SUCCESS: {
+      const updatedList = [...(state.data.list || []), action.payload];
       return {
         ...state,
         loading: false,
         error: '',
         data: {
-          list: [...(state.data.list || []), action.payload],
-          tagGroups: sortLinks([...(state.data.list || []), action.payload]),
+          list: updatedList,
+          tagGroups: sortLinks(updatedList),
         },
         saveSuccess: true,
       };
+    }
+    case constants.UPDATE_LINK_SUCCESS: {
+      const updatedList = (state.data.list || []).map((link) => {
+        if (link._id === action.payload._id) {
+          return action.payload;
+        }
+        return link;
+      });
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        data: {
+          list: updatedList,
+          tagGroups: sortLinks(updatedList),
+        },
+        saveSuccess: true,
+      };
+    }
     // FAILURE
     case constants.LOGIN_FAILURE:
     case constants.GET_LINKS_FAILURE:
     case constants.CREATE_LINK_FAILURE:
+    case constants.UPDATE_LINK_FAILURE:
       return {
         ...state,
         loading: false,
@@ -67,7 +89,7 @@ const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         isLoggedIn: true,
-      }
+      };
     case constants.SELECT_LINK:
       return {
         ...state,

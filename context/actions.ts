@@ -48,11 +48,25 @@ export const createLinkFailure = (error: string): Actions => ({
   payload: error,
 });
 
+export const updateLinkRequest = (): Actions => ({
+  type: types.UPDATE_LINK_REQUEST,
+});
+
+export const updateLinkSuccess = (link: Url): Actions => ({
+  type: types.UPDATE_LINK_SUCCESS,
+  payload: link,
+});
+
+export const updateLinkFailure = (error: string): Actions => ({
+  type: types.UPDATE_LINK_FAILURE,
+  payload: error,
+});
+
 // Application State
 
 export const setLoggedInAction = (): Actions => ({
   type: types.SET_LOGGED_IN,
-})
+});
 
 export const selectLinkAction = (linkId: string): Actions => ({
   type: types.SELECT_LINK,
