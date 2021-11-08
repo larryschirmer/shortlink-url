@@ -34,6 +34,9 @@
       text-overflow: ellipsis;
       font-size: 1.6rem;
       text-align: left;
+      &.unlisted {
+        opacity: 0.5;
+      }
     }
     .item-details {
       display: flex;

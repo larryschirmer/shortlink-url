@@ -18,6 +18,7 @@ const {
   'list-group': listGroupClass,
   'delete-mode': deleteModeClass,
   'list-item': listItemClass,
+  unlisted: unlistedClass,
   'item-name': itemNameClass,
   'item-details': itemDetailsClass,
 } = styles;
@@ -54,6 +55,11 @@ const UrlList = () => {
     [deleteModeClass]: deleteMode,
   });
 
+  const itemNameClasses = (isListed: boolean) =>
+    classNames(itemNameClass, {
+      [unlistedClass]: !isListed,
+    });
+
   return (
     <div className={urlListClasses}>
       {tagGroups.map((link) => (
@@ -61,14 +67,14 @@ const UrlList = () => {
           initialOpen
           key={link.tag}
           title={link.tag}
-          list={link.links.map(({ _id, name, opens }) => (
+          list={link.links.map(({ _id, name, opens, isListed }) => (
             <div key={_id} className={listGroupClass}>
               <button
                 disabled={deleteMode}
                 className={listItemClass}
                 onClick={() => handleSelect(_id)}
               >
-                <div className={itemNameClass}>{name}</div>
+                <div className={itemNameClasses(isListed)}>{name}</div>
                 <div className={itemDetailsClass}>
                   {!deleteMode && (
                     <>
