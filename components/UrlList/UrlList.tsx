@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
+import router, { useRouter } from 'next/router'
 
 import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
@@ -64,9 +65,11 @@ const UrlList = () => {
     <div className={urlListClasses}>
       {tagGroups.map((link) => (
         <AccordianList
-          initialOpen
+          id={link.tag}
           key={link.tag}
           title={link.tag}
+          handleHeaderOpen={() => router.replace(`/${link.tag}`)}
+          handleHeaderClose={() => router.replace(`/`)}
           list={link.links.map(({ _id, name, opens, isListed }) => (
             <div key={_id} className={listGroupClass}>
               <button

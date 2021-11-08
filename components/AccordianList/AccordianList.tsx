@@ -11,15 +11,20 @@ const {
 } = styles;
 
 export type Props = {
+  id?: string;
   title: string;
   list: JSX.Element[];
   initialOpen?: boolean;
+  handleHeaderOpen?: () => void;
+  handleHeaderClose?: () => void;
 };
 
-const AccordianList = ({ title, list, initialOpen = false }: Props) => {
+const AccordianList = ({ id, title, list, initialOpen = false, handleHeaderOpen, handleHeaderClose }: Props) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
 
   const handleTogle = () => {
+    if (isOpen) handleHeaderClose && handleHeaderClose();
+    else handleHeaderOpen && handleHeaderOpen();
     setIsOpen((prev) => !prev);
   };
 
@@ -28,7 +33,7 @@ const AccordianList = ({ title, list, initialOpen = false }: Props) => {
   });
 
   return (
-    <div className={accordianListClasses}>
+    <div {...{ id }} className={accordianListClasses}>
       <button className={titleClass} onClick={handleTogle}>
         {title}
       </button>
