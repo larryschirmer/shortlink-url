@@ -14,7 +14,10 @@ const { 'page-header': pageHeaderClass, header: headerClass } = styles;
 
 const PageHeader = () => {
   const router = useRouter();
-  const { dispatch, state: {isLoggedIn} } = useStateContext();
+  const {
+    dispatch,
+    state: { isLoggedIn },
+  } = useStateContext();
 
   const handleCreateLink = () => {
     dispatch(createLink());
@@ -30,7 +33,7 @@ const PageHeader = () => {
 
   return (
     <div className={pageHeaderClass}>
-      <h1>URL Shortener - larryschirmer</h1>
+      <h1>Lnk Shrtnr</h1>
       <div className={headerClass}>
         <div>
           <Button disabled={!isLoggedIn} onClick={handleCreateLink}>

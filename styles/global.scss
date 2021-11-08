@@ -1,10 +1,10 @@
-@import "@styles/vars";
+@import '@styles/vars';
 
 html {
   font-size: 62.5%;
   body {
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 1.4rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.6rem;
   }
   body,
   a,
@@ -15,5 +15,40 @@ html {
   h3 {
     margin: 0;
     color: $grey-9;
+  }
+  p,
+  a,
+  button {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Source Serif Pro', serif;
+    font-weight: 400;
+  }
+  h1 {
+    font-size: 4rem; /* 3 times the body text */
+  }
+
+  h2 {
+    font-size: 3.2rem; /* 2 times the body text */
+  }
+
+  h3 {
+    font-size: 2.4rem; /* 1 ½ times the body text */
+  }
+  p,
+  a,
+  button {
+    font-size: 1.6rem;
+  }
+  label,
+  input {
+    font-size: 1.4rem;
   }
 }
