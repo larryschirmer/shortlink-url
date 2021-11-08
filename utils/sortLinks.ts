@@ -1,20 +1,24 @@
 import uniq from 'lodash/uniq';
+import sortby from 'lodash/sortBy';
 import { Url, TagLink } from '@context/types';
 
 // generate array of array for each tag
 const sortLinks = (links: Url[], isLoggedIn: boolean) => {
-  // remove unlised links if not logged in
-  const filteredLinks = isLoggedIn ? links : links.filter(link => link.isListed);
+  // remove unlisted links if not logged in
+  const listedLinks = isLoggedIn ? links : links.filter((link) => link.isListed);
+
+  // sort links by alphabetical order
+  const linksAZ = sortby(listedLinks, 'name');
 
   // reduce over links and collect tags
   const tagLinks = uniq(
-    filteredLinks.reduce<string[]>((acc, link) => [...acc, ...link.tags], []),
+    listedLinks.reduce<string[]>((acc, link) => [...acc, ...link.tags], []),
   ).map<TagLink>((tag) => ({ tag, links: [] }));
 
   let untaggedLinks = { tag: '#untagged', links: [] as Url[] };
 
   // map over tags and add link to tag
-  filteredLinks.forEach((link) => {
+  linksAZ.forEach((link) => {
     const tags = link.tags;
     if (!tags.length) {
       untaggedLinks.links.push(link);
@@ -26,7 +30,7 @@ const sortLinks = (links: Url[], isLoggedIn: boolean) => {
     }
   });
 
-  return [...tagLinks, untaggedLinks];
+  return [...sortby(tagLinks, 'tag'), untaggedLinks];
 };
 
 export default sortLinks;
