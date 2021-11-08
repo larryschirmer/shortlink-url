@@ -2,6 +2,8 @@ import React, { useEffect, FormEvent } from 'react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
 
 import PageHeader from '@components/PageHeader';
 import Button from '@components/Button';
@@ -21,7 +23,10 @@ type Inputs = {
 
 const LoginForm = () => {
   const router = useRouter();
-  const { state, dispatch } = useStateContext();
+  const {
+    state: { isLoggedIn, loading },
+    dispatch,
+  } = useStateContext();
 
   const initialValues = { user: '', password: '' };
   const validationSchema = Yup.object({
@@ -46,8 +51,8 @@ const LoginForm = () => {
 
   // return to home on successful login
   useEffect(() => {
-    if (state.isLoggedIn) router.push('/');
-  }, [router, state.isLoggedIn]);
+    if (isLoggedIn) router.push('/');
+  }, [router, isLoggedIn]);
 
   return (
     <div className={loginFormClass}>
@@ -82,8 +87,8 @@ const LoginForm = () => {
             <Button isSecondary type="button" onClick={handleClose}>
               Close
             </Button>
-            <Button disabled={!isValid} type="submit">
-              Save
+            <Button disabled={!isValid || loading} type="submit">
+              {loading ? <FontAwesomeIcon spin icon={faSpinnerThird} /> : 'Save'}
             </Button>
           </div>
         </div>

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, FormEvent } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
 
 import Button from '@components/Button';
 import Input from '@components/Input';
@@ -29,6 +31,7 @@ const EditForm = () => {
     state: {
       data: { list = [] },
       selectedLink,
+      loading,
     },
   } = useStateContext();
 
@@ -137,8 +140,8 @@ const EditForm = () => {
             <Button isSecondary type="button" onClick={handleClose}>
               Close
             </Button>
-            <Button disabled={!isValid} type="submit">
-              Save
+            <Button disabled={!isValid || loading} type="submit">
+              {loading ? <FontAwesomeIcon spin icon={faSpinnerThird} /> : 'Save'}
             </Button>
           </div>
         </div>
