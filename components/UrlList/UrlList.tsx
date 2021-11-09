@@ -47,6 +47,10 @@ const UrlList = () => {
     return tag || firstTag;
   }, [router.asPath, tagGroups]);
 
+  const handleHeaderOpen = (tag: string) => {
+    if (tag !== 'All Links') router.replace(`/${tag}`)
+  }
+
   const handleSelect = (linkId: string) => {
     if (isLoggedIn) dispatch(selectLink(linkId));
     else {
@@ -93,7 +97,7 @@ const UrlList = () => {
           id={link.tag}
           key={link.tag}
           title={link.tag}
-          handleHeaderOpen={() => router.replace(`/${link.tag}`)}
+          handleHeaderOpen={() => handleHeaderOpen(link.tag)}
           handleHeaderClose={() => router.replace(`/`)}
           list={link.links.map(({ _id, name, opens, isListed }) => (
             <div key={_id} className={listGroupClass}>

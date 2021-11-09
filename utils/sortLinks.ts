@@ -15,14 +15,12 @@ const sortLinks = (links: Url[], isLoggedIn: boolean) => {
     listedLinks.reduce<string[]>((acc, link) => [...acc, ...link.tags], []),
   ).map<TagLink>((tag) => ({ tag, links: [] }));
 
-  let untaggedLinks = { tag: '#untagged', links: [] as Url[] };
+  const allLinks = { tag: 'All Links', links: linksAZ };
 
   // map over tags and add link to tag
   linksAZ.forEach((link) => {
     const tags = link.tags;
-    if (!tags.length) {
-      untaggedLinks.links.push(link);
-    } else {
+    if (tags.length) {
       link.tags.forEach((tag) => {
         const tagLink = tagLinks.find((t) => t.tag === tag);
         if (tagLink) tagLink.links.push(link);
@@ -30,8 +28,7 @@ const sortLinks = (links: Url[], isLoggedIn: boolean) => {
     }
   });
 
-  if (untaggedLinks.links.length) return [...sortby(tagLinks, 'tag'), untaggedLinks];
-  else return sortby(tagLinks, 'tag');
+  return [...sortby(tagLinks, 'tag'), allLinks]
 };
 
 export default sortLinks;
