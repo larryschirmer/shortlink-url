@@ -25,6 +25,20 @@ type Inputs = {
   url: string;
 };
 
+const initialValues = {
+  name: '',
+  isListed: 'false',
+  slug: '',
+  url: '',
+};
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string(),
+  isListed: Yup.string(),
+  slug: Yup.string(),
+  url: Yup.string().required('URL is required'),
+});
+
 const EditForm = () => {
   const {
     dispatch,
@@ -48,20 +62,6 @@ const EditForm = () => {
   const handleClose = useCallback(() => {
     dispatch(resetLink());
   }, [dispatch]);
-
-  const initialValues = {
-    name: '',
-    isListed: 'false',
-    slug: '',
-    url: '',
-  };
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string(),
-    isListed: Yup.string(),
-    slug: Yup.string(),
-    url: Yup.string().required('URL is required'),
-  });
 
   const { handleChange, values, setValues, submitForm, errors, touched, setFieldTouched, isValid } =
     useFormik<Inputs>({
@@ -93,8 +93,11 @@ const EditForm = () => {
 
   // exit form on success
   useEffect(() => {
-    if (saveSuccess) handleClose();
-  }, [handleClose, saveSuccess]);
+    if (saveSuccess) {
+      handleClose();
+      setValues(initialValues);
+    }
+  }, [handleClose, saveSuccess, setValues]);
 
   return (
     <div className={editFormClass}>
