@@ -18,10 +18,11 @@
     visibility: hidden;
     opacity: 0;
     transition: 0.5s ease;
+    overflow: auto;
   }
   &.open-list {
     .list {
-      max-height: 20rem;
+      max-height: 55rem;
       visibility: visible;
       opacity: 1;
       transition: 0.5s ease;
