@@ -9,7 +9,7 @@ import InlineFreqGraph from '@components/InlineFreqGraph';
 import Button from '@components/Button';
 
 import useStateContext from '@context/index';
-import { getLinks, selectLink, deleteLink } from '@context/operations';
+import { getLinks, selectLink, deleteLink, domain } from '@context/operations';
 
 import styles from './UrlList.module.scss';
 
@@ -33,11 +33,11 @@ const opensCopy = (opens: number) => {
 const UrlList = () => {
   const router = useRouter();
   const {
-    state: { data, selectedLink, createLink, deleteMode, loading },
+    state: { data, selectedLink, createLink, deleteMode, loading, isLoggedIn },
     dispatch,
   } = useStateContext();
 
-  const { tagGroups = [] } = data;
+  const { tagGroups = [], list = [] } = data;
 
   const selectedTag = useMemo(() => {
     const tag = router.asPath.match(/(#[\w-]*)/)?.[0] ?? '';
@@ -45,8 +45,12 @@ const UrlList = () => {
     return tag || firstTag;
   }, [router.asPath, tagGroups]);
 
-  const handleSelect = (link: string) => {
-    dispatch(selectLink(link));
+  const handleSelect = (linkId: string) => {
+    if (isLoggedIn) dispatch(selectLink(linkId));
+    else {
+      const slug = list.find((l) => l._id === linkId)?.slug;
+      if (slug) router.push(`${domain}/${slug}`);
+    }
   };
 
   const handleDelete = (link: string) => {
