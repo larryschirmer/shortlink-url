@@ -30,7 +30,8 @@ const sortLinks = (links: Url[], isLoggedIn: boolean) => {
     }
   });
 
-  return [...sortby(tagLinks, 'tag'), untaggedLinks];
+  if (untaggedLinks.links.length) return [...sortby(tagLinks, 'tag'), untaggedLinks];
+  else return sortby(tagLinks, 'tag');
 };
 
 export default sortLinks;
