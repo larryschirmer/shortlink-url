@@ -11,7 +11,7 @@ export const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
 const instance = axios.create({ baseURL: domain });
 
 const newToken = (token: string) =>
-  `token=${token}; expires=${new Date(Date.now() + 1000 * 60 * 60 * 24)}; path=/`;
+  `token=${token}; expires=${new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)}; path=/`;
 
 export const login =
   ({ user, password }: { user: string; password: string }) =>
