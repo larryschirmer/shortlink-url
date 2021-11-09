@@ -74,6 +74,7 @@ const LoginForm = () => {
           <Input
             id="password"
             label="Password"
+            type="password"
             name="password"
             value={values.password}
             placeholder="Password"
