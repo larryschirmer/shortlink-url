@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
@@ -37,6 +37,8 @@ const UrlList = () => {
     dispatch,
   } = useStateContext();
 
+  const [loaded, setLoaded] = useState(false);
+
   const { tagGroups = [], list = [] } = data;
 
   const selectedTag = useMemo(() => {
@@ -61,6 +63,17 @@ const UrlList = () => {
   useEffect(() => {
     dispatch(getLinks());
   }, [dispatch]);
+
+  // Set loaded state on data change
+  useEffect(() => {
+    if (!loaded && !loading && list.length) {
+      const tag = router.asPath.match(/(#[\w-]*)/)?.[0] ?? '';
+      if (tag) {
+        document?.getElementById(tag)?.scrollIntoView();
+        setLoaded(true);
+      }
+    }
+  }, [list.length, loaded, loading, router.asPath]);
 
   const urlListClasses = classNames(urlListClass, {
     [condensedClass]: !!selectedLink || createLink,
