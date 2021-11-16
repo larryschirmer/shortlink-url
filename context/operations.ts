@@ -6,7 +6,7 @@ import * as actions from './actions';
 import { Actions, Url, SaveLink, AuthedURL } from './types';
 import { handle, getCookie } from '@utils/index';
 
-export const domain = 'https://l.schr.me'; // process.env.NEXT_PUBLIC_DOMAIN || '';
+export const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
 
 const instance = axios.create({ baseURL: domain });
 
