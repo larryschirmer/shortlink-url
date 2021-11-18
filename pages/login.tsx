@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <Provider value={{ state, dispatch }}>
       <Head>
-        <title>URL Shortened Login</title>
+        <title>Lnk Shrtnr</title>
       </Head>
       <LoginForm />
     </Provider>

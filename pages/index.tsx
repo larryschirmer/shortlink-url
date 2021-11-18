@@ -18,7 +18,7 @@ const Home = ({ cookies }: Props) => {
   return (
     <Provider value={{ state, dispatch }}>
       <Head>
-        <title>URL Shortener - larryschirmer</title>
+        <title>Lnk Shrtnr</title>
       </Head>
       <PageHeader />
       <UrlManager />
