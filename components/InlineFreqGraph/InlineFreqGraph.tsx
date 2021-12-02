@@ -4,7 +4,7 @@ import zipObject from 'lodash/zipObject';
 import format from 'date-fns/format';
 import { line } from 'd3-shape';
 
-import { d3, padWeekly } from '@utils/index';
+import { d3, padMonthly } from '@utils/index';
 
 const { makeTimeScale, makeLinearScale, processBounds, makeAccessor } = d3;
 
@@ -62,7 +62,7 @@ const InlineFreqGraph = ({ data, color }: Props) => {
       { dates: [], amts: [] },
     );
 
-    return padWeekly(zipObject(dates, amts));
+    return padMonthly(zipObject(dates, amts));
   }, [data]);
 
   const xScale = useMemo(() => {
