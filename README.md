@@ -24,3 +24,8 @@ This is project is a little unique when it comes to installation. I'm using Font
   - This will place the env vars in the PATH allowing for the `yarn` command to build as expected
 - Install dependencies
   - Run `yarn`
+
+## Todo
+
+- [ ] Make url slug input full width
+- [ ] Add copy url + slug button to form
