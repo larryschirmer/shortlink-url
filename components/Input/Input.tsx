@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FocusEventHandler, InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
 import styles from './Input.module.scss';
 
@@ -23,8 +23,11 @@ const Input = ({
   return (
     <div className={inputClass}>
       <label htmlFor={id}>{label}</label>
-      <input {...{ id, type, name, value, placeholder, onChange, onBlur }} size={1} />
-      <div className={errorClass}>{error && <p>{error}</p>}</div>
+      <input
+        {...{ id, type, name, value, placeholder, onChange, onBlur }}
+        size={1}
+      />
+      <div className={errorClass}>{error && <p role='alert'>{error}</p>}</div>
     </div>
   );
 };
