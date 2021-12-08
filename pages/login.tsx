@@ -1,9 +1,9 @@
-import React, { useReducer } from "react";
-import Head from "next/head";
+import React, { useReducer } from 'react';
+import Head from 'next/head';
 
-import LoginForm from "@components/LoginForm";
+import Login from '@components/Login';
 
-import { Provider, reducer, initialState } from "@context/index";
+import { Provider, reducer, initialState } from '@context/index';
 
 const Home = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -12,7 +12,7 @@ const Home = () => {
       <Head>
         <title>Lnk Shrtnr</title>
       </Head>
-      <LoginForm />
+      <Login />
     </Provider>
   );
 };
