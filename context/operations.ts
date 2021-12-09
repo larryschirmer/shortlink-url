@@ -28,11 +28,7 @@ export const login =
       document.cookie = newToken(token);
       dispatch(actions.loginSuccess());
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        dispatch(actions.loginFailure(handle.axiosError(error)));
-      } else {
-        dispatch(actions.loginFailure(handle.unexpectedError(error)));
-      }
+      dispatch(actions.loginFailure(handle.axiosError(error)));
     }
   };
 
@@ -43,11 +39,7 @@ export const getLinks = () => async (dispatch: Dispatch<Actions>) => {
     const { data: links } = await instance.get<Url[]>('/url');
     dispatch(actions.getLinksSuccess(links));
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      dispatch(actions.getLinksFailure(handle.axiosError(error)));
-    } else {
-      dispatch(actions.getLinksFailure(handle.unexpectedError(error)));
-    }
+    dispatch(actions.getLinksFailure(handle.axiosError(error)));
   }
 };
 
@@ -60,11 +52,7 @@ export const saveLink = (link: SaveLink) => async (dispatch: Dispatch<Actions>) 
     document.cookie = newToken(data.token);
     dispatch(actions.createLinkSuccess(omit(data, ['token'])));
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      dispatch(actions.createLinkFailure(handle.axiosError(error)));
-    } else {
-      dispatch(actions.createLinkFailure(handle.unexpectedError(error)));
-    }
+    dispatch(actions.createLinkFailure(handle.axiosError(error)));
   }
 };
 
@@ -77,11 +65,7 @@ export const updateLink = (link: SaveLink) => async (dispatch: Dispatch<Actions>
     document.cookie = newToken(data.token);
     dispatch(actions.updateLinkSuccess(omit(data, ['token'])));
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      dispatch(actions.updateLinkFailure(handle.axiosError(error)));
-    } else {
-      dispatch(actions.updateLinkFailure(handle.unexpectedError(error)));
-    }
+    dispatch(actions.updateLinkFailure(handle.axiosError(error)));
   }
 };
 
@@ -94,11 +78,7 @@ export const deleteLink = (id: string) => async (dispatch: Dispatch<Actions>) =>
     document.cookie = newToken(data.token);
     dispatch(actions.deleteLinkSuccess(id));
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      dispatch(actions.deleteLinkFailure(handle.axiosError(error)));
-    } else {
-      dispatch(actions.deleteLinkFailure(handle.unexpectedError(error)));
-    }
+    dispatch(actions.deleteLinkFailure(handle.axiosError(error)));
   }
 };
 
