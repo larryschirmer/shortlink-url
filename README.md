@@ -27,5 +27,5 @@ This is project is a little unique when it comes to installation. I'm using Font
 
 ## Todo
 
-- [ ] Make url slug input full width
+- [x] Make url slug input full width
 - [ ] Add copy url + slug button to form

@@ -37,12 +37,13 @@
 
 @media (min-width: $screen-desktop) {
   .edit-form {
+    max-width: unset;
     form {
       grid-template-columns: auto 17rem;
       align-items: flex-start;
       grid-template-areas:
         'name listed'
-        'slug listed'
+        'slug slug'
         'url url'
         'ctas ctas';
 
