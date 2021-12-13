@@ -19,6 +19,19 @@
         margin-right: 1rem;
         margin-bottom: 1rem;
       }
+      .copy-button {
+        height: 3rem;
+        margin-left: 1rem;
+        border: 0.1rem solid $grey-5;
+        border-radius: 0.4rem;
+        background-color: $primary-light-bg;
+        padding: 0.4rem 1rem;
+        color: $grey-8;
+        &:hover {
+          background-color: $grey-4;
+          border-color: $grey-6;
+        }
+      }
     }
     .ctas {
       display: flex;

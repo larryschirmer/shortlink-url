@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, FormEvent, useCallback } from 'react';
+import React, { useEffect, useRef, FormEvent, useCallback, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
+import { faSpinnerThird, faCopy, faFileCheck } from '@fortawesome/pro-regular-svg-icons';
 
 import Button from '@components/Button';
 import Input from '@components/Input';
@@ -14,7 +14,12 @@ import { SaveLink } from '@context/types';
 
 import styles from './EditForm.module.scss';
 
-const { 'edit-form': editFormClass, 'form-row': formRowClass, ctas: ctasClass } = styles;
+const { 
+  'edit-form': editFormClass, 
+  'form-row': formRowClass,
+  'copy-button': copyBtnClass,
+  ctas: ctasClass 
+} = styles;
 
 const domainName = process.env.NEXT_PUBLIC_DOMAIN ?? '';
 
@@ -50,6 +55,8 @@ const EditForm = () => {
     },
   } = useStateContext();
 
+  const [didCopy, setDidCopy] = useState(false);
+
   const handleCreateLink = (values: SaveLink) => {
     dispatch(saveLink(values));
   };
@@ -79,6 +86,16 @@ const EditForm = () => {
     e.preventDefault();
     submitForm();
   };
+
+  const handleCopySlug = async () => {
+    try {
+      await navigator.clipboard.writeText(`${domainName}/${values.slug}`);
+      setDidCopy(true);
+      setTimeout(() => setDidCopy(false), 2000);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   // set values from selected link
   const prevSelectedLink = useRef('');
@@ -137,6 +154,9 @@ const EditForm = () => {
             onChange={handleChange}
             onBlur={() => setFieldTouched('slug', true)}
           />
+          <button onClick={handleCopySlug} className={copyBtnClass} type="button">
+            {didCopy ? <FontAwesomeIcon icon={faFileCheck} /> : <FontAwesomeIcon icon={faCopy} />}
+          </button>
         </div>
         <div className={`${formRowClass} grid-url`}>
           <Input
