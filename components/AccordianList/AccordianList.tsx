@@ -19,13 +19,20 @@ export type Props = {
   handleHeaderClose?: () => void;
 };
 
-const AccordianList = ({ id, title, list, initialOpen = false, handleHeaderOpen, handleHeaderClose }: Props) => {
+const AccordianList = ({
+  id,
+  title,
+  list,
+  initialOpen = false,
+  handleHeaderOpen,
+  handleHeaderClose,
+}: Props) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
 
   const handleTogle = () => {
     if (isOpen) handleHeaderClose && handleHeaderClose();
     else handleHeaderOpen && handleHeaderOpen();
-    setIsOpen((prev) => !prev);
+    setIsOpen(prev => !prev);
   };
 
   const accordianListClasses = classNames(accordianListClass, {
@@ -37,7 +44,7 @@ const AccordianList = ({ id, title, list, initialOpen = false, handleHeaderOpen,
       <button className={titleClass} onClick={handleTogle}>
         {title}
       </button>
-      <div className={listClass}>{list.map((listItem) => listItem)}</div>
+      <div className={listClass}>{list.map(listItem => listItem)}</div>
     </div>
   );
 };
