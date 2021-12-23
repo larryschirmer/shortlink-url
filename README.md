@@ -6,7 +6,7 @@ This is the frontend for the Lnk Shrtnr application. Built with:
 
 - React
 - TypeScript
-- Context API/useReducer with Duck Pattern
+- Mobx-state-tree
 - Next.js
 - Deployed with Vercel
 

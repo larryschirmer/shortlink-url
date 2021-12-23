@@ -1,5 +1,5 @@
 import { sortLinks } from '.';
-import { Url } from '@context/types';
+import { Url } from '@models/types';
 
 const links: Url[] = [
   {

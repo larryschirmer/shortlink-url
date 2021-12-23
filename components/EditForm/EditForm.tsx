@@ -20,7 +20,7 @@ import Input from '@components/Input';
 import RadioToggle from '@components/RadioToggle';
 
 import { useMst } from '@models/index';
-import { SaveLink } from '@context/types';
+import { SaveLink } from '@models/types';
 
 import styles from './EditForm.module.scss';
 
@@ -61,6 +61,7 @@ const EditForm = () => {
       loading,
       saveSuccess,
       resetLinkState,
+      isValid,
       createLink,
       updateLink,
     },

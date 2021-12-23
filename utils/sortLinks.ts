@@ -1,6 +1,6 @@
 import uniq from 'lodash/uniq';
 import sortby from 'lodash/sortBy';
-import { Url, TagLink } from '@context/types';
+import { Url, TagLink } from '@models/types';
 
 // generate array of array for each tag
 const sortLinks = (links: Url[], isLoggedIn: boolean) => {

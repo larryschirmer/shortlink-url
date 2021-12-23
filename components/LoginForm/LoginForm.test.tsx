@@ -7,16 +7,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 
-import { Provider } from '@context/index';
-import { State } from '@context/types';
+import { Provider, rootStore, RootInstance } from '@models/index';
 import LoginForm from './LoginForm';
 
 test('LoginForm has no a11y violations', async () => {
   const handleSubmit = () => {};
   const handleClose = () => {};
-  const dispatch = () => {};
   const { container } = render(
-    <Provider value={{ state: {}, dispatch }}>
+    <Provider value={rootStore}>
       <LoginForm {...{ handleSubmit, handleClose }} />
     </Provider>,
   );
@@ -29,9 +27,8 @@ test('LoginForm has no a11y violations', async () => {
 test('should submit form data', async () => {
   const handleSubmit = jest.fn();
   const handleClose = () => {};
-  const dispatch = () => {};
   render(
-    <Provider value={{ state: {}, dispatch }}>
+    <Provider value={rootStore}>
       <LoginForm {...{ handleSubmit, handleClose }} />
     </Provider>,
   );
@@ -53,10 +50,12 @@ test('should submit form data', async () => {
 test('should disable submit and render loading state', async () => {
   const handleSubmit = () => {};
   const handleClose = () => {};
-  const dispatch = () => {};
-  const providerValues: { state: Partial<State>; dispatch: () => void } = {
-    state: { loading: true },
-    dispatch,
+  const providerValues: RootInstance = {
+    ...rootStore,
+    server: {
+      ...rootStore.server,
+      loading: true,
+    },
   };
   render(
     <Provider value={providerValues}>
@@ -72,9 +71,8 @@ test('should disable submit and render loading state', async () => {
 test('should handle close on close', async () => {
   const handleSubmit = () => {};
   const handleClose = jest.fn();
-  const dispatch = () => {};
   render(
-    <Provider value={{ state: {}, dispatch }}>
+    <Provider value={rootStore}>
       <LoginForm {...{ handleSubmit, handleClose }} />
     </Provider>,
   );
@@ -84,4 +82,4 @@ test('should handle close on close', async () => {
   await waitFor(() => {
     expect(handleClose).toHaveBeenCalled();
   });
-})
+});
