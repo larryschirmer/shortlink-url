@@ -51,17 +51,17 @@ const validationSchema = Yup.object().shape({
   name: Yup.string(),
   isListed: Yup.string(),
   slug: Yup.string(),
-  url: Yup.string().required('URL is required'),
+  url: Yup.string().url('Invalid URL').required('URL is required'),
 });
 
 const EditForm = () => {
   const {
     server: {
       data: list,
+      user,
       loading,
       saveSuccess,
       isValidSlug,
-      resetIsValidSlug,
       resetLinkState,
       isSlugValid,
       createLink,
@@ -80,11 +80,6 @@ const EditForm = () => {
     const prevLink = list.find(link => link._id === selectedLink);
     updateLink(selectedLink, { ...prevLink, ...values });
   };
-
-  const handleClose = useCallback(() => {
-    resetLinkState();
-    resetAppState();
-  }, [resetAppState, resetLinkState]);
 
   const {
     errors,
@@ -107,6 +102,12 @@ const EditForm = () => {
     },
     validateOnMount: true,
   });
+
+  const handleClose = () => {
+    resetLinkState();
+    resetAppState();
+    resetForm();
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -145,21 +146,20 @@ const EditForm = () => {
   // if slug is invalid, set error
   useEffect(() => {
     if (isValidSlug === false) {
-      setFieldError('slug', 'Slug is invalid');
-      resetIsValidSlug();
+      setFieldError('slug', 'Slug is already taken');
     } else if (isValidSlug === true) {
       setFieldError('slug', undefined);
-      resetIsValidSlug();
     }
-  }, [errors, isValidSlug, resetIsValidSlug, setFieldError]);
+  }, [errors, isValidSlug, setFieldError]);
 
   // exit form on success
   useEffect(() => {
     if (saveSuccess) {
-      handleClose();
+      resetLinkState();
+      resetAppState();
       resetForm();
     }
-  }, [handleClose, resetForm, saveSuccess, setValues]);
+  }, [resetAppState, resetForm, resetLinkState, saveSuccess]);
 
   return (
     <div className={editFormClass}>
@@ -181,6 +181,7 @@ const EditForm = () => {
             name='isListed'
             currentValue={values.isListed}
             onChange={handleChange}
+            disabled={!user?.isAdmin}
             buttons={[
               { id: 'listed', value: 'true', label: 'Listed' },
               { id: 'not-listed', value: 'false', label: 'Unlisted' },

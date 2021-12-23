@@ -17,6 +17,10 @@
       background-color: $grey-9;
       color: $grey-1;
     }
+    &:disabled + label {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
   .horizontal-break {
     width: 0.1rem;

@@ -15,6 +15,7 @@ const Home = ({ cookies }: Props) => {
   useEffect(() => {
     if (!!cookies['token']) {
       rootStore.server.setIsLoggedIn(true);
+      rootStore.server.getUser();
     }
   }, [cookies]);
 
