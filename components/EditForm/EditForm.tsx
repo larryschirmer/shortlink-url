@@ -60,6 +60,8 @@ const EditForm = () => {
       data: list,
       loading,
       saveSuccess,
+      isValidSlug,
+      resetIsValidSlug,
       resetLinkState,
       isSlugValid,
       createLink,
@@ -85,15 +87,16 @@ const EditForm = () => {
   }, [resetAppState, resetLinkState]);
 
   const {
-    handleChange,
+    errors,
+    isValid,
+    touched,
     values,
+    handleChange,
+    resetForm,
+    setFieldError,
+    setFieldTouched,
     setValues,
     submitForm,
-    errors,
-    touched,
-    setFieldTouched,
-    isValid,
-    resetForm,
   } = useFormik<Inputs>({
     initialValues,
     validationSchema,
@@ -108,6 +111,14 @@ const EditForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     submitForm();
+  };
+
+  const handleValidateSlug = () => {
+    const prevSlug = list.find(link => link._id === selectedLink)?.slug ?? '';
+    const { slug } = values;
+
+    if (prevSlug !== slug) isSlugValid(slug);
+    else setFieldError('slug', undefined);
   };
 
   const handleCopySlug = async () => {
@@ -130,6 +141,17 @@ const EditForm = () => {
       prevSelectedLink.current = selectedLink;
     }
   }, [list, selectedLink, setValues]);
+
+  // if slug is invalid, set error
+  useEffect(() => {
+    if (isValidSlug === false) {
+      setFieldError('slug', 'Slug is invalid');
+      resetIsValidSlug();
+    } else if (isValidSlug === true) {
+      setFieldError('slug', undefined);
+      resetIsValidSlug();
+    }
+  }, [errors, isValidSlug, resetIsValidSlug, setFieldError]);
 
   // exit form on success
   useEffect(() => {
@@ -175,7 +197,10 @@ const EditForm = () => {
             placeholder='Slug'
             error={touched.slug ? errors.slug : ''}
             onChange={handleChange}
-            onBlur={() => setFieldTouched('slug', true)}
+            onBlur={() => {
+              setFieldTouched('slug', true);
+              handleValidateSlug();
+            }}
           />
           <button
             onClick={handleCopySlug}

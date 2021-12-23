@@ -44,6 +44,9 @@ const Server = types
     setIsLoggedIn(isLoggedIn: boolean) {
       self.isLoggedIn = isLoggedIn;
     },
+    resetIsValidSlug() {
+      self.isValidSlug = null;
+    },
     resetLinkState() {
       self.saveSuccess = false;
       self.isValidSlug = null;
@@ -94,7 +97,7 @@ const Server = types
         self.loading = false;
       }
     }),
-    isValid: flow(function* (slug: string) {
+    isSlugValid: flow(function* (slug: string) {
       self.loading = true;
 
       try {

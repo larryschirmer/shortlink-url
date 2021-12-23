@@ -47,6 +47,13 @@ it('should set logged in property', () => {
   expect(server.isLoggedIn).toBe(true);
 });
 
+it('should reset slug validation', () => {
+  const server = Server.create({ ...ServerModel, isValidSlug: false });
+
+  server.resetIsValidSlug();
+  expect(server.isValidSlug).toBe(null);
+});
+
 it('should reset link save state', () => {
   const server = Server.create({
     ...ServerModel,
@@ -145,7 +152,7 @@ describe('getLinks', () => {
   });
 });
 
-describe('isValid', () => {
+describe('isSlugValid', () => {
   it('should return a check if slug is in use', async () => {
     const server = Server.create(ServerModel);
 
@@ -160,7 +167,7 @@ describe('isValid', () => {
       .mockImplementation(jest.fn(() => Promise.resolve(response)));
 
     const slug = 'slug';
-    await server.isValid(slug);
+    await server.isSlugValid(slug);
     const url = `${domain}/slug/isValid?slug=${slug}`;
     expect(axios.get).toHaveBeenCalledWith(url);
     expect(server.isValidSlug).toBe(true);
