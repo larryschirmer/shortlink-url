@@ -1,20 +1,19 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 
 import PageHeader from '@components/PageHeader';
 import LoginForm, { FormInputs } from '@components/LoginForm';
 
-import useStateContext from '@context/index';
-import { login } from '@context/operations';
+import { useMst } from '@models/index';
 
 const Login = () => {
   const router = useRouter();
   const {
-    state: { isLoggedIn },
-    dispatch,
-  } = useStateContext();
+    server: { isLoggedIn, login },
+  } = useMst();
 
-  const handleSubmit = (values: FormInputs) => dispatch(login(values));
+  const handleSubmit = (values: FormInputs) => login(values);
   const handleClose = () => router.push('/');
 
   // return to home on successful login
@@ -30,4 +29,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default observer(Login);

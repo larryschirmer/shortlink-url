@@ -1,12 +1,16 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePlus, faTrash, faSignInAlt } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faFilePlus,
+  faTrash,
+  faSignInAlt,
+} from '@fortawesome/pro-regular-svg-icons';
 
 import Button from '@components/Button';
 
-import useStateContext from '@context/index';
-import { createLink, toggleDeleteMode } from '@context/operations';
+import { useMst } from '@models/index';
 
 import styles from './PageHeader.module.scss';
 
@@ -15,16 +19,16 @@ const { 'page-header': pageHeaderClass, header: headerClass } = styles;
 const PageHeader = () => {
   const router = useRouter();
   const {
-    dispatch,
-    state: { isLoggedIn },
-  } = useStateContext();
+    server: { isLoggedIn },
+    app: { toggleCreateMode, toggleDeleteMode },
+  } = useMst();
 
   const handleCreateLink = () => {
-    dispatch(createLink());
+    toggleCreateMode();
   };
 
   const handleToggleDeleteMode = () => {
-    dispatch(toggleDeleteMode());
+    toggleDeleteMode();
   };
 
   const handleLogin = () => {
@@ -53,4 +57,4 @@ const PageHeader = () => {
   );
 };
 
-export default PageHeader;
+export default observer(PageHeader);

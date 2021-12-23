@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +8,7 @@ import { faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
 import Button from '@components/Button';
 import Input from '@components/Input';
 
-import useStateContext from '@context/index';
+import { useMst } from '@models/index';
 
 import styles from './LoginForm.module.scss';
 
@@ -18,7 +19,7 @@ const {
 } = styles;
 
 export type Inputs = {
-  user: string;
+  name: string;
   password: string;
 };
 
@@ -29,12 +30,12 @@ type Props = {
 
 const LoginForm = ({ handleSubmit, handleClose }: Props) => {
   const {
-    state: { loading },
-  } = useStateContext();
+    server: { loading },
+  } = useMst();
 
-  const initialValues = { user: '', password: '' };
+  const initialValues = { name: '', password: '' };
   const validationSchema = Yup.object({
-    user: Yup.string().required('Username is required'),
+    name: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
   });
 
@@ -65,12 +66,12 @@ const LoginForm = ({ handleSubmit, handleClose }: Props) => {
           <Input
             id='name'
             label='Name'
-            name='user'
-            value={values.user}
+            name='name'
+            value={values.name}
             placeholder='Name'
-            error={touched.user ? errors.user : ''}
+            error={touched.name ? errors.name : ''}
             onChange={handleChange}
-            onBlur={() => setFieldTouched('user', true)}
+            onBlur={() => setFieldTouched('name', true)}
           />
         </div>
         <div className={`${formRowClass} grid-password`}>
@@ -116,4 +117,4 @@ const LoginForm = ({ handleSubmit, handleClose }: Props) => {
   );
 };
 
-export default LoginForm;
+export default observer(LoginForm);

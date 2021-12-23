@@ -1,22 +1,25 @@
-import React, { useReducer } from 'react';
+import React, { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
+import { observer } from 'mobx-react-lite';
 import Head from 'next/head';
 
 import PageHeader from '@components/PageHeader';
 import UrlManager from '@components/UrlManager';
 
-import { Provider, reducer, initialState } from '@context/index';
+import { Provider, rootStore } from '@models/index';
 
 type Props = { cookies: { [cookie: string]: string } };
 
 const Home = ({ cookies }: Props) => {
-  const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
-    isLoggedIn: !!cookies['token'],
-  });
+  // if token exists, set isLoggedIn to true
+  useEffect(() => {
+    if (!!cookies['token']) {
+      rootStore.server.setIsLoggedIn(true);
+    }
+  }, [cookies]);
 
   return (
-    <Provider value={{ state, dispatch }}>
+    <Provider value={rootStore}>
       <Head>
         <title>Lnk Shrtnr</title>
       </Head>
@@ -26,7 +29,7 @@ const Home = ({ cookies }: Props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
   const {
     req: { cookies },
   } = ctx;
@@ -34,4 +37,4 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   return { props: { cookies } };
 };
 
-export default Home;
+export default observer(Home);

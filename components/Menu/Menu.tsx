@@ -1,19 +1,22 @@
 import React from 'react';
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 
 import EditForm from '@components/EditForm';
 
-import useStateContext from '@context/index';
+import { useMst } from '@models/index';
 
 import styles from './Menu.module.scss';
 
 const { menu: menuClass, hidden: hiddenClass } = styles;
 
 const Menu = () => {
-  const { state: {selectedLink, createLink} } = useStateContext();
+  const {
+    app: { selectedLink, createMode },
+  } = useMst();
 
   const menuClasses = classNames(menuClass, {
-    [hiddenClass]: !selectedLink && !createLink,
+    [hiddenClass]: !selectedLink && !createMode,
   });
 
   return (
@@ -23,4 +26,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default observer(Menu);

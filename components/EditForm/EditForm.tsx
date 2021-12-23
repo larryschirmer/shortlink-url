@@ -1,24 +1,34 @@
-import React, { useEffect, useRef, FormEvent, useCallback, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  FormEvent,
+  useCallback,
+  useState,
+} from 'react';
+import { observer } from 'mobx-react-lite';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinnerThird, faCopy, faFileCheck } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faSpinnerThird,
+  faCopy,
+  faFileCheck,
+} from '@fortawesome/pro-regular-svg-icons';
 
 import Button from '@components/Button';
 import Input from '@components/Input';
 import RadioToggle from '@components/RadioToggle';
 
-import useStateContext from '@context/index';
-import { resetLink, saveLink, updateLink } from '@context/operations';
+import { useMst } from '@models/index';
 import { SaveLink } from '@context/types';
 
 import styles from './EditForm.module.scss';
 
-const { 
-  'edit-form': editFormClass, 
+const {
+  'edit-form': editFormClass,
   'form-row': formRowClass,
   'copy-button': copyBtnClass,
-  ctas: ctasClass 
+  ctas: ctasClass,
 } = styles;
 
 const domainName = process.env.NEXT_PUBLIC_DOMAIN ?? '';
@@ -46,41 +56,52 @@ const validationSchema = Yup.object().shape({
 
 const EditForm = () => {
   const {
-    dispatch,
-    state: {
-      data: { list = [] },
-      selectedLink,
+    server: {
+      data: list,
       loading,
       saveSuccess,
+      resetLinkState,
+      createLink,
+      updateLink,
     },
-  } = useStateContext();
+    app: { selectedLink, resetAppState },
+  } = useMst();
 
   const [didCopy, setDidCopy] = useState(false);
 
   const handleCreateLink = (values: SaveLink) => {
-    dispatch(saveLink(values));
+    createLink(values);
   };
 
   const handleUpdateLink = (values: SaveLink) => {
-    const prevLink = list.find((link) => link._id === selectedLink);
-    dispatch(updateLink({ ...prevLink, ...values }));
+    const prevLink = list.find(link => link._id === selectedLink);
+    updateLink(selectedLink, { ...prevLink, ...values });
   };
 
   const handleClose = useCallback(() => {
-    dispatch(resetLink());
-  }, [dispatch]);
+    resetLinkState();
+    resetAppState();
+  }, [resetAppState, resetLinkState]);
 
-  const { handleChange, values, setValues, submitForm, errors, touched, setFieldTouched, isValid } =
-    useFormik<Inputs>({
-      initialValues,
-      validationSchema,
-      onSubmit: (values) => {
-        const isListed = values.isListed === 'true';
-        if (selectedLink) handleUpdateLink({ ...values, isListed });
-        else handleCreateLink({ ...values, isListed });
-      },
-      validateOnMount: true,
-    });
+  const {
+    handleChange,
+    values,
+    setValues,
+    submitForm,
+    errors,
+    touched,
+    setFieldTouched,
+    isValid,
+  } = useFormik<Inputs>({
+    initialValues,
+    validationSchema,
+    onSubmit: values => {
+      const isListed = values.isListed === 'true';
+      if (selectedLink) handleUpdateLink({ ...values, isListed });
+      else handleCreateLink({ ...values, isListed });
+    },
+    validateOnMount: true,
+  });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,7 +116,7 @@ const EditForm = () => {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   // set values from selected link
   const prevSelectedLink = useRef('');
@@ -121,11 +142,11 @@ const EditForm = () => {
       <form onSubmit={handleSubmit}>
         <div className={`${formRowClass} grid-name`}>
           <Input
-            id="name"
-            label="Name"
-            name="name"
+            id='name'
+            label='Name'
+            name='name'
             value={values.name}
-            placeholder="Name"
+            placeholder='Name'
             error={touched.name ? errors.name : ''}
             onChange={handleChange}
             onBlur={() => setFieldTouched('name', true)}
@@ -133,7 +154,7 @@ const EditForm = () => {
         </div>
         <div className={`${formRowClass} grid-listed`}>
           <RadioToggle
-            name="isListed"
+            name='isListed'
             currentValue={values.isListed}
             onChange={handleChange}
             buttons={[
@@ -145,26 +166,34 @@ const EditForm = () => {
         <div className={`${formRowClass} grid-slug`}>
           <p>{domainName}/</p>
           <Input
-            id="slug"
-            label="Short Link"
-            name="slug"
+            id='slug'
+            label='Short Link'
+            name='slug'
             value={values.slug}
-            placeholder="Slug"
+            placeholder='Slug'
             error={touched.slug ? errors.slug : ''}
             onChange={handleChange}
             onBlur={() => setFieldTouched('slug', true)}
           />
-          <button onClick={handleCopySlug} className={copyBtnClass} type="button">
-            {didCopy ? <FontAwesomeIcon icon={faFileCheck} /> : <FontAwesomeIcon icon={faCopy} />}
+          <button
+            onClick={handleCopySlug}
+            className={copyBtnClass}
+            type='button'
+          >
+            {didCopy ? (
+              <FontAwesomeIcon icon={faFileCheck} />
+            ) : (
+              <FontAwesomeIcon icon={faCopy} />
+            )}
           </button>
         </div>
         <div className={`${formRowClass} grid-url`}>
           <Input
-            id="url"
-            label="Forwards To"
-            name="url"
+            id='url'
+            label='Forwards To'
+            name='url'
             value={values.url}
-            placeholder="Url"
+            placeholder='Url'
             error={touched.url ? errors.url : ''}
             onChange={handleChange}
             onBlur={() => setFieldTouched('url', true)}
@@ -172,11 +201,15 @@ const EditForm = () => {
         </div>
         <div className={`${formRowClass} grid-ctas`}>
           <div className={ctasClass}>
-            <Button isSecondary type="button" onClick={handleClose}>
+            <Button isSecondary type='button' onClick={handleClose}>
               Close
             </Button>
-            <Button disabled={!isValid || loading} type="submit">
-              {loading ? <FontAwesomeIcon spin icon={faSpinnerThird} /> : 'Save'}
+            <Button disabled={!isValid || loading} type='submit'>
+              {loading ? (
+                <FontAwesomeIcon spin icon={faSpinnerThird} />
+              ) : (
+                'Save'
+              )}
             </Button>
           </div>
         </div>
@@ -185,4 +218,4 @@ const EditForm = () => {
   );
 };
 
-export default EditForm;
+export default observer(EditForm);

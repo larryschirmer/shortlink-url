@@ -1,14 +1,13 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import Head from 'next/head';
 
 import Login from '@components/Login';
 
-import { Provider, reducer, initialState } from '@context/index';
+import { Provider, rootStore } from '@models/index';
 
 const Home = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <Provider value={{ state, dispatch }}>
+    <Provider value={rootStore}>
       <Head>
         <title>Lnk Shrtnr</title>
       </Head>

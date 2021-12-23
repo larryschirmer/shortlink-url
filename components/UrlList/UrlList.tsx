@@ -1,17 +1,22 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { observer } from 'mobx-react-lite';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faTimesCircle,
+  faSpinnerThird,
+} from '@fortawesome/pro-regular-svg-icons';
 import { useRouter } from 'next/router';
 
 import AccordianList from '@components/AccordianList';
 import InlineFreqGraph from '@components/InlineFreqGraph';
 import Button from '@components/Button';
 
-import useStateContext from '@context/index';
-import { getLinks, selectLink, deleteLink, domain } from '@context/operations';
+import { useMst } from '@models/index';
 
 import styles from './UrlList.module.scss';
+
+const domainName = process.env.NEXT_PUBLIC_DOMAIN ?? '';
 
 const {
   'url-list': urlListClass,
@@ -33,13 +38,19 @@ const opensCopy = (opens: number) => {
 const UrlList = () => {
   const router = useRouter();
   const {
-    state: { data, selectedLink, createLink, deleteMode, loading, isLoggedIn },
-    dispatch,
-  } = useStateContext();
+    server: {
+      data: list,
+      tagGroups,
+      loading,
+      isLoggedIn,
+      getLinks,
+      createLink,
+      deleteLink,
+    },
+    app: { selectedLink, deleteMode, editLink },
+  } = useMst();
 
   const [loaded, setLoaded] = useState(false);
-
-  const { tagGroups = [], list = [] } = data;
 
   const selectedTag = useMemo(() => {
     const tag = router.asPath.match(/(#[\w-]*)/)?.[0] ?? '';
@@ -48,25 +59,25 @@ const UrlList = () => {
   }, [router.asPath, tagGroups]);
 
   const handleHeaderOpen = (tag: string) => {
-    if (tag !== 'All Links') router.replace(`/${tag}`)
-  }
+    if (tag !== 'All Links') router.replace(`/${tag}`);
+  };
 
   const handleSelect = (linkId: string) => {
-    if (isLoggedIn) dispatch(selectLink(linkId));
+    if (isLoggedIn) editLink(linkId);
     else {
-      const slug = list.find((l) => l._id === linkId)?.slug;
-      if (slug) router.push(`${domain}/${slug}`);
+      const slug = list.find(l => l._id === linkId)?.slug;
+      if (slug) router.push(`${domainName}/${slug}`);
     }
   };
 
   const handleDelete = (link: string) => {
-    dispatch(deleteLink(link));
+    deleteLink(link);
   };
 
   // Fetch links on mount
   useEffect(() => {
-    dispatch(getLinks());
-  }, [dispatch]);
+    getLinks();
+  }, [getLinks]);
 
   // Set loaded state on data change
   useEffect(() => {
@@ -91,7 +102,7 @@ const UrlList = () => {
 
   return (
     <div className={urlListClasses}>
-      {tagGroups.map((link) => (
+      {tagGroups.map(link => (
         <AccordianList
           initialOpen={selectedTag === link.tag}
           id={link.tag}
@@ -110,8 +121,10 @@ const UrlList = () => {
                 <div className={itemDetailsClass}>
                   {!deleteMode && (
                     <>
-                      <p>{!!opens.length ? opensCopy(opens.length) : 'Unopened'}</p>
-                      <InlineFreqGraph color="black" data={opens} />
+                      <p>
+                        {!!opens.length ? opensCopy(opens.length) : 'Unopened'}
+                      </p>
+                      <InlineFreqGraph color='black' data={opens} />
                     </>
                   )}
                 </div>
@@ -133,4 +146,4 @@ const UrlList = () => {
   );
 };
 
-export default UrlList;
+export default observer(UrlList);

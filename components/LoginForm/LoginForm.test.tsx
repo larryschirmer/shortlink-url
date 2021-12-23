@@ -37,11 +37,11 @@ test('should submit form data', async () => {
   );
 
   const formData = {
-    user: 'name',
+    name: 'name',
     password: 'password',
   };
 
-  user.type(screen.getByLabelText(/name/i), formData.user);
+  user.type(screen.getByLabelText(/name/i), formData.name);
   user.type(screen.getByLabelText(/password/i), formData.password);
   user.click(screen.getByText(/save/i));
 
