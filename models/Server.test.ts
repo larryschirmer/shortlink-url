@@ -28,6 +28,7 @@ const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
 
 const ServerModel = {
   data: [],
+  user: null,
   isLoggedIn: false,
   loading: false,
   saveSuccess: false,
@@ -45,13 +46,6 @@ it('should set logged in property', () => {
   expect(server.isLoggedIn).toBe(false);
   server.setIsLoggedIn(true);
   expect(server.isLoggedIn).toBe(true);
-});
-
-it('should reset slug validation', () => {
-  const server = Server.create({ ...ServerModel, isValidSlug: false });
-
-  server.resetIsValidSlug();
-  expect(server.isValidSlug).toBe(null);
 });
 
 it('should reset link save state', () => {
@@ -100,6 +94,35 @@ describe('login', () => {
     await server.login(fields);
     expect(axios.post).toHaveBeenCalledWith(url, fields);
     expect(server.error).toBe('error');
+  });
+});
+
+describe('getUser', () => {
+  it('should get a users name and isAdmin from token', async () => {
+    const server = Server.create(ServerModel);
+
+    const token = 'abc123';
+    document.cookie = `token=${token}`;
+
+    const response = {
+      data: {
+        name: 'name',
+        isAdmin: true,
+      },
+    };
+
+    jest
+      .spyOn(axios, 'get')
+      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+
+    await server.getUser();
+    const headers = { Authorization: `Bearer ${token}` };
+    expect(axios.get).toHaveBeenCalledWith(`${domain}/auth`, { headers });
+    expect(server.user).toEqual({
+      name: 'name',
+      isAdmin: true,
+    });
+    expect(server.isLoggedIn).toBe(true);
   });
 });
 
@@ -204,7 +227,10 @@ describe('createLink', () => {
     };
     await server.createLink(fields);
     const url = `${domain}/slug`;
-    const headers = { Authorization: `Bearer ${token}` };
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
     expect(axios.post).toHaveBeenCalledWith(url, fields, { headers });
     expect(server.data).toEqual([response.data]);
   });
@@ -288,7 +314,10 @@ describe('updateLink', () => {
     const linkId = '61be2b2e003d33d6c33f5f8b';
     await server.updateLink(linkId, fields);
     const url = `${domain}/slug/61be2b2e003d33d6c33f5f8b`;
-    const headers = { Authorization: `Bearer ${token}` };
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
     expect(axios.put).toHaveBeenCalledWith(url, fields, { headers });
     expect(server.data).toEqual([links[0], response.data]);
   });

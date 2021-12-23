@@ -17,6 +17,7 @@ export const rootStore = RootModel.create({
   },
   server: {
     data: [],
+    user: null,
     isLoggedIn: false,
     loading: false,
     saveSuccess: false,

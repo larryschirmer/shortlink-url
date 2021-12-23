@@ -2,6 +2,7 @@ import { types, flow, IMSTArray } from 'mobx-state-tree';
 import axios, { AxiosResponse } from 'axios';
 
 import { handle, getCookie, sortLinks } from '@utils/index';
+import { Url } from '@models/types';
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
 
@@ -10,16 +11,6 @@ const newToken = (token: string) =>
   `token=${token}; expires=${new Date(
     Date.now() + yearInMilliseconds,
   )}; path=/`;
-
-export type Url = {
-  _id: string;
-  name: string;
-  slug: string;
-  url: string;
-  isListed: boolean;
-  tags: string[];
-  opens: string[];
-};
 
 const UrlModel = types.model({
   _id: types.string,
@@ -31,9 +22,15 @@ const UrlModel = types.model({
   opens: types.array(types.string),
 });
 
+const UserModel = types.model({
+  name: types.string,
+  isAdmin: types.boolean,
+});
+
 const Server = types
   .model({
     data: types.optional(types.array(UrlModel), []),
+    user: types.maybeNull(UserModel),
     isLoggedIn: types.boolean,
     loading: types.boolean,
     saveSuccess: types.boolean,
@@ -43,9 +40,6 @@ const Server = types
   .actions(self => ({
     setIsLoggedIn(isLoggedIn: boolean) {
       self.isLoggedIn = isLoggedIn;
-    },
-    resetIsValidSlug() {
-      self.isValidSlug = null;
     },
     resetLinkState() {
       self.saveSuccess = false;
@@ -71,6 +65,28 @@ const Server = types
         document.cookie = newToken(token);
         self.isLoggedIn = true;
       } catch (error) {
+        self.error = handle.axiosError(error);
+      } finally {
+        self.loading = false;
+      }
+    }),
+    getUser: flow(function* () {
+      self.loading = true;
+
+      try {
+        const token = getCookie(document.cookie, 'token');
+        const url = `${domain}/auth`;
+        if (!token) return;
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const { data } = yield axios.get(url, config);
+        self.user = data;
+        self.isLoggedIn = true;
+      } catch (error) {
+        self.isLoggedIn = false;
         self.error = handle.axiosError(error);
       } finally {
         self.loading = false;
@@ -184,7 +200,6 @@ const Server = types
         const config = {
           headers: {
             Authorization: `Bearer ${cookie}`,
-            'Content-Type': 'application/json',
           },
         };
         yield axios.delete(url, config);
