@@ -61,7 +61,7 @@ const EditForm = () => {
       loading,
       saveSuccess,
       resetLinkState,
-      isValid,
+      isSlugValid,
       createLink,
       updateLink,
     },
@@ -93,6 +93,7 @@ const EditForm = () => {
     touched,
     setFieldTouched,
     isValid,
+    resetForm,
   } = useFormik<Inputs>({
     initialValues,
     validationSchema,
@@ -134,9 +135,9 @@ const EditForm = () => {
   useEffect(() => {
     if (saveSuccess) {
       handleClose();
-      setValues(initialValues);
+      resetForm();
     }
-  }, [handleClose, saveSuccess, setValues]);
+  }, [handleClose, resetForm, saveSuccess, setValues]);
 
   return (
     <div className={editFormClass}>
