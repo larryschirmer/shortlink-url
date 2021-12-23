@@ -29,3 +29,4 @@ This is project is a little unique when it comes to installation. I'm using Font
 
 - [x] Make url slug input full width
 - [x] Add copy url + slug button to form
+- [x] Add prefetch slug validation (async)
