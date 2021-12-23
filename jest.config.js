@@ -10,8 +10,9 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
-    '@context/(.*)': '<rootDir>/context/$1',
     '@components/(.*)': '<rootDir>/components/$1',
+    '@context/(.*)': '<rootDir>/context/$1',
+    '@models/(.*)': '<rootDir>/models/$1',
     '@pages/(.*)': '<rootDir>/pages/$1',
     '@styles/(.*)': '<rootDir>/styles/$1',
     '@utils/(.*)': '<rootDir>/utils/$1',
