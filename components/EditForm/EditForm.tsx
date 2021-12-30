@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  FormEvent,
-  useCallback,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, FormEvent, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -71,6 +65,7 @@ const EditForm = () => {
   } = useMst();
 
   const [didCopy, setDidCopy] = useState(false);
+  const [submitSuspended, setSubmitSuspended] = useState(false);
 
   const handleCreateLink = (values: SaveLink) => {
     createLink(values);
@@ -198,9 +193,11 @@ const EditForm = () => {
             placeholder='Slug'
             error={touched.slug ? errors.slug : ''}
             onChange={handleChange}
+            onFocus={() => setSubmitSuspended(true)}
             onBlur={() => {
               setFieldTouched('slug', true);
               handleValidateSlug();
+              setSubmitSuspended(false);
             }}
           />
           <button
@@ -232,7 +229,10 @@ const EditForm = () => {
             <Button isSecondary type='button' onClick={handleClose}>
               Close
             </Button>
-            <Button disabled={!isValid || loading} type='submit'>
+            <Button
+              disabled={!isValid || loading || submitSuspended}
+              type='submit'
+            >
               {loading ? (
                 <FontAwesomeIcon spin icon={faSpinnerThird} />
               ) : (

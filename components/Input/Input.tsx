@@ -19,12 +19,13 @@ const Input = ({
   error,
   onChange,
   onBlur,
+  onFocus,
 }: Props) => {
   return (
     <div className={inputClass}>
       <label htmlFor={id}>{label}</label>
       <input
-        {...{ id, type, name, value, placeholder, onChange, onBlur }}
+        {...{ id, type, name, value, placeholder, onChange, onBlur, onFocus }}
         size={1}
       />
       <div className={errorClass}>{error && <p role='alert'>{error}</p>}</div>
