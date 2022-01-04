@@ -40,6 +40,7 @@ const UrlList = () => {
   const {
     server: {
       data: list,
+      user,
       tagGroups,
       loading,
       isLoggedIn,
@@ -97,7 +98,7 @@ const UrlList = () => {
 
   const itemNameClasses = (isListed: boolean) =>
     classNames(itemNameClass, {
-      [unlistedClass]: !isListed,
+      [unlistedClass]: user?.isAdmin && !isListed,
     });
 
   return (
