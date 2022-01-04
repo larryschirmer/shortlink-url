@@ -107,7 +107,7 @@ const LoginForm = ({ handleSubmit, handleClose }: Props) => {
                   <FontAwesomeIcon spin icon={faSpinnerThird} /> Loading
                 </>
               ) : (
-                'Save'
+                'Submit'
               )}
             </Button>
           </div>
