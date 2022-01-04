@@ -113,7 +113,7 @@ const EditForm = () => {
     const prevSlug = list.find(link => link._id === selectedLink)?.slug ?? '';
     const { slug } = values;
 
-    if (prevSlug !== slug) isSlugValid(slug);
+    if (prevSlug !== slug && slug !== '') isSlugValid(slug);
     else setFieldError('slug', undefined);
   };
 
