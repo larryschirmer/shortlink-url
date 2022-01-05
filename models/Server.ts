@@ -258,7 +258,7 @@ const Server = types
   }))
   .views(self => ({
     get tagGroups() {
-      return sortLinks(self.data, self.isLoggedIn);
+      return sortLinks(self.data, self.isLoggedIn, self.user);
     },
   }));
 
