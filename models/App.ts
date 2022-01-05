@@ -4,33 +4,33 @@ const App = types
   .model({
     selectedLink: types.string,
     createMode: types.boolean,
-    deleteMode: types.boolean,
+    editMode: types.boolean,
   })
   .actions(self => ({
     editLink(linkId: string) {
       self.selectedLink = linkId;
       self.createMode = false;
-      self.deleteMode = false;
+      self.editMode = false;
     },
     toggleCreateMode() {
       self.createMode = !self.createMode;
       self.selectedLink = '';
-      self.deleteMode = false;
+      self.editMode = false;
     },
-    toggleDeleteMode() {
-      self.deleteMode = !self.deleteMode;
+    toggleEditMode() {
+      self.editMode = !self.editMode;
       self.createMode = false;
       self.selectedLink = '';
     },
     resetAppState() {
       self.selectedLink = '';
       self.createMode = false;
-      self.deleteMode = false;
+      self.editMode = false;
     }
   }))
   .views(self => ({
     get isMenuOpen() {
-      return self.createMode || self.deleteMode || !!self.selectedLink;
+      return self.createMode || self.editMode || !!self.selectedLink;
     },
   }));
 

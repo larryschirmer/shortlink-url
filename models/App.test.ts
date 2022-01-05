@@ -4,7 +4,7 @@ import App from './App';
 const AppModel = {
   selectedLink: '',
   createMode: false,
-  deleteMode: false,
+  editMode: false,
 };
 
 it('should create an instance of AppState', () => {
@@ -17,14 +17,14 @@ it('should set link to edit', () => {
     ...AppModel,
     createMode: true,
     selectedLink: '',
-    deleteMode: false,
+    editMode: false,
   });
   appState.editLink('link-id');
   expect(getSnapshot(appState)).toEqual({
     ...AppModel,
     createMode: false,
     selectedLink: 'link-id',
-    deleteMode: false,
+    editMode: false,
   });
 });
 
@@ -33,14 +33,14 @@ it('should toggle create mode', () => {
     ...AppModel,
     createMode: false,
     selectedLink: 'link-id',
-    deleteMode: false,
+    editMode: false,
   });
   appState.toggleCreateMode();
   expect(getSnapshot(appState)).toEqual({
     ...AppModel,
     createMode: true,
     selectedLink: '',
-    deleteMode: false,
+    editMode: false,
   });
 });
 
@@ -49,14 +49,14 @@ it('should toggle delete mode', () => {
     ...AppModel,
     createMode: false,
     selectedLink: 'link-id',
-    deleteMode: false,
+    editMode: false,
   });
-  appState.toggleDeleteMode();
+  appState.toggleEditMode();
   expect(getSnapshot(appState)).toEqual({
     ...AppModel,
     createMode: false,
     selectedLink: '',
-    deleteMode: true,
+    editMode: true,
   });
 });
 
@@ -65,14 +65,14 @@ it('should reset state', () => {
     ...AppModel,
     createMode: false,
     selectedLink: 'link-id',
-    deleteMode: false,
+    editMode: false,
   });
   appState.resetAppState();
   expect(getSnapshot(appState)).toEqual({
     ...AppModel,
     createMode: false,
     selectedLink: '',
-    deleteMode: false,
+    editMode: false,
   });
 });
 
@@ -85,7 +85,7 @@ it('should derive menu open state', () => {
   appState.resetAppState();
   expect(appState.isMenuOpen).toBe(false);
 
-  appState.toggleDeleteMode();
+  appState.toggleEditMode();
   expect(appState.isMenuOpen).toBe(true);
   appState.resetAppState();
   expect(appState.isMenuOpen).toBe(false);

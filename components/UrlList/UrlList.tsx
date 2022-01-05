@@ -22,7 +22,7 @@ const {
   'url-list': urlListClass,
   condensed: condensedClass,
   'list-group': listGroupClass,
-  'delete-mode': deleteModeClass,
+  'edit-mode': editModeClass,
   'list-item': listItemClass,
   unlisted: unlistedClass,
   'item-name': itemNameClass,
@@ -48,7 +48,7 @@ const UrlList = () => {
       createLink,
       deleteLink,
     },
-    app: { selectedLink, deleteMode, editLink },
+    app: { selectedLink, editMode, editLink },
   } = useMst();
 
   const [loaded, setLoaded] = useState(false);
@@ -93,7 +93,7 @@ const UrlList = () => {
 
   const urlListClasses = classNames(urlListClass, {
     [condensedClass]: !!selectedLink || createLink,
-    [deleteModeClass]: deleteMode,
+    [editModeClass]: editMode,
   });
 
   const itemNameClasses = (isListed: boolean) =>
@@ -114,13 +114,13 @@ const UrlList = () => {
           list={link.links.map(({ _id, name, opens, isListed }) => (
             <div key={_id} className={listGroupClass}>
               <button
-                disabled={deleteMode}
+                disabled={editMode}
                 className={listItemClass}
                 onClick={() => handleSelect(_id)}
               >
                 <div className={itemNameClasses(isListed)}>{name}</div>
                 <div className={itemDetailsClass}>
-                  {!deleteMode && (
+                  {!editMode && (
                     <>
                       <p>
                         {!!opens.length ? opensCopy(opens.length) : 'Unopened'}
@@ -130,7 +130,7 @@ const UrlList = () => {
                   )}
                 </div>
               </button>
-              {deleteMode && (
+              {editMode && (
                 <Button isSecondary onClick={() => handleDelete(_id)}>
                   {loading ? (
                     <FontAwesomeIcon spin icon={faSpinnerThird} />

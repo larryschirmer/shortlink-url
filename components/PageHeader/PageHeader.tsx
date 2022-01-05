@@ -20,7 +20,7 @@ const PageHeader = () => {
   const router = useRouter();
   const {
     server: { isLoggedIn },
-    app: { toggleCreateMode, toggleDeleteMode },
+    app: { toggleCreateMode, toggleEditMode },
   } = useMst();
 
   const handleCreateLink = () => {
@@ -28,7 +28,7 @@ const PageHeader = () => {
   };
 
   const handleToggleDeleteMode = () => {
-    toggleDeleteMode();
+    toggleEditMode();
   };
 
   const handleLogin = () => {
