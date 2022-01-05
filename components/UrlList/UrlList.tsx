@@ -48,6 +48,8 @@ const UrlList = () => {
       getLinks,
       createLink,
       deleteLink,
+      addFavorite,
+      deleteFavorite,
     },
     app: { selectedLink, editMode, editLink },
   } = useMst();
@@ -73,7 +75,9 @@ const UrlList = () => {
   };
 
   const handleFavorite = (link: string) => {
-    // favoriteLink(link);
+    const isFavorite = user?.favorites?.includes(link);
+    if (isFavorite) deleteFavorite(link);
+    else addFavorite(link);
   };
 
   const handleDelete = (link: string) => {
@@ -116,45 +120,55 @@ const UrlList = () => {
           title={link.tag}
           handleHeaderOpen={() => handleHeaderOpen(link.tag)}
           handleHeaderClose={() => router.replace(`/`)}
-          list={link.links.map(({ _id, name, opens, isListed }) => (
-            <div key={_id} className={listGroupClass}>
-              <button
-                disabled={editMode}
-                className={listItemClass}
-                onClick={() => handleSelect(_id)}
-              >
-                <div className={itemNameClasses(isListed)}>{name}</div>
-                <div className={itemDetailsClass}>
-                  {!editMode && (
-                    <>
-                      <p>
-                        {!!opens.length ? opensCopy(opens.length) : 'Unopened'}
-                      </p>
-                      <InlineFreqGraph color='black' data={opens} />
-                    </>
-                  )}
-                </div>
-              </button>
-              {editMode && (
-                <>
-                  <Button
-                    isSecondary
-                    onClick={() => handleFavorite(_id)}
-                    disabled={loading}
-                  >
-                    <FontAwesomeIcon icon={faHeartRegular} />
-                  </Button>
-                  <Button
-                    isSecondary
-                    onClick={() => handleDelete(_id)}
-                    disabled={loading}
-                  >
-                    <FontAwesomeIcon icon={faTimesCircle} />
-                  </Button>
-                </>
-              )}
-            </div>
-          ))}
+          list={link.links.map(({ _id, name, opens, isListed }) => {
+            const isFavorite = user?.favorites?.includes(_id);
+
+            return (
+              <div key={_id} className={listGroupClass}>
+                <button
+                  disabled={editMode}
+                  className={listItemClass}
+                  onClick={() => handleSelect(_id)}
+                >
+                  <div className={itemNameClasses(isListed)}>{name}</div>
+                  <div className={itemDetailsClass}>
+                    {!editMode && (
+                      <>
+                        <p>
+                          {!!opens.length
+                            ? opensCopy(opens.length)
+                            : 'Unopened'}
+                        </p>
+                        <InlineFreqGraph color='black' data={opens} />
+                      </>
+                    )}
+                  </div>
+                </button>
+                {editMode && (
+                  <>
+                    <Button
+                      isSecondary
+                      onClick={() => handleFavorite(_id)}
+                      disabled={loading}
+                    >
+                      {isFavorite ? (
+                        <FontAwesomeIcon icon={faHeartSolid} />
+                      ) : (
+                        <FontAwesomeIcon icon={faHeartRegular} />
+                      )}
+                    </Button>
+                    <Button
+                      isSecondary
+                      onClick={() => handleDelete(_id)}
+                      disabled={loading}
+                    >
+                      <FontAwesomeIcon icon={faTimesCircle} />
+                    </Button>
+                  </>
+                )}
+              </div>
+            );
+          })}
         />
       ))}
     </div>

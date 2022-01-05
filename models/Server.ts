@@ -25,6 +25,7 @@ const UrlModel = types.model({
 const UserModel = types.model({
   name: types.string,
   isAdmin: types.boolean,
+  favorites: types.array(types.string),
 });
 
 const Server = types
@@ -205,6 +206,48 @@ const Server = types
         yield axios.delete(url, config);
         const updated = self.data.filter(link => link._id !== linkId);
         self.data = updated as IMSTArray<typeof UrlModel>;
+        self.saveSuccess = true;
+      } catch (error) {
+        self.error = handle.axiosError(error);
+      } finally {
+        self.loading = false;
+      }
+    }),
+    addFavorite: flow(function* (linkId: string) {
+      self.loading = true;
+
+      try {
+        const cookie = getCookie(document.cookie, 'token');
+        const url = `${domain}/user/favorite/${linkId}`;
+        if (!cookie) return;
+        const config = {
+          headers: {
+            Authorization: `Bearer ${cookie}`,
+          },
+        };
+        const { data } = yield axios.put(url, {}, config);
+        self.user = data;
+        self.saveSuccess = true;
+      } catch (error) {
+        self.error = handle.axiosError(error);
+      } finally {
+        self.loading = false;
+      }
+    }),
+    deleteFavorite: flow(function* (linkId: string) {
+      self.loading = true;
+
+      try {
+        const cookie = getCookie(document.cookie, 'token');
+        const url = `${domain}/user/favorite/${linkId}`;
+        if (!cookie) return;
+        const config = {
+          headers: {
+            Authorization: `Bearer ${cookie}`,
+          },
+        };
+        const { data } = yield axios.delete(url, config);
+        self.user = data;
         self.saveSuccess = true;
       } catch (error) {
         self.error = handle.axiosError(error);
