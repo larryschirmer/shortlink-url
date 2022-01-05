@@ -3,10 +3,14 @@ import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faFilePlus,
-  faTrash,
+  faFilePlus as faFilePlusRegular,
+  faPencil as faPencilRegular,
   faSignInAlt,
 } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faFilePlus as faFilePlusSolid,
+  faPencil as faPencilSolid,
+} from '@fortawesome/pro-solid-svg-icons';
 
 import Button from '@components/Button';
 
@@ -20,7 +24,7 @@ const PageHeader = () => {
   const router = useRouter();
   const {
     server: { isLoggedIn },
-    app: { toggleCreateMode, toggleEditMode },
+    app: { createMode, editMode, toggleCreateMode, toggleEditMode },
   } = useMst();
 
   const handleCreateLink = () => {
@@ -41,10 +45,18 @@ const PageHeader = () => {
       <div className={headerClass}>
         <div>
           <Button disabled={!isLoggedIn} onClick={handleCreateLink}>
-            <FontAwesomeIcon icon={faFilePlus} />
+            {createMode ? (
+              <FontAwesomeIcon icon={faFilePlusSolid} />
+            ) : (
+              <FontAwesomeIcon icon={faFilePlusRegular} />
+            )}
           </Button>
           <Button disabled={!isLoggedIn} onClick={handleToggleDeleteMode}>
-            <FontAwesomeIcon icon={faTrash} />
+            {editMode ? (
+              <FontAwesomeIcon icon={faPencilSolid} />
+            ) : (
+              <FontAwesomeIcon icon={faPencilRegular} />
+            )}
           </Button>
           {!isLoggedIn && (
             <Button onClick={handleLogin}>
