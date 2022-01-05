@@ -4,8 +4,9 @@ import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTimesCircle,
-  faSpinnerThird,
+  faHeart as faHeartRegular,
 } from '@fortawesome/pro-regular-svg-icons';
+import { faHeart as faHeartSolid } from '@fortawesome/pro-solid-svg-icons';
 import { useRouter } from 'next/router';
 
 import AccordianList from '@components/AccordianList';
@@ -71,6 +72,10 @@ const UrlList = () => {
     }
   };
 
+  const handleFavorite = (link: string) => {
+    // favoriteLink(link);
+  };
+
   const handleDelete = (link: string) => {
     deleteLink(link);
   };
@@ -131,13 +136,22 @@ const UrlList = () => {
                 </div>
               </button>
               {editMode && (
-                <Button isSecondary onClick={() => handleDelete(_id)}>
-                  {loading ? (
-                    <FontAwesomeIcon spin icon={faSpinnerThird} />
-                  ) : (
+                <>
+                  <Button
+                    isSecondary
+                    onClick={() => handleFavorite(_id)}
+                    disabled={loading}
+                  >
+                    <FontAwesomeIcon icon={faHeartRegular} />
+                  </Button>
+                  <Button
+                    isSecondary
+                    onClick={() => handleDelete(_id)}
+                    disabled={loading}
+                  >
                     <FontAwesomeIcon icon={faTimesCircle} />
-                  )}
-                </Button>
+                  </Button>
+                </>
               )}
             </div>
           ))}
