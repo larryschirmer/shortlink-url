@@ -6,9 +6,6 @@
   width: 100vw;
   height: 100vh;
   background-color: $grey-1;
-  &.hidden {
-    display: none;
-  }
 }
 
 @media (min-width: $screen-tablet) {
