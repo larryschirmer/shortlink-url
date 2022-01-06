@@ -31,7 +31,17 @@ export const rootStore = RootModel.create({
 process.env.NEXT_PUBLIC_VERCEL_ENV === 'development' &&
   (function () {
     autorun(() => {
-      console.log({ state: getSnapshot(rootStore) });
+      console.log({
+        state: getSnapshot(rootStore),
+        views: {
+          app: {
+            isMenuOpen: rootStore.app.isMenuOpen,
+          },
+          server: {
+            tagGroups: rootStore.server.tagGroups,
+          },
+        },
+      });
     });
   })();
 
