@@ -227,7 +227,6 @@ const Server = types
         };
         const { data } = yield axios.put(url, {}, config);
         self.user = data;
-        self.saveSuccess = true;
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
@@ -248,7 +247,6 @@ const Server = types
         };
         const { data } = yield axios.delete(url, config);
         self.user = data;
-        self.saveSuccess = true;
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
