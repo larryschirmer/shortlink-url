@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <Provider value={rootStore}>
       <Head>
-        <title>Lnk Shrtnr</title>
+        <title>Short Link Manager</title>
       </Head>
       <Login />
     </Provider>

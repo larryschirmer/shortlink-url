@@ -42,7 +42,7 @@ const PageHeader = () => {
 
   return (
     <div className={pageHeaderClass}>
-      <h1>Lnk Shrtnr - larryschirmer</h1>
+      <h3>Short Link Manager</h3>
       <div className={headerClass}>
         <div>
           <Button disabled={!isLoggedIn} onClick={handleCreateLink}>
