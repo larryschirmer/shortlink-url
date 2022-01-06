@@ -23,7 +23,7 @@ const { 'page-header': pageHeaderClass, header: headerClass } = styles;
 const PageHeader = () => {
   const router = useRouter();
   const {
-    server: { isLoggedIn },
+    server: { isLoggedIn, getLinks },
     app: { createMode, editMode, toggleCreateMode, toggleEditMode },
   } = useMst();
 
@@ -33,6 +33,7 @@ const PageHeader = () => {
 
   const handleToggleDeleteMode = () => {
     toggleEditMode();
+    if (editMode) getLinks();
   };
 
   const handleLogin = () => {
