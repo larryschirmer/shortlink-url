@@ -1,10 +1,17 @@
 @import '@styles/vars';
 
 .url-manager {
-  height: calc(100vh - $header-margin);
-  margin: $header-margin auto 0;
+  height: calc(100vh - $header-margin-mobile);
+  margin: $header-margin-mobile auto 0;
   padding: 0 2rem;
   display: flex;
   justify-content: center;
   overflow: scroll;
+}
+
+@media (min-width: $screen-tablet) {
+  .url-manager {
+    height: calc(100vh - $header-margin-tablet);
+    margin: $header-margin-tablet auto 0;
+  }
 }
