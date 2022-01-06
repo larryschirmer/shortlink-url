@@ -13,6 +13,7 @@ export type Url = {
   isListed: boolean;
   tags: string[];
   opens: string[];
+  isFavorite: boolean;
 };
 
 export type User = {

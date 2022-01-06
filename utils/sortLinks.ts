@@ -13,7 +13,7 @@ const sortLinks = (links: Url[], isLoggedIn: boolean, user: User | null) => {
   // create group of favorited links
   const favoriteLinks = {
     tag: 'Favorites',
-    links: linksAZ.filter(link => user?.favorites.includes(link._id)),
+    links: linksAZ.filter(link => link.isFavorite),
   };
 
   // reduce over links and collect tags
@@ -36,7 +36,7 @@ const sortLinks = (links: Url[], isLoggedIn: boolean, user: User | null) => {
   const allLinks = { tag: 'All Links', links: linksAZ };
 
   let list = [...sortby(tagLinks, 'tag'), allLinks];
-  if (user?.favorites.length) list = [favoriteLinks, ...list];
+  if (favoriteLinks.links.length) list = [favoriteLinks, ...list];
 
   return list;
 };
