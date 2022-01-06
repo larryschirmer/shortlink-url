@@ -1,5 +1,7 @@
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, types, getSnapshot } from 'mobx-state-tree';
 import { createContext, useContext } from 'react';
+
+import { autorun } from 'mobx';
 
 import App from './App';
 import Server from './Server';
@@ -25,6 +27,13 @@ export const rootStore = RootModel.create({
     error: null,
   },
 });
+
+process.env.NEXT_PUBLIC_VERCEL_ENV === 'development' &&
+  (function () {
+    autorun(() => {
+      console.log({ state: getSnapshot(rootStore) });
+    });
+  })();
 
 export type RootInstance = Instance<typeof RootModel>;
 const RootStoreContext = createContext<null | RootInstance>(null);
