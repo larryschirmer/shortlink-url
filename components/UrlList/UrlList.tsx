@@ -63,7 +63,7 @@ const UrlList = () => {
   }, [router.asPath, tagGroups]);
 
   const handleHeaderOpen = (tag: string) => {
-    if (tag !== 'All Links') router.replace(`/${tag}`);
+    if (tag.startsWith('#')) router.replace(`/${tag}`);
   };
 
   const handleSelect = (linkId: string) => {
