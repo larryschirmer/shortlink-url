@@ -45,21 +45,24 @@ const PageHeader = () => {
       <h3>Short Link Manager</h3>
       <div className={headerClass}>
         <div>
-          <Button disabled={!isLoggedIn} onClick={handleCreateLink}>
-            {createMode ? (
-              <FontAwesomeIcon icon={faFilePlusSolid} />
-            ) : (
-              <FontAwesomeIcon icon={faFilePlusRegular} />
-            )}
-          </Button>
-          <Button disabled={!isLoggedIn} onClick={handleToggleDeleteMode}>
-            {editMode ? (
-              <FontAwesomeIcon icon={faPencilSolid} />
-            ) : (
-              <FontAwesomeIcon icon={faPencilRegular} />
-            )}
-          </Button>
-          {!isLoggedIn && (
+          {isLoggedIn ? (
+            <>
+              <Button onClick={handleCreateLink}>
+                {createMode ? (
+                  <FontAwesomeIcon icon={faFilePlusSolid} />
+                ) : (
+                  <FontAwesomeIcon icon={faFilePlusRegular} />
+                )}
+              </Button>
+              <Button onClick={handleToggleDeleteMode}>
+                {editMode ? (
+                  <FontAwesomeIcon icon={faPencilSolid} />
+                ) : (
+                  <FontAwesomeIcon icon={faPencilRegular} />
+                )}
+              </Button>
+            </>
+          ) : (
             <Button onClick={handleLogin}>
               <FontAwesomeIcon icon={faSignInAlt} />
             </Button>
