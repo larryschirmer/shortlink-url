@@ -40,7 +40,7 @@ test('should submit form data', async () => {
 
   user.type(screen.getByLabelText(/name/i), formData.name);
   user.type(screen.getByLabelText(/password/i), formData.password);
-  user.click(screen.getByText(/save/i));
+  user.click(screen.getByText(/submit/i));
 
   await waitFor(() => {
     expect(handleSubmit).toHaveBeenCalledWith(formData);
