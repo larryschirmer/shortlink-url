@@ -48,8 +48,7 @@ const UrlList = () => {
       getLinks,
       createLink,
       deleteLink,
-      addFavorite,
-      deleteFavorite,
+      setFavorite,
     },
     app: { selectedLink, editMode, editLink },
   } = useMst();
@@ -69,15 +68,15 @@ const UrlList = () => {
   const handleSelect = (linkId: string) => {
     if (isLoggedIn) editLink(linkId);
     else {
-      const slug = list.find(l => l._id === linkId)?.slug;
+      const { slug } = list.find(l => l._id === linkId) ?? {};
       if (slug) router.push(`${domainName}/${slug}`);
     }
   };
 
   const handleFavorite = (link: string) => {
-    const isFavorite = user?.favorites?.includes(link);
-    if (isFavorite) deleteFavorite(link);
-    else addFavorite(link);
+    const { isFavorite } = list.find(l => l._id === link) ?? {};
+    if (isFavorite) setFavorite(link, false);
+    else setFavorite(link, true);
   };
 
   const handleDelete = (link: string) => {
@@ -120,55 +119,49 @@ const UrlList = () => {
           title={link.tag}
           handleHeaderOpen={() => handleHeaderOpen(link.tag)}
           handleHeaderClose={() => router.replace(`/`)}
-          list={link.links.map(({ _id, name, opens, isListed }) => {
-            const isFavorite = user?.favorites?.includes(_id);
-
-            return (
-              <div key={_id} className={listGroupClass}>
-                <button
-                  disabled={editMode}
-                  className={listItemClass}
-                  onClick={() => handleSelect(_id)}
-                >
-                  <div className={itemNameClasses(isListed)}>{name}</div>
-                  <div className={itemDetailsClass}>
-                    {!editMode && (
-                      <>
-                        <p>
-                          {!!opens.length
-                            ? opensCopy(opens.length)
-                            : 'Unopened'}
-                        </p>
-                        <InlineFreqGraph color='black' data={opens} />
-                      </>
+          list={link.links.map(({ _id, name, opens, isListed, isFavorite }) => (
+            <div key={_id} className={listGroupClass}>
+              <button
+                disabled={editMode}
+                className={listItemClass}
+                onClick={() => handleSelect(_id)}
+              >
+                <div className={itemNameClasses(isListed)}>{name}</div>
+                <div className={itemDetailsClass}>
+                  {!editMode && (
+                    <>
+                      <p>
+                        {!!opens.length ? opensCopy(opens.length) : 'Unopened'}
+                      </p>
+                      <InlineFreqGraph color='black' data={opens} />
+                    </>
+                  )}
+                </div>
+              </button>
+              {editMode && (
+                <>
+                  <Button
+                    isSecondary
+                    onClick={() => handleFavorite(_id)}
+                    disabled={loading}
+                  >
+                    {isFavorite ? (
+                      <FontAwesomeIcon icon={faHeartSolid} />
+                    ) : (
+                      <FontAwesomeIcon icon={faHeartRegular} />
                     )}
-                  </div>
-                </button>
-                {editMode && (
-                  <>
-                    <Button
-                      isSecondary
-                      onClick={() => handleFavorite(_id)}
-                      disabled={loading}
-                    >
-                      {isFavorite ? (
-                        <FontAwesomeIcon icon={faHeartSolid} />
-                      ) : (
-                        <FontAwesomeIcon icon={faHeartRegular} />
-                      )}
-                    </Button>
-                    <Button
-                      isSecondary
-                      onClick={() => handleDelete(_id)}
-                      disabled={loading}
-                    >
-                      <FontAwesomeIcon icon={faTimesCircle} />
-                    </Button>
-                  </>
-                )}
-              </div>
-            );
-          })}
+                  </Button>
+                  <Button
+                    isSecondary
+                    onClick={() => handleDelete(_id)}
+                    disabled={loading}
+                  >
+                    <FontAwesomeIcon icon={faTimesCircle} />
+                  </Button>
+                </>
+              )}
+            </div>
+          ))}
         />
       ))}
     </div>

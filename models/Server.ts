@@ -26,7 +26,6 @@ const UrlModel = types.model({
 const UserModel = types.model({
   name: types.string,
   isAdmin: types.boolean,
-  favorites: types.array(types.string),
 });
 
 const Server = types
@@ -214,40 +213,27 @@ const Server = types
         self.loading = false;
       }
     }),
-    addFavorite: flow(function* (linkId: string) {
+    setFavorite: flow(function* (linkId: string, isFavorite: boolean) {
       self.loading = true;
 
       try {
         const cookie = getCookie(document.cookie, 'token');
-        const url = `${domain}/user/favorite/${linkId}`;
+        const url = `${domain}/slug/favorite/${linkId}`;
         if (!cookie) return;
         const config = {
           headers: {
             Authorization: `Bearer ${cookie}`,
           },
         };
-        const { data } = yield axios.put(url, {}, config);
-        self.user = data;
-      } catch (error) {
-        self.error = handle.axiosError(error);
-      } finally {
-        self.loading = false;
-      }
-    }),
-    deleteFavorite: flow(function* (linkId: string) {
-      self.loading = true;
-
-      try {
-        const cookie = getCookie(document.cookie, 'token');
-        const url = `${domain}/user/favorite/${linkId}`;
-        if (!cookie) return;
-        const config = {
-          headers: {
-            Authorization: `Bearer ${cookie}`,
-          },
-        };
-        const { data } = yield axios.delete(url, config);
-        self.user = data;
+        const { data }: AxiosResponse<Url> = yield axios.put(
+          url,
+          { isFavorite },
+          config,
+        );
+        const updated = self.data.map(link =>
+          link._id === data._id ? data : link,
+        );
+        self.data = updated as IMSTArray<typeof UrlModel>;
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {

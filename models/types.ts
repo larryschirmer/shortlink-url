@@ -19,7 +19,6 @@ export type Url = {
 export type User = {
   name: string;
   isAdmin: boolean;
-  favorites: string[];
 }
 
 export type TagLink = { tag: string; links: Url[] };
