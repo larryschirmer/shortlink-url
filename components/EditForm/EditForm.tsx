@@ -38,7 +38,7 @@ const initialValues = {
   name: '',
   isListed: 'false',
   slug: '',
-  url: '',
+  url: 'https://',
 };
 
 const validationSchema = Yup.object().shape({
@@ -192,7 +192,10 @@ const EditForm = () => {
             value={values.slug}
             placeholder='Slug'
             error={touched.slug ? errors.slug : ''}
-            onChange={handleChange}
+            onChange={event => {
+              event.target.value = event.target.value.toLowerCase();
+              handleChange(event);
+            }}
             onFocus={() => setSubmitSuspended(true)}
             onBlur={() => {
               setFieldTouched('slug', true);
@@ -215,12 +218,16 @@ const EditForm = () => {
         <div className={`${formRowClass} grid-url`}>
           <Input
             id='url'
+            type='url'
             label='Forwards To'
             name='url'
             value={values.url}
             placeholder='Url'
             error={touched.url ? errors.url : ''}
-            onChange={handleChange}
+            onChange={event => {
+              event.target.value = event.target.value.toLowerCase();
+              handleChange(event);
+            }}
             onBlur={() => setFieldTouched('url', true)}
           />
         </div>
