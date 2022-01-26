@@ -38,7 +38,7 @@ const initialValues = {
   name: '',
   isListed: 'false',
   slug: '',
-  url: '',
+  url: 'https://',
 };
 
 const validationSchema = Yup.object().shape({
