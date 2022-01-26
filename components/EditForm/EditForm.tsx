@@ -215,6 +215,7 @@ const EditForm = () => {
         <div className={`${formRowClass} grid-url`}>
           <Input
             id='url'
+            type='url'
             label='Forwards To'
             name='url'
             value={values.url}
