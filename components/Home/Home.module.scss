@@ -1,6 +1,6 @@
 @import '@styles/vars';
 
-.url-manager {
+.home {
   height: calc(100vh - $header-margin-mobile);
   margin: $header-margin-mobile auto 0;
   padding: 0 2rem;
@@ -10,7 +10,7 @@
 }
 
 @media (min-width: $screen-tablet) {
-  .url-manager {
+  .home {
     height: calc(100vh - $header-margin-tablet);
     margin: $header-margin-tablet auto 0;
   }

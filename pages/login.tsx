@@ -5,7 +5,7 @@ import Login from '@components/Login';
 
 import { Provider, rootStore } from '@models/index';
 
-const Home = () => {
+const Page = () => {
   return (
     <Provider value={rootStore}>
       <Head>
@@ -16,4 +16,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Page;

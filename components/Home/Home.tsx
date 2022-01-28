@@ -6,21 +6,21 @@ import Menu from '@components/Menu';
 
 import { useMst } from '@models/index';
 
-import styles from './UrlManager.module.scss';
+import styles from './Home.module.scss';
 
-const { 'url-manager': urlManagerClass } = styles;
+const { home: homeClass } = styles;
 
-const UrlManager = () => {
+const Home = () => {
   const {
     app: { selectedLink, createMode },
   } = useMst();
 
   return (
-    <div className={urlManagerClass}>
+    <div className={homeClass}>
       <UrlList />
       {(!!selectedLink || createMode) && <Menu />}
     </div>
   );
 };
 
-export default observer(UrlManager);
+export default observer(Home);
