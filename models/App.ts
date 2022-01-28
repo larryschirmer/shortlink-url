@@ -30,7 +30,7 @@ const App = types
   }))
   .views(self => ({
     get isMenuOpen() {
-      return self.createMode || self.editMode || !!self.selectedLink;
+      return self.createMode || !!self.selectedLink;
     },
   }));
 

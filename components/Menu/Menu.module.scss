@@ -3,23 +3,17 @@
 .menu {
   position: fixed;
   top: 0;
+  overflow: scroll;
   width: 100vw;
   height: 100vh;
   background-color: $grey-1;
 }
 
-@media (min-width: $screen-tablet) {
-  .menu {
-    position: sticky;
-    width: unset;
-    height: unset;
-    display: block;
-  }
-}
-
 @media (min-width: $screen-desktop) {
   .menu {
-    width: 45%;
-    margin-left: 4rem;
+    position: static;
+    overflow: visible;
+    width: unset;
+    height: unset;
   }
 }

@@ -22,7 +22,6 @@ const domainName = process.env.NEXT_PUBLIC_DOMAIN ?? '';
 
 const {
   'url-list': urlListClass,
-  condensed: condensedClass,
   'list-group': listGroupClass,
   unlisted: unlistedClass,
   'item-name': itemNameClass,
@@ -48,11 +47,10 @@ const UrlList = () => {
       loading,
       isLoggedIn,
       getLinks,
-      createLink,
       deleteLink,
       setFavorite,
     },
-    app: { selectedLink, editMode, editLink },
+    app: { editMode, editLink },
   } = useMst();
 
   const [loaded, setLoaded] = useState(false);
@@ -101,11 +99,6 @@ const UrlList = () => {
     }
   }, [list.length, loaded, loading, router.asPath]);
 
-  const urlListClasses = classNames(urlListClass, {
-    [condensedClass]: !!selectedLink || createLink,
-    [editModeClass]: editMode,
-  });
-
   const itemDetailsClasses = classNames(itemDetailsClass, {
     [editModeClass]: editMode,
   });
@@ -116,7 +109,7 @@ const UrlList = () => {
     });
 
   return (
-    <div className={urlListClasses}>
+    <div className={urlListClass}>
       {tagGroups.map(link => (
         <AccordianList
           initialOpen={selectedTag === link.tag}

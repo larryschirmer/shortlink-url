@@ -39,3 +39,9 @@
     }
   }
 }
+
+@media (min-width: $screen-desktop) {
+  .page-header {
+    z-index: 10;
+  }
+}
