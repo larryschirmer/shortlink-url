@@ -253,7 +253,7 @@ const EditForm = () => {
             label='Description'
             name='description'
             value={values.description}
-            placeholder="Link Description"
+            placeholder='Link Description'
             error={touched.description ? errors.description : ''}
             onChange={handleChange}
             onBlur={() => setFieldTouched('description', true)}

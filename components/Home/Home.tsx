@@ -13,7 +13,7 @@ const { home: homeClass, 'menu-open': menuOpenClass } = styles;
 
 const Home = () => {
   const {
-    app: { selectedLink, createMode, isMenuOpen },
+    app: { isMenuOpen },
   } = useMst();
 
   const homeClasses = classNames(homeClass, {
@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <div className={homeClasses}>
       <UrlList />
-      {(!!selectedLink || createMode) && <Menu />}
+      {isMenuOpen && <Menu />}
     </div>
   );
 };

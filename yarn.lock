@@ -2110,6 +2110,11 @@ domexception@^2.0.1:
   dependencies:
     webidl-conversions "^5.0.0"
 
+easyqrcodejs@^4.4.10:
+  version "4.4.10"
+  resolved "https://registry.yarnpkg.com/easyqrcodejs/-/easyqrcodejs-4.4.10.tgz#38e84f2002e94b30415fc1232861465e9ce1c5c6"
+  integrity sha512-DEr/Txdyfo0RsKuC0tX6t72GF5oqNFbnKVL9dTLatL5yiLJaId65BSfa5HKl4FaJt71yRX3DF1sf977FwynWtw==
+
 electron-to-chromium@^1.3.723, electron-to-chromium@^1.4.17:
   version "1.4.27"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.27.tgz#bfc6e798d8a56a17d658312f4b7ae1a7ca87724f"

@@ -14,7 +14,7 @@ export type Url = {
   tags: string[];
   opens: string[];
   isFavorite: boolean;
-  description: string;
+  description?: string;
 };
 
 export type User = {
