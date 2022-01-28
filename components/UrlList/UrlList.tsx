@@ -6,6 +6,7 @@ import {
   faTimesCircle,
   faHeart as faHeartRegular,
   faQrcode,
+  faPencil,
 } from '@fortawesome/pro-regular-svg-icons';
 import { faHeart as faHeartSolid } from '@fortawesome/pro-solid-svg-icons';
 import { useRouter } from 'next/router';
@@ -50,7 +51,7 @@ const UrlList = () => {
       deleteLink,
       setFavorite,
     },
-    app: { editMode, editLink },
+    app: { editMode, editLink, deleteMode },
   } = useMst();
 
   const [loaded, setLoaded] = useState(false);
@@ -128,14 +129,22 @@ const UrlList = () => {
                 </div>
               </div>
               <div className={itemCtaClass}>
-                {!editMode ? (
+                {!editMode && !deleteMode && (
                   <>
                     <Button isSecondary onClick={() => handleSelect(_id)}>
                       <FontAwesomeIcon icon={faQrcode} />
                     </Button>
                   </>
-                ) : (
+                )}
+                {editMode && (
                   <>
+                    <Button
+                      isSecondary
+                      onClick={() => handleSelect(_id)}
+                      disabled={loading}
+                    >
+                      <FontAwesomeIcon icon={faPencil} />
+                    </Button>
                     <Button
                       isSecondary
                       onClick={() => handleFavorite(_id)}
@@ -147,14 +156,16 @@ const UrlList = () => {
                         <FontAwesomeIcon icon={faHeartRegular} />
                       )}
                     </Button>
-                    <Button
-                      isSecondary
-                      onClick={() => handleDelete(_id)}
-                      disabled={loading}
-                    >
-                      <FontAwesomeIcon icon={faTimesCircle} />
-                    </Button>
                   </>
+                )}
+                {deleteMode && (
+                  <Button
+                    isSecondary
+                    onClick={() => handleDelete(_id)}
+                    disabled={loading}
+                  >
+                    <FontAwesomeIcon icon={faTimesCircle} />
+                  </Button>
                 )}
               </div>
             </div>

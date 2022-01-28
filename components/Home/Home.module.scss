@@ -6,6 +6,9 @@
   padding: 0 2rem;
   display: flex;
   justify-content: center;
+  > div {
+    flex-basis: 100%;
+  }
   &.menu-open {
     max-width: 120rem;
     height: calc(100vh - $header-margin-mobile - 5rem);
@@ -16,24 +19,23 @@
 @media (min-width: $screen-tablet) {
   .home {
     margin-top: $header-margin-tablet;
-    gap: 2%;
-    > div {
-      flex-basis: 100%;
-    }
     &.menu-open {
-      max-width: 120rem;
       height: calc(100vh - $header-margin-tablet - 5rem);
-      flex-basis: 48%;
     }
   }
 }
 
 @media (min-width: $screen-desktop) {
   .home {
+    gap: 2%;
     &.menu-open {
+      max-width: 120rem;
       height: unset;
       overflow: visible;
       padding: 0 4rem;
+      > div {
+        flex-basis: 48%;
+      }
     }
   }
 }

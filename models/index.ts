@@ -16,6 +16,7 @@ export const rootStore = RootModel.create({
     selectedLink: '',
     createMode: false,
     editMode: false,
+    deleteMode: false,
   },
   server: {
     data: [],
