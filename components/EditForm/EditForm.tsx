@@ -250,6 +250,7 @@ const EditForm = () => {
         <div className={`${formRowClass} grid-desc`}>
           <TextArea
             id='description'
+            label='Description'
             name='description'
             value={values.description}
             placeholder="Link Description"
