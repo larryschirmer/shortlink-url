@@ -1,0 +1,29 @@
+@import '@styles/vars';
+
+.text-area {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  label {
+    margin-bottom: 1rem;
+    color: $grey-9;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 8rem;
+    border: 0.1rem solid $grey-5;
+    border-radius: 0.4rem;
+    padding: 0.6rem 1.2rem;
+    color: $grey-9;
+    &::placeholder {
+      color: $grey-6;
+    }
+  }
+  .error {
+    position: absolute;
+    bottom: -3rem;
+    font-size: 1.6rem;
+    color: $grey-8;
+  }
+}

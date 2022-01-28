@@ -12,6 +12,7 @@ import {
 import Button from '@components/Button';
 import Input from '@components/Input';
 import RadioToggle from '@components/RadioToggle';
+import TextArea from '@components/TextArea';
 
 import { useMst } from '@models/index';
 import { SaveLink } from '@models/types';
@@ -32,6 +33,7 @@ type Inputs = {
   isListed: string;
   slug: string;
   url: string;
+  description: string;
 };
 
 const initialValues = {
@@ -39,6 +41,7 @@ const initialValues = {
   isListed: 'false',
   slug: '',
   url: 'https://',
+  description: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -46,6 +49,7 @@ const validationSchema = Yup.object().shape({
   isListed: Yup.string(),
   slug: Yup.string(),
   url: Yup.string().url('Invalid URL').required('URL is required'),
+  description: Yup.string(),
 });
 
 const EditForm = () => {
@@ -132,8 +136,20 @@ const EditForm = () => {
   useEffect(() => {
     if (prevSelectedLink.current !== selectedLink) {
       const link = list.find(({ _id }) => _id === selectedLink);
-      const { name = '', isListed = false, slug = '', url = '' } = link || {};
-      setValues({ name, isListed: isListed.toString(), slug, url });
+      const {
+        name = '',
+        isListed = false,
+        slug = '',
+        url = '',
+        description = '',
+      } = link || {};
+      setValues({
+        name,
+        isListed: isListed.toString(),
+        slug,
+        url,
+        description,
+      });
       prevSelectedLink.current = selectedLink;
     }
   }, [list, selectedLink, setValues]);
@@ -229,6 +245,17 @@ const EditForm = () => {
               handleChange(event);
             }}
             onBlur={() => setFieldTouched('url', true)}
+          />
+        </div>
+        <div className={`${formRowClass} grid-desc`}>
+          <TextArea
+            id='description'
+            name='description'
+            value={values.description}
+            placeholder="Link Description"
+            error={touched.description ? errors.description : ''}
+            onChange={handleChange}
+            onBlur={() => setFieldTouched('description', true)}
           />
         </div>
         <div className={`${formRowClass} grid-ctas`}>

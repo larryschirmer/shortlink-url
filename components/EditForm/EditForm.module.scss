@@ -58,6 +58,7 @@
         'name listed'
         'slug slug'
         'url url'
+        'desc desc'
         'ctas ctas';
 
       :global(.grid-name) {
@@ -72,6 +73,9 @@
       }
       :global(.grid-url) {
         grid-area: url;
+      }
+      :global(.grid-desc) {
+        grid-area: desc;
       }
       :global(.grid-ctas) {
         grid-area: ctas;
