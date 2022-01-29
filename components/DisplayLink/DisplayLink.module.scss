@@ -38,11 +38,14 @@
           border-color: $grey-6;
         }
       }
-      a {
-        color: $grey-8;
-        &:hover {
-          color: $grey-7;
-          text-decoration: underline;
+      p {
+        word-break: break-all;
+        a {
+          color: $grey-8;
+          &:hover {
+            color: $grey-7;
+            text-decoration: underline;
+          }
         }
       }
     }
