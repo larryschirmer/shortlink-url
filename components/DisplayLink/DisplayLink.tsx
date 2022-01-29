@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import QRCode from 'easyqrcodejs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +18,8 @@ const DisplayLink = () => {
   const [didCopy, setDidCopy] = useState(false);
   const [activeLink, setActiveLink] = useState<Url>();
 
+  const qrCodeRef = useRef<HTMLDivElement>(null);
+
   const {
     app: { resetAppState, selectedLink },
     server: { data: list },
@@ -28,6 +30,27 @@ const DisplayLink = () => {
     const link = list.find(({ _id }) => _id === selectedLink);
     setActiveLink(link);
   }, [list, selectedLink]);
+
+  // render the QR code on load
+  useEffect(() => {
+    const generatedCode = qrCodeRef.current;
+    if (activeLink) {
+      new QRCode(generatedCode, {
+        text: `${domainName}/${activeLink.slug}`,
+        width: 100,
+        height: 100,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H,
+        dotScale: 0.3,
+        dotScaleTiming: 0.3,
+        dotScaleA: 0.3,
+      });
+    }
+    return () => {
+      if (generatedCode) generatedCode.innerHTML = '';
+    };
+  }, [activeLink]);
 
   const closeMenu = () => {
     resetAppState();
@@ -51,22 +74,27 @@ const DisplayLink = () => {
             <h1>{activeLink.name}</h1>
           </div>
           <div className={styles['row']}>
-            <button
-              onClick={handleCopySlug}
-              className={styles['copy-button']}
-              type='button'
-            >
-              {didCopy ? (
-                <FontAwesomeIcon icon={faFileCheck} />
-              ) : (
-                <FontAwesomeIcon icon={faCopy} />
-              )}
-            </button>
-            <p>
-              <a href={`${domainName}/${activeLink.slug}`}>
-                {domainName}/{activeLink.slug}
-              </a>
-            </p>
+            <div>
+              <button
+                onClick={handleCopySlug}
+                className={styles['copy-button']}
+                type='button'
+              >
+                {didCopy ? (
+                  <FontAwesomeIcon icon={faFileCheck} />
+                ) : (
+                  <FontAwesomeIcon icon={faCopy} />
+                )}
+              </button>
+              <p>
+                <a href={`${domainName}/${activeLink.slug}`}>
+                  {domainName}/<strong>{activeLink.slug}</strong>
+                </a>
+              </p>
+            </div>
+            <div>
+              <div ref={qrCodeRef} />
+            </div>
           </div>
           <div className={styles['row']}>
             <p className={styles['lighten']}>
