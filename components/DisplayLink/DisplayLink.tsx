@@ -37,14 +37,14 @@ const DisplayLink = () => {
     if (activeLink) {
       new QRCode(generatedCode, {
         text: `${domainName}/${activeLink.slug}`,
-        width: 100,
-        height: 100,
+        width: 50,
+        height: 50,
         colorDark: '#000000',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H,
-        dotScale: 0.3,
-        dotScaleTiming: 0.3,
-        dotScaleA: 0.3,
+        dotScale: 0.9,
+        dotScaleTiming: 0.9,
+        dotScaleA: 0.9,
       });
     }
     return () => {
@@ -93,7 +93,7 @@ const DisplayLink = () => {
               </p>
             </div>
             <div>
-              <div ref={qrCodeRef} />
+              <div ref={qrCodeRef} className={styles['qr-code']} />
             </div>
           </div>
           <div className={styles['row']}>
@@ -102,7 +102,7 @@ const DisplayLink = () => {
             </p>
           </div>
           <div className={styles['row']}>
-            <p>{activeLink.description}</p>
+            <p className={styles['description']}>{activeLink.description}</p>
           </div>
           <div className={styles['row']}>
             <Button isSecondary onClick={closeMenu}>

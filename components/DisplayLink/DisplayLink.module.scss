@@ -21,9 +21,6 @@
         display: flex;
         align-items: center;
       }
-      &:first-child {
-        border-bottom: 1px solid $grey-5;
-      }
       .copy-button {
         min-width: 4rem;
         height: 3rem;
@@ -40,6 +37,9 @@
       }
       p {
         word-break: break-all;
+        &.description {
+          word-break: break-word;
+        }
         a {
           color: $grey-8;
           &:hover {
@@ -47,6 +47,13 @@
             text-decoration: underline;
           }
         }
+      }
+      .qr-code {
+        border: 1px solid $grey-9;
+        padding: 0.5rem 0.5rem 0;
+      }
+      &:first-child {
+        border-bottom: 1px solid $grey-5;
       }
     }
   }
