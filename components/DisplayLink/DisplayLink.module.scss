@@ -70,3 +70,13 @@
     padding: 2rem 0 0 2rem;
   }
 }
+
+@media print {
+  .display-link {
+    max-width: 40rem;
+    margin: 0;
+    button {
+      display: none;
+    }
+  }
+}

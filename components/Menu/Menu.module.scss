@@ -3,7 +3,7 @@
 .menu {
   position: fixed;
   top: 0;
-  overflow: scroll;
+  overflow: auto;
   width: 100vw;
   height: 100vh;
   background-color: $grey-1;
@@ -15,5 +15,11 @@
     overflow: visible;
     width: unset;
     height: unset;
+  }
+}
+
+@media print {
+  .menu {
+    overflow: hidden;
   }
 }
