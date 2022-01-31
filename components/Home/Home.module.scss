@@ -2,7 +2,7 @@
 
 .home {
   max-width: 60rem;
-  margin: $header-margin-mobile auto 5rem;
+  margin: 1rem auto 5rem;
   padding: 0 2rem;
   display: flex;
   justify-content: center;
@@ -11,16 +11,15 @@
   }
   &.menu-open {
     max-width: 120rem;
-    height: calc(100vh - $header-margin-mobile - 5rem);
+    height: calc(100vh - 5rem);
     overflow: hidden;
   }
 }
 
 @media (min-width: $screen-tablet) {
   .home {
-    margin-top: $header-margin-tablet;
     &.menu-open {
-      height: calc(100vh - $header-margin-tablet - 5rem);
+      height: calc(100vh - 5rem);
     }
   }
 }

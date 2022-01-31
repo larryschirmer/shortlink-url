@@ -2,7 +2,7 @@
 
 .login-form {
   max-width: 53rem;
-  margin: $header-margin-mobile auto 0;
+  margin: 0 auto;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -43,7 +43,6 @@
 
 @media (min-width: $screen-tablet) {
   .login-form {
-    margin: $header-margin-tablet auto 0;
     form {
       align-items: flex-start;
       grid-template-columns: repeat(2, minmax(0, 1fr));
