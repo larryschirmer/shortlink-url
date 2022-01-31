@@ -17,15 +17,12 @@
     max-height: 0;
     visibility: hidden;
     opacity: 0;
-    transition: 0.5s ease;
-    overflow: auto;
   }
   &.open-list {
     .list {
-      max-height: 55rem;
+      max-height: initial;
       visibility: visible;
       opacity: 1;
-      transition: 0.5s ease;
     }
   }
 }

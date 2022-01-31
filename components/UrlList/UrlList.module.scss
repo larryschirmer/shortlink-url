@@ -1,80 +1,42 @@
 @import '@styles/vars';
 
 .url-list {
-  width: 100%;
-  max-width: 42.5rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  &.edit-mode {
-    .list-item {
-      width: calc(100% - 6rem);
-      .item-name {
-        width: 100%;
-      }
-    }
-  }
   .list-group {
     margin: 2rem 0;
     display: flex;
-    button + button {
-      margin-left: 1rem;
-    }
-  }
-  .list-item {
-    width: 100%;
-    border: none;
-    background: none;
-    display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
-    .item-name {
-      width: 100%;
-      margin-right: 1rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: left;
-      &.unlisted {
-        opacity: 0.5;
-      }
-    }
+    gap: 1rem;
     .item-details {
+      width: calc(100% - 7rem);
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      p {
-        margin-bottom: 1rem;
+      &.edit-mode {
+        width: calc(100% - 21rem);
       }
-    }
-  }
-}
-
-@media (min-width: $screen-tablet) {
-  .url-list {
-    &.condensed {
-      width: 40%;
-      margin: 0;
-      .list-item {
-        flex-direction: column;
-        align-items: flex-start;
-        .item-details {
-          align-items: flex-start;
+      .item-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &.unlisted {
+          opacity: 0.5;
+        }
+      }
+      .item-opens {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        p {
+          margin-bottom: 1rem;
         }
       }
     }
-  }
-}
-
-@media (min-width: $screen-desktop) {
-  .url-list {
-    &.condensed {
-      width: 35%;
-      max-width: 36rem;
-      .list-item {
-        flex-direction: row;
-      }
+    .item-cta {
+      display: flex;
+      gap: 1rem;
     }
   }
 }

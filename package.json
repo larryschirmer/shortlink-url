@@ -27,6 +27,7 @@
     "d3-shape": "^3.0.1",
     "d3-transition": "^3.0.1",
     "date-fns": "^2.25.0",
+    "easyqrcodejs": "^4.4.10",
     "formik": "^2.2.9",
     "lodash": "^4.17.21",
     "mobx": "^6.3.9",
@@ -35,7 +36,6 @@
     "next": "12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-wordcloud": "^1.2.7",
     "sass": "^1.35.2",
     "yarn": "^1.22.10",
     "yup": "^0.32.11"

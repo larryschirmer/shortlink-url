@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTimesCircle,
   faHeart as faHeartRegular,
+  faQrcode,
+  faPencil,
 } from '@fortawesome/pro-regular-svg-icons';
 import { faHeart as faHeartSolid } from '@fortawesome/pro-solid-svg-icons';
 import { useRouter } from 'next/router';
@@ -21,13 +23,13 @@ const domainName = process.env.NEXT_PUBLIC_DOMAIN ?? '';
 
 const {
   'url-list': urlListClass,
-  condensed: condensedClass,
   'list-group': listGroupClass,
-  'edit-mode': editModeClass,
-  'list-item': listItemClass,
   unlisted: unlistedClass,
   'item-name': itemNameClass,
+  'item-opens': itemOpensClass,
   'item-details': itemDetailsClass,
+  'edit-mode': editModeClass,
+  'item-cta': itemCtaClass,
 } = styles;
 
 const opensCopy = (opens: number) => {
@@ -46,11 +48,10 @@ const UrlList = () => {
       loading,
       isLoggedIn,
       getLinks,
-      createLink,
       deleteLink,
       setFavorite,
     },
-    app: { selectedLink, editMode, editLink },
+    app: { editMode, editLink, deleteMode },
   } = useMst();
 
   const [loaded, setLoaded] = useState(false);
@@ -99,8 +100,7 @@ const UrlList = () => {
     }
   }, [list.length, loaded, loading, router.asPath]);
 
-  const urlListClasses = classNames(urlListClass, {
-    [condensedClass]: !!selectedLink || createLink,
+  const itemDetailsClasses = classNames(itemDetailsClass, {
     [editModeClass]: editMode,
   });
 
@@ -110,7 +110,7 @@ const UrlList = () => {
     });
 
   return (
-    <div className={urlListClasses}>
+    <div className={urlListClass}>
       {tagGroups.map(link => (
         <AccordianList
           initialOpen={selectedTag === link.tag}
@@ -121,36 +121,44 @@ const UrlList = () => {
           handleHeaderClose={() => router.replace(`/`)}
           list={link.links.map(({ _id, name, opens, isListed, isFavorite }) => (
             <div key={_id} className={listGroupClass}>
-              <button
-                disabled={editMode}
-                className={listItemClass}
-                onClick={() => handleSelect(_id)}
-              >
+              <div className={itemDetailsClasses}>
                 <div className={itemNameClasses(isListed)}>{name}</div>
-                <div className={itemDetailsClass}>
-                  {!editMode && (
-                    <>
-                      <p>
-                        {!!opens.length ? opensCopy(opens.length) : 'Unopened'}
-                      </p>
-                      <InlineFreqGraph color='black' data={opens} />
-                    </>
-                  )}
+                <div className={itemOpensClass}>
+                  <p>{!!opens.length ? opensCopy(opens.length) : 'Unopened'}</p>
+                  <InlineFreqGraph color='black' data={opens} />
                 </div>
-              </button>
-              {editMode && (
-                <>
-                  <Button
-                    isSecondary
-                    onClick={() => handleFavorite(_id)}
-                    disabled={loading}
-                  >
-                    {isFavorite ? (
-                      <FontAwesomeIcon icon={faHeartSolid} />
-                    ) : (
-                      <FontAwesomeIcon icon={faHeartRegular} />
-                    )}
-                  </Button>
+              </div>
+              <div className={itemCtaClass}>
+                {!editMode && !deleteMode && (
+                  <>
+                    <Button isSecondary onClick={() => handleSelect(_id)}>
+                      <FontAwesomeIcon icon={faQrcode} />
+                    </Button>
+                  </>
+                )}
+                {editMode && (
+                  <>
+                    <Button
+                      isSecondary
+                      onClick={() => handleSelect(_id)}
+                      disabled={loading}
+                    >
+                      <FontAwesomeIcon icon={faPencil} />
+                    </Button>
+                    <Button
+                      isSecondary
+                      onClick={() => handleFavorite(_id)}
+                      disabled={loading}
+                    >
+                      {isFavorite ? (
+                        <FontAwesomeIcon icon={faHeartSolid} />
+                      ) : (
+                        <FontAwesomeIcon icon={faHeartRegular} />
+                      )}
+                    </Button>
+                  </>
+                )}
+                {deleteMode && (
                   <Button
                     isSecondary
                     onClick={() => handleDelete(_id)}
@@ -158,8 +166,8 @@ const UrlList = () => {
                   >
                     <FontAwesomeIcon icon={faTimesCircle} />
                   </Button>
-                </>
-              )}
+                )}
+              </div>
             </div>
           ))}
         />

@@ -1,0 +1,41 @@
+@import '@styles/vars';
+
+.home {
+  max-width: 60rem;
+  margin: $header-margin-mobile auto 5rem;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  > div {
+    flex-basis: 100%;
+  }
+  &.menu-open {
+    max-width: 120rem;
+    height: calc(100vh - $header-margin-mobile - 5rem);
+    overflow: hidden;
+  }
+}
+
+@media (min-width: $screen-tablet) {
+  .home {
+    margin-top: $header-margin-tablet;
+    &.menu-open {
+      height: calc(100vh - $header-margin-tablet - 5rem);
+    }
+  }
+}
+
+@media (min-width: $screen-desktop) {
+  .home {
+    gap: 2%;
+    &.menu-open {
+      max-width: 120rem;
+      height: unset;
+      overflow: visible;
+      padding: 0 4rem;
+      > div {
+        flex-basis: 48%;
+      }
+    }
+  }
+}

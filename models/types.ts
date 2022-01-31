@@ -14,11 +14,12 @@ export type Url = {
   tags: string[];
   opens: string[];
   isFavorite: boolean;
+  description?: string;
 };
 
 export type User = {
   name: string;
   isAdmin: boolean;
-}
+};
 
 export type TagLink = { tag: string; links: Url[] };

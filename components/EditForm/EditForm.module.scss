@@ -20,6 +20,7 @@
         margin-bottom: 1rem;
       }
       .copy-button {
+        min-width: 3.5rem;
         height: 3rem;
         margin-left: 1rem;
         border: 0.1rem solid $grey-5;
@@ -42,15 +43,12 @@
   }
 }
 
-@media (min-width: $screen-tablet) {
-  .edit-form {
-    padding: 2rem 0 0 2rem;
-  }
-}
-
 @media (min-width: $screen-desktop) {
   .edit-form {
+    position: sticky;
+    top: $header-margin-tablet;
     max-width: unset;
+    padding: 2rem 0 0 2rem;
     form {
       grid-template-columns: auto 17rem;
       align-items: flex-start;
@@ -58,6 +56,7 @@
         'name listed'
         'slug slug'
         'url url'
+        'desc desc'
         'ctas ctas';
 
       :global(.grid-name) {
@@ -72,6 +71,9 @@
       }
       :global(.grid-url) {
         grid-area: url;
+      }
+      :global(.grid-desc) {
+        grid-area: desc;
       }
       :global(.grid-ctas) {
         grid-area: ctas;

@@ -4,13 +4,13 @@ import { observer } from 'mobx-react-lite';
 import Head from 'next/head';
 
 import PageHeader from '@components/PageHeader';
-import UrlManager from '@components/UrlManager';
+import Home from '@components/Home';
 
 import { Provider, rootStore } from '@models/index';
 
 type Props = { cookies: { [cookie: string]: string } };
 
-const Home = ({ cookies }: Props) => {
+const Page = ({ cookies }: Props) => {
   // if token exists, set isLoggedIn to true
   useEffect(() => {
     if (!!cookies['token']) {
@@ -25,7 +25,7 @@ const Home = ({ cookies }: Props) => {
         <title>Short Link Manager</title>
       </Head>
       <PageHeader />
-      <UrlManager />
+      <Home />
     </Provider>
   );
 };
@@ -38,4 +38,4 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
   return { props: { cookies } };
 };
 
-export default observer(Home);
+export default observer(Page);

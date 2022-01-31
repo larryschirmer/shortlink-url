@@ -10,7 +10,9 @@ import {
 import {
   faFilePlus as faFilePlusSolid,
   faPencil as faPencilSolid,
+  faTrashAlt as faTrashAltSolid,
 } from '@fortawesome/pro-solid-svg-icons';
+import { faTrashAlt as faTrashAltLight } from '@fortawesome/pro-light-svg-icons';
 
 import Button from '@components/Button';
 
@@ -24,15 +26,26 @@ const PageHeader = () => {
   const router = useRouter();
   const {
     server: { isLoggedIn },
-    app: { createMode, editMode, toggleCreateMode, toggleEditMode },
+    app: {
+      createMode,
+      editMode,
+      deleteMode,
+      toggleCreateMode,
+      toggleEditMode,
+      toggleDeleteMode,
+    },
   } = useMst();
 
   const handleCreateLink = () => {
     toggleCreateMode();
   };
 
-  const handleToggleDeleteMode = () => {
+  const handleToggleEditMode = () => {
     toggleEditMode();
+  };
+
+  const handleToggleDeleteMode = () => {
+    toggleDeleteMode();
   };
 
   const handleLogin = () => {
@@ -53,11 +66,18 @@ const PageHeader = () => {
                   <FontAwesomeIcon icon={faFilePlusRegular} />
                 )}
               </Button>
-              <Button onClick={handleToggleDeleteMode}>
+              <Button onClick={handleToggleEditMode}>
                 {editMode ? (
                   <FontAwesomeIcon icon={faPencilSolid} />
                 ) : (
                   <FontAwesomeIcon icon={faPencilRegular} />
+                )}
+              </Button>
+              <Button onClick={handleToggleDeleteMode}>
+                {deleteMode ? (
+                  <FontAwesomeIcon icon={faTrashAltSolid} />
+                ) : (
+                  <FontAwesomeIcon icon={faTrashAltLight} />
                 )}
               </Button>
             </>

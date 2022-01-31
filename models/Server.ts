@@ -21,6 +21,7 @@ const UrlModel = types.model({
   tags: types.array(types.string),
   opens: types.array(types.string),
   isFavorite: types.boolean,
+  description: types.maybe(types.string),
 });
 
 const UserModel = types.model({

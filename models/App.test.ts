@@ -5,6 +5,7 @@ const AppModel = {
   selectedLink: '',
   createMode: false,
   editMode: false,
+  deleteMode: false,
 };
 
 it('should create an instance of AppState', () => {
