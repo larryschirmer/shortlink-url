@@ -46,7 +46,7 @@
 @media (min-width: $screen-desktop) {
   .edit-form {
     position: sticky;
-    top: $header-margin-tablet;
+    top: 0;
     max-width: unset;
     padding: 2rem 0 0 2rem;
     form {

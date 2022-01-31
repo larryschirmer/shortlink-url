@@ -67,11 +67,7 @@ const UrlList = () => {
   };
 
   const handleSelect = (linkId: string) => {
-    if (isLoggedIn) editLink(linkId);
-    else {
-      const { slug } = list.find(l => l._id === linkId) ?? {};
-      if (slug) router.push(`${domainName}/${slug}`);
-    }
+    editLink(linkId);
   };
 
   const handleFavorite = (link: string) => {

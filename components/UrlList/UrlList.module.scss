@@ -18,9 +18,7 @@
         width: calc(100% - 21rem);
       }
       .item-name {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        word-break: break-word;
         &.unlisted {
           opacity: 0.5;
         }
