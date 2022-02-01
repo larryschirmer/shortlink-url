@@ -38,3 +38,9 @@
     }
   }
 }
+
+@media print {
+  .url-list {
+    display: none;
+  }
+}
