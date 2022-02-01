@@ -9,19 +9,6 @@
   > div {
     flex-basis: 100%;
   }
-  &.menu-open {
-    max-width: 120rem;
-    height: calc(100vh - $header-margin-mobile - 5rem);
-    overflow: hidden;
-  }
-}
-
-@media (min-width: $screen-tablet) {
-  .home {
-    &.menu-open {
-      height: calc(100vh - $header-margin-tablet - 5rem);
-    }
-  }
 }
 
 @media (min-width: $screen-desktop) {
@@ -29,8 +16,6 @@
     gap: 2%;
     &.menu-open {
       max-width: 120rem;
-      height: unset;
-      overflow: visible;
       padding: 0 4rem;
       > div {
         flex-basis: 48%;
