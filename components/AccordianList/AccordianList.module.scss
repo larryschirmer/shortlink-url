@@ -14,15 +14,13 @@
     cursor: pointer;
   }
   .list {
-    max-height: 0;
-    visibility: hidden;
-    opacity: 0;
+    height: 0;
+    display: none;
   }
   &.open-list {
     .list {
-      max-height: initial;
-      visibility: visible;
-      opacity: 1;
+      height: initial;
+      display: block;
     }
   }
 }
