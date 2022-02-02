@@ -19,7 +19,7 @@ jobs:
           command: "sudo npm install -g npm@8"
       - run:
           name: Enable Yarn
-          command: "corepack enable"
+          command: "sudo corepack enable"
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
