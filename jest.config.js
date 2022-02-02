@@ -1,4 +1,4 @@
-// jest.config.js
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 const nextJest = require('next/jest');
 
 const createJestConfig = nextJest({
@@ -6,8 +6,9 @@ const createJestConfig = nextJest({
   dir: './',
 });
 
-// Add any custom config to be passed to Jest
 const customJestConfig = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
     '@components/(.*)': '<rootDir>/components/$1',
@@ -15,7 +16,7 @@ const customJestConfig = {
     '@pages/(.*)': '<rootDir>/pages/$1',
     '@styles/(.*)': '<rootDir>/styles/$1',
     '@utils/(.*)': '<rootDir>/utils/$1',
-    'd3-scale': '<rootDir>/node_modules/d3-scale/dist/d3-scale.min.js',
+    'd3-color': '<rootDir>/node_modules/d3-color/dist/d3-color.min.js',
     'd3-array': '<rootDir>/node_modules/d3-array/dist/d3-array.min.js',
     'd3-interpolate':
       '<rootDir>/node_modules/d3-interpolate/dist/d3-interpolate.min.js',
