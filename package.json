@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test-w": "NEXT_PUBLIC_VERCEL_ENV=testing jest --watch",
+    "test-watch": "NEXT_PUBLIC_VERCEL_ENV=testing jest --watch",
     "test": "NEXT_PUBLIC_VERCEL_ENV=testing jest"
   },
   "dependencies": {
