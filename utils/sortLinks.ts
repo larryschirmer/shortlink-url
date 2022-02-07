@@ -1,9 +1,12 @@
 import uniq from 'lodash/uniq';
 import sortby from 'lodash/sortBy';
-import { Url, TagLink, User } from '@models/types';
+import { Url, TagLink } from '@models/types';
 
 // generate array of array for each tag
-const sortLinks = (links: Url[], isLoggedIn: boolean, user: User | null) => {
+const sortLinks = (links: Url[], isLoggedIn: boolean) => {
+  // return empty array if no links
+  if (!links.length) return [];
+
   // remove unlisted links if not logged in
   const listedLinks = isLoggedIn ? links : links.filter(link => link.isListed);
 
