@@ -87,7 +87,11 @@ const DisplayLink = () => {
                 )}
               </button>
               <p>
-                <a href={`${domainName}/${activeLink.slug}`}>
+                <a
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href={`${domainName}/${activeLink.slug}`}
+                >
                   {domainName}/<strong>{activeLink.slug}</strong>
                 </a>
               </p>
@@ -98,7 +102,13 @@ const DisplayLink = () => {
           </div>
           <div className={styles['row']}>
             <p className={styles['lighten']}>
-              <a href={activeLink.url}>{activeLink.url}</a>
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href={activeLink.url}
+              >
+                {activeLink.url}
+              </a>
             </p>
           </div>
           <div className={styles['row']}>
