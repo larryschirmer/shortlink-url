@@ -1,16 +1,10 @@
 import { types, flow, IMSTArray } from 'mobx-state-tree';
 import axios, { AxiosResponse } from 'axios';
 
-import { handle, getCookie, sortLinks } from '@utils/index';
+import { handle, getCookie, sortLinks, newToken } from '@utils/index';
 import { Url } from '@models/types';
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
-
-const yearInMilliseconds = 1000 * 60 * 60 * 24 * 365;
-const newToken = (token: string) =>
-  `token=${token}; expires=${new Date(
-    Date.now() + yearInMilliseconds,
-  )}; path=/`;
 
 const UrlModel = types.model({
   _id: types.string,
@@ -62,7 +56,7 @@ const Server = types
 
       try {
         const {
-          data: { token },
+          headers: { token },
         } = yield axios.post(url, data);
         document.cookie = newToken(token);
         self.isLoggedIn = true;
@@ -84,9 +78,13 @@ const Server = types
             Authorization: `Bearer ${token}`,
           },
         };
-        const { data } = yield axios.get(url, config);
+        const {
+          data,
+          headers: { token: tokenRefresh },
+        } = yield axios.get(url, config);
         self.user = data;
         self.isLoggedIn = true;
+        document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.isLoggedIn = false;
         self.error = handle.axiosError(error);
@@ -98,17 +96,21 @@ const Server = types
       self.loading = true;
 
       try {
-        const cookie = getCookie(document.cookie, 'token');
+        const token = getCookie(document.cookie, 'token');
         const url = `${domain}/slug`;
-        const config = cookie
+        const config = token
           ? {
               headers: {
-                Authorization: `Bearer ${cookie}`,
+                Authorization: `Bearer ${token}`,
               },
             }
           : {};
-        const { data } = yield axios.get(url, config);
+        const {
+          data,
+          headers: { token: tokenRefresh },
+        } = yield axios.get(url, config);
         self.data = data;
+        if (tokenRefresh) document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
@@ -137,18 +139,22 @@ const Server = types
       self.loading = true;
 
       try {
-        const cookie = getCookie(document.cookie, 'token');
+        const token = getCookie(document.cookie, 'token');
         const url = `${domain}/slug`;
-        if (!cookie) return;
+        if (!token) return;
         const config = {
           headers: {
-            Authorization: `Bearer ${cookie}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         };
-        const { data } = yield axios.post(url, linkParams, config);
+        const {
+          data,
+          headers: { token: tokenRefresh },
+        } = yield axios.post(url, linkParams, config);
         self.data.push(data);
         self.saveSuccess = true;
+        document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
@@ -167,25 +173,25 @@ const Server = types
       self.loading = true;
 
       try {
-        const cookie = getCookie(document.cookie, 'token');
+        const token = getCookie(document.cookie, 'token');
         const url = `${domain}/slug/${linkId}`;
-        if (!cookie) return;
+        if (!token) return;
         const config = {
           headers: {
-            Authorization: `Bearer ${cookie}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         };
-        const { data }: AxiosResponse<Url> = yield axios.put(
-          url,
-          linkParams,
-          config,
-        );
+        const {
+          data,
+          headers: { token: tokenRefresh },
+        }: AxiosResponse<Url> = yield axios.put(url, linkParams, config);
         const updated = self.data.map(link =>
           link._id === data._id ? data : link,
         );
         self.data = updated as IMSTArray<typeof UrlModel>;
         self.saveSuccess = true;
+        document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
@@ -196,18 +202,21 @@ const Server = types
       self.loading = true;
 
       try {
-        const cookie = getCookie(document.cookie, 'token');
+        const token = getCookie(document.cookie, 'token');
         const url = `${domain}/slug/${linkId}`;
-        if (!cookie) return;
+        if (!token) return;
         const config = {
           headers: {
-            Authorization: `Bearer ${cookie}`,
+            Authorization: `Bearer ${token}`,
           },
         };
-        yield axios.delete(url, config);
+        const {
+          headers: { token: tokenRefresh },
+        } = yield axios.delete(url, config);
         const updated = self.data.filter(link => link._id !== linkId);
         self.data = updated as IMSTArray<typeof UrlModel>;
         self.saveSuccess = true;
+        document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
@@ -218,23 +227,23 @@ const Server = types
       self.loading = true;
 
       try {
-        const cookie = getCookie(document.cookie, 'token');
+        const token = getCookie(document.cookie, 'token');
         const url = `${domain}/slug/favorite/${linkId}`;
-        if (!cookie) return;
+        if (!token) return;
         const config = {
           headers: {
-            Authorization: `Bearer ${cookie}`,
+            Authorization: `Bearer ${token}`,
           },
         };
-        const { data }: AxiosResponse<Url> = yield axios.put(
-          url,
-          { isFavorite },
-          config,
-        );
+        const {
+          data,
+          headers: { token: tokenRefresh },
+        }: AxiosResponse<Url> = yield axios.put(url, { isFavorite }, config);
         const updated = self.data.map(link =>
           link._id === data._id ? data : link,
         );
         self.data = updated as IMSTArray<typeof UrlModel>;
+        document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
