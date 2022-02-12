@@ -24,6 +24,7 @@ const {
   'form-row': formRowClass,
   'copy-button': copyBtnClass,
   ctas: ctasClass,
+  'error': errorClass,
 } = styles;
 
 const domainName = process.env.NEXT_PUBLIC_DOMAIN ?? '';
@@ -56,12 +57,11 @@ const EditForm = () => {
   const {
     server: {
       data: list,
+      error,
       user,
       loading,
       saveSuccess,
-      isValidSlug,
       resetLinkState,
-      isSlugValid,
       createLink,
       updateLink,
     },
@@ -69,7 +69,6 @@ const EditForm = () => {
   } = useMst();
 
   const [didCopy, setDidCopy] = useState(false);
-  const [submitSuspended, setSubmitSuspended] = useState(false);
 
   const handleCreateLink = (values: SaveLink) => {
     createLink(values);
@@ -87,7 +86,6 @@ const EditForm = () => {
     values,
     handleChange,
     resetForm,
-    setFieldError,
     setFieldTouched,
     setValues,
     submitForm,
@@ -111,14 +109,6 @@ const EditForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     submitForm();
-  };
-
-  const handleValidateSlug = () => {
-    const prevSlug = list.find(link => link._id === selectedLink)?.slug ?? '';
-    const { slug } = values;
-
-    if (prevSlug !== slug && slug !== '') isSlugValid(slug);
-    else setFieldError('slug', undefined);
   };
 
   const handleCopySlug = async () => {
@@ -153,15 +143,6 @@ const EditForm = () => {
       prevSelectedLink.current = selectedLink;
     }
   }, [list, selectedLink, setValues]);
-
-  // if slug is invalid, set error
-  useEffect(() => {
-    if (isValidSlug === false) {
-      setFieldError('slug', 'Slug is already taken');
-    } else if (isValidSlug === true) {
-      setFieldError('slug', undefined);
-    }
-  }, [errors, isValidSlug, setFieldError]);
 
   // exit form on success
   useEffect(() => {
@@ -215,8 +196,6 @@ const EditForm = () => {
             onFocus={() => error && resetLinkState()}
             onBlur={() => {
               setFieldTouched('slug', true);
-              handleValidateSlug();
-              setSubmitSuspended(false);
             }}
           />
           <button
@@ -261,11 +240,12 @@ const EditForm = () => {
         </div>
         <div className={`${formRowClass} grid-ctas`}>
           <div className={ctasClass}>
+            {error && <div className={errorClass}>{error}</div>}
             <Button isSecondary type='button' onClick={handleClose}>
               Close
             </Button>
             <Button
-              disabled={!isValid || loading || submitSuspended}
+              disabled={!isValid || loading}
               type='submit'
             >
               {loading ? (
