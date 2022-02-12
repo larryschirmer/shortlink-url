@@ -212,7 +212,7 @@ const EditForm = () => {
               event.target.value = event.target.value.toLowerCase();
               handleChange(event);
             }}
-            onFocus={() => setSubmitSuspended(true)}
+            onFocus={() => error && resetLinkState()}
             onBlur={() => {
               setFieldTouched('slug', true);
               handleValidateSlug();
