@@ -60,6 +60,7 @@ const Server = types
         } = yield axios.post(url, data);
         document.cookie = newToken(token);
         self.isLoggedIn = true;
+        self.error = null;
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
@@ -84,6 +85,7 @@ const Server = types
         } = yield axios.get(url, config);
         self.user = data;
         self.isLoggedIn = true;
+        self.error = null;
         document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.isLoggedIn = false;
@@ -110,6 +112,7 @@ const Server = types
           headers: { token: tokenRefresh },
         } = yield axios.get(url, config);
         self.data = data;
+        self.error = null;
         if (tokenRefresh) document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
@@ -124,6 +127,7 @@ const Server = types
         const url = `${domain}/slug/isValid?slug=${slug}`;
         const { data } = yield axios.get(url);
         self.isValidSlug = data.isValid;
+        self.error = null;
       } catch (error) {
         self.error = handle.axiosError(error);
       } finally {
@@ -154,6 +158,7 @@ const Server = types
         } = yield axios.post(url, linkParams, config);
         self.data.push(data);
         self.saveSuccess = true;
+        self.error = null;
         document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
@@ -191,6 +196,7 @@ const Server = types
         );
         self.data = updated as IMSTArray<typeof UrlModel>;
         self.saveSuccess = true;
+        self.error = null;
         document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
@@ -216,6 +222,7 @@ const Server = types
         const updated = self.data.filter(link => link._id !== linkId);
         self.data = updated as IMSTArray<typeof UrlModel>;
         self.saveSuccess = true;
+        self.error = null;
         document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
@@ -243,6 +250,7 @@ const Server = types
           link._id === data._id ? data : link,
         );
         self.data = updated as IMSTArray<typeof UrlModel>;
+        self.error = null;
         document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.error = handle.axiosError(error);
