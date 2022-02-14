@@ -10,7 +10,9 @@ const error: AxiosError = {
   config: {},
   request: {},
   response: {
-    data: {},
+    data: {
+      message: 'error message',
+    },
     status: 500,
     statusText: 'error',
     headers: {},
@@ -67,14 +69,14 @@ describe('login', () => {
     const server = Server.create(ServerModel);
 
     const response = {
-      data: {
+      headers: {
         token: 'token',
       },
     };
 
     jest
       .spyOn(axios, 'post')
-      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     const fields = { name: 'name', password: 'password' };
     await server.login(fields);
@@ -87,13 +89,13 @@ describe('login', () => {
 
     jest
       .spyOn(axios, 'post')
-      .mockImplementation(jest.fn(() => Promise.reject(error)));
+      .mockImplementationOnce(jest.fn(() => Promise.reject(error)));
 
     const url = `${domain}/auth`;
     const fields = { name: 'name', password: 'password' };
     await server.login(fields);
     expect(axios.post).toHaveBeenCalledWith(url, fields);
-    expect(server.error).toBe('error');
+    expect(server.error).toBe('error message');
   });
 });
 
@@ -109,11 +111,14 @@ describe('getUser', () => {
         name: 'name',
         isAdmin: true,
       },
+      headers: {
+        token: 'token',
+      }
     };
 
     jest
       .spyOn(axios, 'get')
-      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     await server.getUser();
     const headers = { Authorization: `Bearer ${token}` };
@@ -140,6 +145,9 @@ describe('getLinks', () => {
         opens: [],
       },
     ],
+    headers: {
+      token: 'token',
+    }
   };
 
   it('should get an array of links', async () => {
@@ -149,7 +157,7 @@ describe('getLinks', () => {
 
     jest
       .spyOn(axios, 'get')
-      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     await server.getLinks();
     const url = `${domain}/slug`;
@@ -166,7 +174,7 @@ describe('getLinks', () => {
 
     jest
       .spyOn(axios, 'get')
-      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     await server.getLinks();
     const url = `${domain}/slug`;
@@ -188,7 +196,7 @@ describe('isSlugValid', () => {
 
     jest
       .spyOn(axios, 'get')
-      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     const slug = 'slug';
     await server.isSlugValid(slug);
@@ -210,13 +218,16 @@ describe('createLink', () => {
       tags: ['#fun', '#video'],
       opens: [],
     },
+    headers: {
+      token: 'token',
+    }
   };
 
   it('should append the created link to data', async () => {
     const server = Server.create(ServerModel);
     jest
       .spyOn(axios, 'post')
-      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     const token = 'abc123';
     document.cookie = `token=${token}`;
@@ -241,7 +252,7 @@ describe('createLink', () => {
     const server = Server.create(ServerModel);
     jest
       .spyOn(axios, 'post')
-      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     const token = 'abc123';
     document.cookie = `token=${token}`;
@@ -297,6 +308,9 @@ describe('updateLink', () => {
       tags: [],
       opens: [],
     },
+    headers: {
+      token: 'token',
+    }
   };
 
   it('should update an existing link', async () => {
@@ -304,7 +318,7 @@ describe('updateLink', () => {
 
     jest
       .spyOn(axios, 'put')
-      .mockImplementation(jest.fn(() => Promise.resolve(response)));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     const token = 'abc123';
     document.cookie = `token=${token}`;
@@ -352,11 +366,17 @@ describe('deleteLink', () => {
     },
   ];
 
+  const response = {
+    headers: {
+      token: 'token',
+    },
+  };
+
   it('should delete a given link', async () => {
     const server = Server.create({ ...ServerModel, data: links });
     jest
       .spyOn(axios, 'delete')
-      .mockImplementation(jest.fn(() => Promise.resolve({ success: true })));
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(response)));
 
     const token = 'abc123';
     document.cookie = `token=${token}`;

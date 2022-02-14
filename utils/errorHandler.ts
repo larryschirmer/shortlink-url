@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export const axiosError = (error: unknown) => {
   if (axios.isAxiosError(error)) {
-    const res = error.toJSON() as { message?: string };
-    return res.message || '';
+    const { message = '' } = error.response?.data ?? {};
+    return message;
   }
   return 'unknown error';
 };

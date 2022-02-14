@@ -13,11 +13,18 @@ describe('axiosError', () => {
     const error: AxiosError = {
       config: {},
       isAxiosError: true,
-      toJSON: () => ({
-        message: errorMessage,
-      }),
+      toJSON: () => ({}),
+      response: {
+        status: 200,
+        statusText: '',
+        headers: {},
+        config: {},
+        data: {
+          message: errorMessage,
+        },
+      },
       name: '',
-      message: errorMessage,
+      message: '',
     };
     const result = axiosError(error);
     expect(result).toEqual(errorMessage);

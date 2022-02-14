@@ -29,7 +29,7 @@ const AccordianList = ({
 }: Props) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
 
-  const handleTogle = () => {
+  const handleToggle = () => {
     if (isOpen) handleHeaderClose && handleHeaderClose();
     else handleHeaderOpen && handleHeaderOpen();
     setIsOpen(prev => !prev);
@@ -41,7 +41,7 @@ const AccordianList = ({
 
   return (
     <div {...{ id }} className={accordianListClasses}>
-      <button className={titleClass} onClick={handleTogle}>
+      <button className={titleClass} onClick={handleToggle}>
         {title}
       </button>
       <div className={listClass}>{list.map(listItem => listItem)}</div>

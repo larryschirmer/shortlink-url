@@ -19,8 +19,6 @@ import { useMst } from '@models/index';
 
 import styles from './UrlList.module.scss';
 
-const domainName = process.env.NEXT_PUBLIC_DOMAIN ?? '';
-
 const {
   'url-list': urlListClass,
   'list-group': listGroupClass,
@@ -46,7 +44,6 @@ const UrlList = () => {
       user,
       tagGroups,
       loading,
-      isLoggedIn,
       getLinks,
       deleteLink,
       setFavorite,

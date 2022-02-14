@@ -45,19 +45,25 @@ it('should toggle create mode', () => {
   });
 });
 
-it('should toggle delete mode', () => {
+it('should toggle edit mode', () => {
   const appState = App.create({
     ...AppModel,
-    createMode: false,
     selectedLink: 'link-id',
-    editMode: false,
   });
   appState.toggleEditMode();
   expect(getSnapshot(appState)).toEqual({
     ...AppModel,
-    createMode: false,
-    selectedLink: '',
+    selectedLink: 'link-id',
     editMode: true,
+  });
+});
+
+it('should toggle delete mode', () => {
+  const appState = App.create(AppModel);
+  appState.toggleDeleteMode();
+  expect(getSnapshot(appState)).toEqual({
+    ...AppModel,
+    deleteMode: true,
   });
 });
 
@@ -82,11 +88,6 @@ it('should derive menu open state', () => {
   expect(appState.isMenuOpen).toBe(false);
 
   appState.toggleCreateMode();
-  expect(appState.isMenuOpen).toBe(true);
-  appState.resetAppState();
-  expect(appState.isMenuOpen).toBe(false);
-
-  appState.toggleEditMode();
   expect(appState.isMenuOpen).toBe(true);
   appState.resetAppState();
   expect(appState.isMenuOpen).toBe(false);
