@@ -221,7 +221,6 @@ const Server = types
         } = yield axios.delete(url, config);
         const updated = self.data.filter(link => link._id !== linkId);
         self.data = updated as IMSTArray<typeof UrlModel>;
-        self.saveSuccess = true;
         self.error = null;
         document.cookie = newToken(tokenRefresh);
       } catch (error) {
