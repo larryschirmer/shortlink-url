@@ -16,6 +16,7 @@ const {
   'login-form': loginFormClass,
   'form-row': formRowClass,
   ctas: ctasClass,
+  'error': errorClass,
 } = styles;
 
 export type Inputs = {
@@ -26,9 +27,10 @@ export type Inputs = {
 type Props = {
   handleSubmit: (values: Inputs) => void;
   handleClose: () => void;
+  error?: string | null;
 };
 
-const LoginForm = ({ handleSubmit, handleClose }: Props) => {
+const LoginForm = ({ handleSubmit, handleClose, error }: Props) => {
   const {
     server: { loading },
   } = useMst();
@@ -89,6 +91,7 @@ const LoginForm = ({ handleSubmit, handleClose }: Props) => {
         </div>
         <div className={`${formRowClass} grid-ctas`}>
           <div className={ctasClass}>
+            {error && <div className={errorClass}>{error}</div>}
             <Button
               isSecondary
               type='button'

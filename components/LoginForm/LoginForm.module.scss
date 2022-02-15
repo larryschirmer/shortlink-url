@@ -32,9 +32,15 @@
     :global(.grid-ctas) {
       grid-area: ctas;
       .ctas {
+        position: relative;
         display: flex;
-        > * {
-          margin-right: 2rem;
+        gap: 1rem;
+        .error {
+          position: absolute;
+          top: -2.5rem;
+          right: 0;
+          color: $grey-7;
+          font-size: 87.5%;
         }
       }
     }
