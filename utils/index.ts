@@ -4,3 +4,4 @@ export { default as getCookie } from './getCookie';
 export * as handle from './errorHandler';
 export * as date from './date';
 export { default as newToken } from './newToken';
+export { default as removeToken } from './removeToken';

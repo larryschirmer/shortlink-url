@@ -1,7 +1,13 @@
 import { types, flow, IMSTArray } from 'mobx-state-tree';
 import axios, { AxiosResponse } from 'axios';
 
-import { handle, getCookie, sortLinks, newToken } from '@utils/index';
+import {
+  handle,
+  getCookie,
+  sortLinks,
+  newToken,
+  removeToken,
+} from '@utils/index';
 import { Url } from '@models/types';
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN || '';
@@ -89,6 +95,7 @@ const Server = types
         document.cookie = newToken(tokenRefresh);
       } catch (error) {
         self.isLoggedIn = false;
+        document.cookie = removeToken();
         self.error = handle.axiosError(error);
       } finally {
         self.loading = false;
