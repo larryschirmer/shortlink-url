@@ -10,7 +10,7 @@ import { useMst } from '@models/index';
 const Login = () => {
   const router = useRouter();
   const {
-    server: { isLoggedIn, login },
+    server: { isLoggedIn, login, error },
   } = useMst();
 
   const handleSubmit = (values: FormInputs) => login(values);
@@ -24,7 +24,7 @@ const Login = () => {
   return (
     <>
       <PageHeader />
-      <LoginForm {...{ handleSubmit, handleClose }} />
+      <LoginForm {...{ handleSubmit, handleClose, error }} />
     </>
   );
 };
