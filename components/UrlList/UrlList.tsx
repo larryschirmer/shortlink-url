@@ -104,6 +104,41 @@ const UrlList = () => {
 
   return (
     <div className={urlListClass}>
+      {tagGroups.length === 0 && (
+        <div className={styles['placeholder']}>
+          <div className={styles['title']}>
+            <div />
+          </div>
+          <div className={listGroupClass}>
+            <div className={itemDetailsClass}>
+              <div className={itemNameClass} />
+              <div className={itemOpensClass}>
+                <div />
+                <InlineFreqGraph color='black' data={[]} />
+              </div>
+            </div>
+            <div className={itemCtaClass}>
+              <Button isSecondary disabled>
+                <FontAwesomeIcon icon={faQrcode} />
+              </Button>
+            </div>
+          </div>
+          <div className={listGroupClass}>
+            <div className={itemDetailsClass}>
+              <div className={itemNameClass} />
+              <div className={itemOpensClass}>
+                <div />
+                <InlineFreqGraph color='black' data={[]} />
+              </div>
+            </div>
+            <div className={itemCtaClass}>
+              <Button isSecondary disabled>
+                <FontAwesomeIcon icon={faQrcode} />
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       {tagGroups.map(link => (
         <AccordianList
           initialOpen={selectedTag === link.tag}
