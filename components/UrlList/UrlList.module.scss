@@ -37,6 +37,46 @@
       gap: 1rem;
     }
   }
+  .placeholder {
+    .title {
+      height: 3rem;
+      border-bottom: 0.1rem solid $grey-4;
+      > div {
+        width: 14rem;
+        height: 2rem;
+        border: none;
+        border-radius: 0.8rem;
+        background: $grey-3;
+      }
+    }
+    .list-group {
+      .item-details {
+        .item-name {
+          width: 10rem;
+          height: 1.5rem;
+          margin: 0.25rem 0;
+          border: none;
+          border-radius: 0.8rem;
+          background: $grey-3;
+        }
+        .item-opens {
+          > div {
+            width: 10rem;
+            height: 1.5rem;
+            margin: 0.25rem 0 1rem;
+            border: none;
+            border-radius: 0.8rem;
+            background: $grey-3;
+          }
+          > svg {
+            path {
+              stroke: $grey-5;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media print {
