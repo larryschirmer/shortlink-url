@@ -1,21 +1,9 @@
-import React, { useRef, useMemo } from 'react';
-import merge from 'lodash/merge';
+import React, { useMemo } from 'react';
 import { line } from 'd3-shape';
 
 import { d3, date } from '@utils/index';
 
 const { makeTimeScale, makeLinearScale, processBounds, makeAccessor } = d3;
-
-export const defaultDimension = {
-  width: 0,
-  height: 0,
-  margin: {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  },
-};
 
 export type Dataset = {
   amt: number;
@@ -32,9 +20,7 @@ const InlineFreqGraph = ({ data, color }: Props) => {
   const yAccessor = makeAccessor<'amt', number>('amt');
 
   const dimensions = useMemo(() => {
-    return processBounds(
-      merge({}, defaultDimension, { width: 100, height: 10 }),
-    );
+    return processBounds({ width: 100, height: 10 });
   }, []);
 
   const dataset = useMemo(() => {
