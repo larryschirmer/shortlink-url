@@ -113,7 +113,7 @@ describe('getUser', () => {
       },
       headers: {
         token: 'token',
-      }
+      },
     };
 
     jest
@@ -143,11 +143,12 @@ describe('getLinks', () => {
         isFavorite: false,
         tags: ['#social', '#video', '#educational', '#fun'],
         opens: [],
+        openAmt: 0,
       },
     ],
     headers: {
       token: 'token',
-    }
+    },
   };
 
   it('should get an array of links', async () => {
@@ -217,10 +218,11 @@ describe('createLink', () => {
       isFavorite: false,
       tags: ['#fun', '#video'],
       opens: [],
+      openAmt: 0,
     },
     headers: {
       token: 'token',
-    }
+    },
   };
 
   it('should append the created link to data', async () => {
@@ -284,6 +286,7 @@ describe('updateLink', () => {
       isFavorite: false,
       tags: [],
       opens: [],
+      openAmt: 0,
     },
     {
       _id: '61be2b2e003d33d6c33f5f8b',
@@ -294,6 +297,7 @@ describe('updateLink', () => {
       isFavorite: false,
       tags: ['#fun', '#video'],
       opens: [],
+      openAmt: 0,
     },
   ];
 
@@ -307,10 +311,11 @@ describe('updateLink', () => {
       isFavorite: false,
       tags: [],
       opens: [],
+      openAmt: 0,
     },
     headers: {
       token: 'token',
-    }
+    },
   };
 
   it('should update an existing link', async () => {
@@ -353,6 +358,7 @@ describe('deleteLink', () => {
       isFavorite: false,
       tags: [],
       opens: [],
+      openAmt: 0,
     },
     {
       _id: '61be2b2e003d33d6c33f5f8b',
@@ -363,6 +369,7 @@ describe('deleteLink', () => {
       isFavorite: false,
       tags: ['#fun', '#video'],
       opens: [],
+      openAmt: 0,
     },
   ];
 

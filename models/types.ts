@@ -13,6 +13,7 @@ export type Url = {
   isListed: boolean;
   tags: string[];
   opens: string[];
+  openAmt: number;
   isFavorite: boolean;
   description?: string;
 };

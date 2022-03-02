@@ -147,12 +147,12 @@ const UrlList = () => {
           title={link.tag}
           handleHeaderOpen={() => handleHeaderOpen(link.tag)}
           handleHeaderClose={() => router.replace(`/`)}
-          list={link.links.map(({ _id, name, opens, isListed, isFavorite }) => (
+          list={link.links.map(({ _id, name, opens, openAmt, isListed, isFavorite }) => (
             <div key={_id} className={listGroupClass}>
               <div className={itemDetailsClasses}>
                 <div className={itemNameClasses(isListed)}>{name}</div>
                 <div className={itemOpensClass}>
-                  <p>{!!opens.length ? opensCopy(opens.length) : 'Unopened'}</p>
+                  <p>{!!openAmt ? opensCopy(openAmt) : 'Unopened'}</p>
                   <InlineFreqGraph color='black' data={opens} />
                 </div>
               </div>

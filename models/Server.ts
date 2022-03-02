@@ -20,6 +20,7 @@ const UrlModel = types.model({
   isListed: types.boolean,
   tags: types.array(types.string),
   opens: types.array(types.string),
+  openAmt: types.number,
   isFavorite: types.boolean,
   description: types.maybe(types.string),
 });
